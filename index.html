@@ -363,7 +363,10 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .bdg-glow{position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:80px;height:80px;border-radius:50%;opacity:.35;filter:blur(18px);pointer-events:none}
 .bdg-ico-ring{position:relative;width:56px;height:56px;margin:0 auto 9px}
 .bdg-ring{position:absolute;inset:-4px;border-radius:50%;border:2px solid transparent;animation:bdgSpin 4s linear infinite}
-.bdg-ico{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;position:relative;z-index:1}
+.bdg-ico{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;position:relative;z-index:1;overflow:hidden}
+.bdg-ico img{width:80%;height:80%;object-fit:contain;position:relative;z-index:1}
+.bdg-ico-ph{position:absolute;inset:0;border-radius:50%;background-size:cover;background-position:center;opacity:.28;z-index:0}
+.bdg-ico span{position:relative;z-index:1}
 .bdg-shine{position:absolute;inset:0;border-radius:50%;overflow:hidden;z-index:2;pointer-events:none}
 .bdg-shine::after{content:'';position:absolute;top:-50%;left:-75%;width:50%;height:200%;background:rgba(255,255,255,.3);transform:skewX(-20deg);animation:bdgShine 4s ease-in-out infinite}
 @keyframes bdgShine{0%,65%,100%{left:-75%}45%{left:130%}}
@@ -389,7 +392,10 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .bdg-detail-ico-wrap{position:relative;width:110px;height:110px;margin:0 auto 20px}
 .bdg-detail-ring1{position:absolute;inset:-8px;border-radius:50%;border:2px solid transparent;animation:bdgSpin 3s linear infinite}
 .bdg-detail-ring2{position:absolute;inset:-16px;border-radius:50%;border:1.5px solid transparent;animation:bdgSpin 5s linear infinite reverse}
-.bdg-detail-ico{width:110px;height:110px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:52px;animation:bdgDetailPop .5s cubic-bezier(.34,1.56,.64,1) .1s both}
+.bdg-detail-ico{width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:52px;animation:bdgDetailPop .5s cubic-bezier(.34,1.56,.64,1) .1s both;overflow:hidden;position:relative}
+.bdg-detail-ico img{width:85%;height:85%;object-fit:contain;position:relative;z-index:1}
+.bdg-detail-ico-ph{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.35;border-radius:50%}
+.bdg-detail-ico-em{position:relative;z-index:1}
 @keyframes bdgDetailPop{from{transform:scale(.3) rotate(-20deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
 .bdg-detail-shine{position:absolute;inset:0;border-radius:50%;overflow:hidden}
 .bdg-detail-shine::after{content:'';position:absolute;top:-50%;left:-75%;width:50%;height:200%;background:rgba(255,255,255,.35);transform:skewX(-20deg);animation:bdgShine 2.5s ease-in-out infinite}
@@ -691,7 +697,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 <div class="phone">
 
 <div class="splash-screen" id="splashScreen">
-  <img class="splash-logo" src="logo.png" alt="MANTA">
+  <img class="splash-logo" src="logo.png" alt="MANTA" fetchpriority="high" decoding="async">
   <p class="splash-tagline">Tejemos comunidad, conectamos vidas</p>
   <div class="splash-loader"></div>
 </div>
@@ -1019,7 +1025,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
   <!-- Feed de Videos estilo TikTok -->
   <div id="perf-vid-feed" class="perf-vid-feed">
     <div class="pv-story-card" onclick="openPastEvent(0)">
-      <img src="Comunidades/debate.png" style="width:100%;height:100%;object-fit:cover;display:block">
+      <img src="Comunidades/debate.png" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">
       <div class="pv-story-overlay">
         <div class="pv-register-btn">🎨 Arte</div>
         <div class="pv-story-title">Mural Comunitario SJM</div>
@@ -1028,7 +1034,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
       </div>
     </div>
     <div class="pv-story-card" onclick="openPastEvent(1)">
-      <img src="Comunidades/ambiente.png" style="width:100%;height:100%;object-fit:cover;display:block">
+      <img src="Comunidades/ambiente.png" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">
       <div class="pv-story-overlay">
         <div class="pv-register-btn">♻️ Ambiente</div>
         <div class="pv-story-title">Jornada de Reciclaje Pachacámac</div>
@@ -1037,7 +1043,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
       </div>
     </div>
     <div class="pv-story-card" onclick="openPastEvent(2)">
-      <img src="Comunidades/datathon.png" style="width:100%;height:100%;object-fit:cover;display:block">
+      <img src="Comunidades/datathon.png" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">
       <div class="pv-story-overlay">
         <div class="pv-register-btn">📚 Taller</div>
         <div class="pv-story-title">Taller de Emprendimiento Juvenil</div>
@@ -1046,7 +1052,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
       </div>
     </div>
     <div class="pv-story-card" onclick="openPastEvent(3)">
-      <img src="Comunidades/comedorpopular.png" style="width:100%;height:100%;object-fit:cover;display:block">
+      <img src="Comunidades/comedorpopular.png" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">
       <div class="pv-story-overlay">
         <div class="pv-register-btn">🍲 Solidaridad</div>
         <div class="pv-story-title">Olla Común Solidaria VES</div>
@@ -1421,7 +1427,10 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
     <div class="bdg-detail-ico-wrap">
       <div class="bdg-detail-ring1" id="bdgRing1"></div>
       <div class="bdg-detail-ring2" id="bdgRing2"></div>
-      <div class="bdg-detail-ico" id="bdgDetailIco"></div>
+      <div class="bdg-detail-ico" id="bdgDetailIco">
+        <div class="bdg-detail-ico-ph" id="bdgDetailIcoPh"></div>
+        <span class="bdg-detail-ico-em" id="bdgDetailIcoEm"></span>
+      </div>
       <div class="bdg-detail-shine"></div>
     </div>
     <div class="bdg-detail-tier" id="bdgDetailTier"></div>
@@ -1599,7 +1608,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
             <div class="bdg-tier">🥉</div>
             <div class="bdg-ico-ring">
               <div class="bdg-ring" style="border-top-color:#00D4A0;border-right-color:rgba(0,212,160,.3)"></div>
-              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(0,212,160,.25),rgba(0,212,160,.08))">🌱</div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(0,212,160,.25),rgba(0,212,160,.08))"><img src="insignias/planta_animado.gif" loading="lazy" decoding="async"></div>
               <div class="bdg-shine"></div>
             </div>
             <div class="bdg-nm">Primer Paso</div>
@@ -1612,7 +1621,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
             <div class="bdg-tier">🥉</div>
             <div class="bdg-ico-ring">
               <div class="bdg-ring" style="border-top-color:#5BB8FF;border-right-color:rgba(91,184,255,.3)"></div>
-              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(91,184,255,.25),rgba(91,184,255,.08))">🧭</div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(91,184,255,.25),rgba(91,184,255,.08))"><img src="insignias/tiempo_animado.gif" loading="lazy" decoding="async"></div>
               <div class="bdg-shine"></div>
             </div>
             <div class="bdg-nm">Explorador</div>
@@ -1625,7 +1634,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
             <div class="bdg-tier">🥉</div>
             <div class="bdg-ico-ring">
               <div class="bdg-ring" style="border-top-color:#FF6B7F;border-right-color:rgba(255,107,127,.3)"></div>
-              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(255,107,127,.25),rgba(255,107,127,.08))">🗳️</div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(255,107,127,.25),rgba(255,107,127,.08))"><img src="insignias/votacion_animado.gif" loading="lazy" decoding="async"></div>
               <div class="bdg-shine"></div>
             </div>
             <div class="bdg-nm">Primer Voto</div>
@@ -1638,7 +1647,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
             <div class="bdg-tier">🥉</div>
             <div class="bdg-ico-ring">
               <div class="bdg-ring" style="border-top-color:#B08AFF;border-right-color:rgba(176,138,255,.3)"></div>
-              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(176,138,255,.25),rgba(176,138,255,.08))">🤝</div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(176,138,255,.25),rgba(176,138,255,.08))"><img src="insignias/ayuda_animado.gif" loading="lazy" decoding="async"></div>
               <div class="bdg-shine"></div>
             </div>
             <div class="bdg-nm">Conectado</div>
@@ -1651,7 +1660,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
             <div class="bdg-tier">🥈</div>
             <div class="bdg-ico-ring">
               <div class="bdg-ring" style="border-top-color:#FFD60A;border-right-color:rgba(255,214,10,.3)"></div>
-              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(255,214,10,.25),rgba(255,214,10,.08))">📢</div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(255,214,10,.25),rgba(255,214,10,.08))"><img src="insignias/reclamo_animado.gif" loading="lazy" decoding="async"></div>
               <div class="bdg-shine"></div>
             </div>
             <div class="bdg-nm">Voz Activa</div>
@@ -1664,7 +1673,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
             <div class="bdg-tier">🥈</div>
             <div class="bdg-ico-ring">
               <div class="bdg-ring" style="border-top-color:#00A87E;border-right-color:rgba(0,168,126,.3)"></div>
-              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(0,168,126,.25),rgba(0,168,126,.08))">♻️</div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(0,168,126,.25),rgba(0,168,126,.08))"><img src="insignias/medioambiente_animado.gif" loading="lazy" decoding="async"></div>
               <div class="bdg-shine"></div>
             </div>
             <div class="bdg-nm">Reciclador</div>
@@ -1677,7 +1686,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
             <div class="bdg-tier">🥈</div>
             <div class="bdg-ico-ring">
               <div class="bdg-ring" style="border-top-color:#4F9EFF;border-right-color:rgba(79,158,255,.3)"></div>
-              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(79,158,255,.25),rgba(79,158,255,.08))">🎖️</div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(79,158,255,.25),rgba(79,158,255,.08))"><img src="insignias/honor_animado.gif" loading="lazy" decoding="async"></div>
               <div class="bdg-shine"></div>
             </div>
             <div class="bdg-nm">Auditor Social</div>
@@ -1690,7 +1699,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
             <div class="bdg-tier">🥈</div>
             <div class="bdg-ico-ring">
               <div class="bdg-ring" style="border-top-color:#7AE23D;border-right-color:rgba(122,226,61,.3)"></div>
-              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(122,226,61,.25),rgba(122,226,61,.08))">⏱️</div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(122,226,61,.25),rgba(122,226,61,.08))"><img src="insignias/hora_animado.gif" loading="lazy" decoding="async"></div>
               <div class="bdg-shine"></div>
             </div>
             <div class="bdg-nm">10 Horas</div>
@@ -1704,7 +1713,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
             <div class="bdg-tier">🥈</div>
             <div class="bdg-ico-ring">
               <div class="bdg-ring" style="border-top-color:#E040FB;border-right-color:rgba(224,64,251,.3)"></div>
-              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(224,64,251,.25),rgba(224,64,251,.08))">👥</div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(224,64,251,.25),rgba(224,64,251,.08))"><img src="insignias/ayudas_animado.gif" loading="lazy" decoding="async"></div>
               <div class="bdg-shine"></div>
             </div>
             <div class="bdg-nm">Conectador</div>
@@ -1718,7 +1727,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
             <div class="bdg-tier">🥈</div>
             <div class="bdg-ico-ring">
               <div class="bdg-ring" style="border-top-color:#FFD60A;border-right-color:rgba(255,214,10,.3)"></div>
-              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(255,214,10,.25),rgba(255,214,10,.08))">🎓</div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(255,214,10,.25),rgba(255,214,10,.08))"><img src="insignias/diploma_animado.gif" loading="lazy" decoding="async"></div>
               <div class="bdg-shine"></div>
             </div>
             <div class="bdg-nm">Certificado</div>
@@ -3075,16 +3084,16 @@ function openReportDetail(idx){
 
 /* ════ BADGE DETAIL ════ */
 const BADGE_DATA={
-  primer_paso: {ico:'🌱',nm:'Primer Paso',desc:'Diste el primer paso para transformar tu comunidad uniéndote a MANTA.',cond:'Unirte a MANTA',date:'📅 Desbloqueada el 1 MAR 2025',col:'#00D4A0',tier:'🥉 Bronce',bg:'linear-gradient(145deg,#061a10,#030d08)'},
-  explorador:  {ico:'🧭',nm:'Explorador',desc:'Curiosidad que inspira. Exploraste cada rincón de la plataforma.',cond:'Visitar todas las secciones de MANTA',date:'📅 Desbloqueada el 3 MAR 2025',col:'#5BB8FF',tier:'🥉 Bronce',bg:'linear-gradient(145deg,#050f1a,#020608)'},
-  primer_voto: {ico:'🗳️',nm:'Primer Voto',desc:'Cada voto cuenta. Emitiste tu primera opinión ciudadana.',cond:'Votar en tu primer reporte ciudadano',date:'📅 Desbloqueada el 8 MAR 2025',col:'#FF6B7F',tier:'🥉 Bronce',bg:'linear-gradient(145deg,#1a0408,#0d0204)'},
-  conectado:   {ico:'🤝',nm:'Conectado',desc:'Nadie cambia su barrio solo. Seguiste tu primera comunidad activa.',cond:'Seguir tu primera comunidad',date:'📅 Desbloqueada el 10 MAR 2025',col:'#B08AFF',tier:'🥉 Bronce',bg:'linear-gradient(145deg,#0d0818,#06030d)'},
-  voz_activa:  {ico:'📢',nm:'Voz Activa',desc:'Tu voz moviliza. Más de 50 comentarios constructivos en la comunidad.',cond:'Publicar 50+ comentarios en comunidades',date:'📅 Desbloqueada el 2 ABR 2025',col:'#FFD60A',tier:'🥈 Plata',bg:'linear-gradient(145deg,#181200,#0d0a00)'},
-  reciclador:  {ico:'♻️',nm:'Reciclador',desc:'El ambiente te necesita. Participaste en una jornada de reciclaje vecinal.',cond:'Asistir a un evento ambiental de reciclaje',date:'📅 Desbloqueada el 12 ABR 2025',col:'#00A87E',tier:'🥈 Plata',bg:'linear-gradient(145deg,#041a0d,#020d06)'},
-  auditor:     {ico:'🎖️',nm:'Auditor Social',desc:'Transparencia y rendición de cuentas. Participaste en 5 auditorías comunitarias.',cond:'Completar 5 auditorías sociales',date:'📅 Desbloqueada el 20 ABR 2025',col:'#4F9EFF',tier:'🥈 Plata',bg:'linear-gradient(145deg,#03101e,#01080f)'},
-  diez_horas:  {ico:'⏱️',nm:'10 Horas',desc:'Diez horas de vida dedicadas a tu comunidad. Esto es solo el comienzo.',cond:'Acumular 10 horas de voluntariado',date:'📅 Desbloqueada el 30 ABR 2025',col:'#7AE23D',tier:'🥈 Plata',bg:'linear-gradient(145deg,#0d1a04,#060d02)'},
-  conectador:  {ico:'👥',nm:'Conectador',desc:'Eres el puente que necesitaba el barrio. Convocaste a más de 20 personas.',cond:'Convocar a 20+ personas en actividades',date:'📅 Desbloqueada el 10 MAY 2025',col:'#E040FB',tier:'🥈 Plata',bg:'linear-gradient(145deg,#150820,#0a040f)'},
-  certificado: {ico:'🎓',nm:'Certificado',desc:'La Municipalidad reconoció tu aporte. Obtuviste tu primer certificado oficial.',cond:'Recibir tu primer certificado emitido',date:'📅 Desbloqueada el 15 MAY 2025',col:'#FFD60A',tier:'🥈 Plata',bg:'linear-gradient(145deg,#181200,#0d0a00)'},
+  primer_paso: {gif:'insignias/planta_animado.gif',        nm:'Primer Paso',   desc:'Diste el primer paso para transformar tu comunidad uniéndote a MANTA.',cond:'Unirte a MANTA',date:'📅 Desbloqueada el 1 MAR 2025',col:'#00D4A0',tier:'🥉 Bronce',bg:'linear-gradient(145deg,#061a10,#030d08)'},
+  explorador:  {gif:'insignias/tiempo_animado.gif',        nm:'Explorador',    desc:'Curiosidad que inspira. Exploraste cada rincón de la plataforma.',cond:'Visitar todas las secciones de MANTA',date:'📅 Desbloqueada el 3 MAR 2025',col:'#5BB8FF',tier:'🥉 Bronce',bg:'linear-gradient(145deg,#050f1a,#020608)'},
+  primer_voto: {gif:'insignias/votacion_animado.gif',      nm:'Primer Voto',   desc:'Cada voto cuenta. Emitiste tu primera opinión ciudadana.',cond:'Votar en tu primer reporte ciudadano',date:'📅 Desbloqueada el 8 MAR 2025',col:'#FF6B7F',tier:'🥉 Bronce',bg:'linear-gradient(145deg,#1a0408,#0d0204)'},
+  conectado:   {gif:'insignias/ayuda_animado.gif',         nm:'Conectado',     desc:'Nadie cambia su barrio solo. Seguiste tu primera comunidad activa.',cond:'Seguir tu primera comunidad',date:'📅 Desbloqueada el 10 MAR 2025',col:'#B08AFF',tier:'🥉 Bronce',bg:'linear-gradient(145deg,#0d0818,#06030d)'},
+  voz_activa:  {gif:'insignias/reclamo_animado.gif',       nm:'Voz Activa',    desc:'Tu voz moviliza. Más de 50 comentarios constructivos en la comunidad.',cond:'Publicar 50+ comentarios en comunidades',date:'📅 Desbloqueada el 2 ABR 2025',col:'#FFD60A',tier:'🥈 Plata',bg:'linear-gradient(145deg,#181200,#0d0a00)'},
+  reciclador:  {gif:'insignias/medioambiente_animado.gif', nm:'Reciclador',    desc:'El ambiente te necesita. Participaste en una jornada de reciclaje vecinal.',cond:'Asistir a un evento ambiental de reciclaje',date:'📅 Desbloqueada el 12 ABR 2025',col:'#00A87E',tier:'🥈 Plata',bg:'linear-gradient(145deg,#041a0d,#020d06)'},
+  auditor:     {gif:'insignias/honor_animado.gif',         nm:'Auditor Social',desc:'Transparencia y rendición de cuentas. Participaste en 5 auditorías comunitarias.',cond:'Completar 5 auditorías sociales',date:'📅 Desbloqueada el 20 ABR 2025',col:'#4F9EFF',tier:'🥈 Plata',bg:'linear-gradient(145deg,#03101e,#01080f)'},
+  diez_horas:  {gif:'insignias/hora_animado.gif',          nm:'10 Horas',      desc:'Diez horas de vida dedicadas a tu comunidad. Esto es solo el comienzo.',cond:'Acumular 10 horas de voluntariado',date:'📅 Desbloqueada el 30 ABR 2025',col:'#7AE23D',tier:'🥈 Plata',bg:'linear-gradient(145deg,#0d1a04,#060d02)'},
+  conectador:  {gif:'insignias/ayudas_animado.gif',        nm:'Conectador',    desc:'Eres el puente que necesitaba el barrio. Convocaste a más de 20 personas.',cond:'Convocar a 20+ personas en actividades',date:'📅 Desbloqueada el 10 MAY 2025',col:'#E040FB',tier:'🥈 Plata',bg:'linear-gradient(145deg,#150820,#0a040f)'},
+  certificado: {gif:'insignias/diploma_animado.gif',       nm:'Certificado',   desc:'La Municipalidad reconoció tu aporte. Obtuviste tu primer certificado oficial.',cond:'Recibir tu primer certificado emitido',date:'📅 Desbloqueada el 15 MAY 2025',col:'#FFD60A',tier:'🥈 Plata',bg:'linear-gradient(145deg,#181200,#0d0a00)'},
 };
 function openBdg(key){
   const d=BADGE_DATA[key]; if(!d) return;
@@ -3092,9 +3101,13 @@ function openBdg(key){
   card.style.background=d.bg;
   card.style.border=`1px solid ${d.col}33`;
   card.style.boxShadow=`0 0 60px ${d.col}22,inset 0 0 40px ${d.col}08`;
-  document.getElementById('bdgDetailIco').textContent=d.ico;
-  document.getElementById('bdgDetailIco').style.background=`radial-gradient(circle,${d.col}40,${d.col}10)`;
-  document.getElementById('bdgDetailIco').style.boxShadow=`0 0 30px ${d.col}66`;
+  const icoEl=document.getElementById('bdgDetailIco');
+  icoEl.style.background=`radial-gradient(circle,${d.col}30,${d.col}08)`;
+  icoEl.style.boxShadow=`0 0 40px ${d.col}88`;
+  document.getElementById('bdgDetailIcoPh').style.backgroundImage='none';
+  const emEl=document.getElementById('bdgDetailIcoEm');
+  emEl.textContent='';
+  emEl.innerHTML=`<img src="${d.gif}" style="width:90%;height:90%;object-fit:contain" decoding="async">`;
   document.getElementById('bdgRing1').style.cssText+=`;border-top-color:${d.col};border-right-color:${d.col}44`;
   document.getElementById('bdgRing2').style.cssText+=`;border-top-color:${d.col}66;border-left-color:${d.col}33`;
   document.getElementById('bdgDetailTier').textContent=d.tier;
