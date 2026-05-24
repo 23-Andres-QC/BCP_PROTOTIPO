@@ -94,13 +94,13 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 .ni svg{fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:all .22s}
 .ni.on svg{stroke:var(--teal);filter:drop-shadow(0 0 5px rgba(0,212,160,.7))}
 .ni:not(.on) svg{stroke:var(--w3)}
-.ni-lb{font-size:9px;font-weight:600;color:var(--w3);transition:color .22s;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap}
+.ni-lb{font-size:9px;font-weight:600;color:rgba(255,255,255,.5);transition:color .22s;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap}
 .ni.on .ni-lb{color:var(--teal);font-weight:800}
 /* Crear center */
 .nc{width:60px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;-webkit-user-select:none;user-select:none}
 .nc-btn{width:50px;height:50px;background:linear-gradient(135deg,var(--teal),var(--teal2));border-radius:17px;display:flex;align-items:center;justify-content:center;margin-top:-14px;box-shadow:0 0 0 5px rgba(0,212,160,.1),0 8px 28px rgba(0,212,160,.55);transition:transform .18s cubic-bezier(.4,0,.2,1)}
 .nc-btn:active{transform:scale(.88)}
-.nc-btn svg{stroke:#000;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.nc-btn svg{stroke:#0A1520;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
 .nc-lb{font-size:9px;font-weight:800;color:var(--teal);letter-spacing:.3px;text-transform:uppercase}
 
 /* ════════════ 1 — FEED ════════════ */
@@ -114,7 +114,7 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 /* Feed header */
 .fhd{position:absolute;top:0;inset-inline:0;z-index:10;padding:14px 18px 0;display:flex;align-items:center;justify-content:space-between}
 .ftabs{display:flex;gap:22px}
-.ftab{font-family:'Outfit',sans-serif;font-size:15px;font-weight:500;color:rgba(255,255,255,.45);cursor:pointer;padding-bottom:5px;border-bottom:2.5px solid transparent;transition:all .2s}
+.ftab{font-family:'Outfit',sans-serif;font-size:15px;font-weight:500;color:rgba(255,255,255,.55);cursor:pointer;padding-bottom:5px;border-bottom:2.5px solid transparent;transition:all .2s}
 .ftab.on{color:var(--w);font-weight:800;border-bottom-color:var(--teal);text-shadow:0 0 16px rgba(0,212,160,.5)}
 .fsrch{width:36px;height:36px;background:rgba(255,255,255,.12);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid var(--b2);cursor:pointer}
 .fsrch svg{stroke:var(--w);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -133,7 +133,7 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 .fp-cav{position:relative;margin-bottom:6px;cursor:pointer}
 .fp-av{width:48px;height:48px;border-radius:14px;overflow:hidden;border:2.5px solid var(--teal);box-shadow:0 0 14px rgba(0,212,160,.5);display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--s2),var(--s1))}
 .fp-av img{width:100%;height:100%;object-fit:cover}
-.fp-plus{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:20px;height:20px;background:var(--teal);border-radius:50%;border:2.5px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:12px;color:#000;font-weight:900;box-shadow:0 0 8px rgba(0,212,160,.5);transition:background .2s}
+.fp-plus{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:20px;height:20px;background:var(--teal);border-radius:50%;border:2.5px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:12px;color:#0A1520;font-weight:900;box-shadow:0 0 8px rgba(0,212,160,.5);transition:background .2s}
 /* Bottom info */
 .fp-inf{position:absolute;left:14px;right:70px;bottom:14px;z-index:10}
 .fp-chip{display:inline-flex;align-items:center;gap:7px;background:rgba(0,212,160,.13);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,212,160,.32);border-radius:999px;padding:5px 12px;margin-bottom:10px;cursor:pointer}
@@ -146,7 +146,7 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 .fp-mus{display:flex;align-items:center;gap:8px}
 .fp-mus-ico{width:26px;height:26px;background:rgba(255,255,255,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;animation:spin 4s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.fp-mus-txt{font-size:11px;color:rgba(255,255,255,.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+.fp-mus-txt{font-size:11px;color:rgba(255,255,255,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
 
 /* ════════════ 2 — MIS COMUNIDADES ════════════ */
 #s-comus{background:var(--bg)}
@@ -154,7 +154,7 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 .mc-hd-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
 .mc-ttl{font-family:'Outfit',sans-serif;font-size:26px;font-weight:900;color:var(--w);letter-spacing:-.5px}
 .mc-badge{background:var(--tg);border:1px solid rgba(0,212,160,.25);border-radius:999px;padding:4px 12px;font-family:'Outfit',sans-serif;font-size:11px;font-weight:800;color:var(--teal)}
-.mc-sub{font-size:13px;color:var(--w5);margin-bottom:16px}
+.mc-sub{font-size:13px;color:rgba(255,255,255,.65);margin-bottom:16px}
 /* Stories */
 .stories-row{display:flex;gap:12px;overflow-x:auto;padding:0 20px 16px;margin:0 -20px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .stories-row::-webkit-scrollbar{display:none}
@@ -163,10 +163,10 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 .story-ring.live{background:linear-gradient(135deg,var(--teal),var(--teal2))}
 .story-inner{width:100%;height:100%;border-radius:17px;overflow:hidden;border:2px solid var(--bg);background:var(--s2)}
 .story-inner img{width:100%;height:100%;object-fit:cover}
-.story-nm{font-size:10px;font-weight:600;color:var(--w5);white-space:nowrap;max-width:64px;overflow:hidden;text-overflow:ellipsis;text-align:center}
+.story-nm{font-size:10px;font-weight:600;color:rgba(255,255,255,.75);white-space:nowrap;max-width:64px;overflow:hidden;text-overflow:ellipsis;text-align:center}
 /* Tabs */
 .mc-tabs{display:flex;border-bottom:1px solid var(--b0);margin:0 -20px;padding:0 20px}
-.mc-tab{padding:11px 20px;font-size:13px;font-weight:500;color:var(--w3);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .2s;letter-spacing:.2px}
+.mc-tab{padding:11px 20px;font-size:13px;font-weight:500;color:rgba(255,255,255,.5);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .2s;letter-spacing:.2px}
 .mc-tab.on{color:var(--teal);border-bottom-color:var(--teal);font-weight:800}
 /* Cards */
 .mc-list{padding:16px 16px 24px;display:flex;flex-direction:column;gap:14px}
@@ -177,43 +177,43 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 .cc:active .cc-img img{transform:scale(1.04)}
 .cc-img-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.05) 55%,transparent 100%);z-index:1}
 .cc-em{position:absolute;bottom:12px;left:14px;font-size:28px;filter:drop-shadow(0 2px 5px rgba(0,0,0,.7));z-index:2}
-.cc-type-badge{position:absolute;top:11px;right:11px;padding:4px 10px;border-radius:999px;font-size:10px;font-weight:800;color:#000;letter-spacing:.3px;text-transform:uppercase;z-index:3}
+.cc-type-badge{position:absolute;top:11px;right:11px;padding:4px 10px;border-radius:999px;font-size:10px;font-weight:800;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5);letter-spacing:.3px;text-transform:uppercase;z-index:3}
 .cc-body{padding:14px}
 .cc-nm{font-family:'Outfit',sans-serif;font-size:17px;font-weight:900;color:var(--w);letter-spacing:-.2px;margin-bottom:3px}
-.cc-dist{font-size:12px;color:var(--w5);margin-bottom:12px}
+.cc-dist{font-size:12px;color:rgba(255,255,255,.65);margin-bottom:12px}
 .cc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:13px}
 .cc-st{background:var(--s2);border-radius:11px;padding:10px 6px;text-align:center;border:1px solid var(--b0)}
 .cc-sv{font-family:'Outfit',sans-serif;font-size:17px;font-weight:800;color:var(--w)}
-.cc-sl{font-size:10px;color:var(--w3);margin-top:2px;text-transform:uppercase;letter-spacing:.3px}
+.cc-sl{font-size:10px;color:rgba(255,255,255,.55);margin-top:2px;text-transform:uppercase;letter-spacing:.3px}
 .cc-footer{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.cc-next{font-size:12px;color:var(--w5);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cc-next{font-size:12px;color:rgba(255,255,255,.65);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cc-next strong{font-weight:600;color:var(--w8)}
 .cc-btn{padding:9px 18px;border-radius:11px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:800;cursor:pointer;border:none;flex-shrink:0;transition:all .18s;letter-spacing:.2px}
-.cc-btn.fw{background:var(--s3);border:1.5px solid var(--b2);color:var(--w5)}
-.cc-btn.nfw{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000;box-shadow:0 4px 16px rgba(0,212,160,.4)}
+.cc-btn.fw{background:var(--s3);border:1.5px solid var(--b2);color:rgba(255,255,255,.7)}
+.cc-btn.nfw{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0A1520;box-shadow:0 4px 16px rgba(0,212,160,.4)}
 /* Empty */
 .emp{text-align:center;padding:52px 24px}
 .emp-ico{font-size:54px;margin-bottom:14px}
 .emp-ttl{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;color:var(--w);margin-bottom:8px}
-.emp-sub{font-size:13px;color:var(--w5);line-height:1.65;margin-bottom:22px}
-.emp-btn{padding:13px 28px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000;border:none;border-radius:13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 20px rgba(0,212,160,.45)}
+.emp-sub{font-size:13px;color:rgba(255,255,255,.65);line-height:1.65;margin-bottom:22px}
+.emp-btn{padding:13px 28px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0A1520;border:none;border-radius:13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 20px rgba(0,212,160,.45)}
 
 /* ════════════ 3 — MAPA ════════════ */
 .map-hd{background:linear-gradient(135deg,rgba(19,26,64,.95),rgba(11,13,35,.95));padding:12px 20px 10px;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,.3);position:absolute;top:0;left:0;right:0;z-index:100;border-radius:0 0 12px 12px;backdrop-filter:blur(8px)}
 .map-ttl{font-family:'Outfit',sans-serif;font-size:24px;font-weight:900;color:var(--w);display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;letter-spacing:-.4px}
 .map-filt{width:38px;height:38px;background:var(--s3);border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid var(--b1);cursor:pointer;transition:all .2s}
 .map-filt:active{background:var(--teal);transform:scale(.9)}
-.map-filt svg{stroke:var(--w5);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
-.map-filt:active svg{stroke:#000}
+.map-filt svg{stroke:rgba(255,255,255,.7);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+.map-filt:active svg{stroke:#0A1520}
 .chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 .chips::-webkit-scrollbar{display:none}
-.chip{flex-shrink:0;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--b1);background:var(--s2);color:var(--w5);transition:all .2s}
+.chip{flex-shrink:0;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--b1);background:var(--s2);color:rgba(255,255,255,.7);transition:all .2s}
 .chip.a-g{background:rgba(0,212,160,.12);color:var(--teal);border-color:rgba(0,212,160,.4);font-weight:800}
 .map-hd .chips{display:none}
 /* compact bottom controls (same style as top chips) */
 .map-bottom{position:absolute;left:50%;transform:translateX(-50%);bottom:14px;z-index:500;display:flex;align-items:center;justify-content:center;padding:6px}
 .map-bottom .chips{display:flex;gap:8px}
-.map-bottom .chip{padding:7px 12px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;border:1px solid var(--b1);background:var(--s3);color:var(--w5);transition:all .16s}
+.map-bottom .chip{padding:7px 12px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;border:1px solid var(--b1);background:var(--s3);color:rgba(255,255,255,.7);transition:all .16s}
 .map-bottom .chip.a-g{background:rgba(0,212,160,.12);color:var(--teal);border-color:rgba(0,212,160,.28)}
 .map-bottom .chip:active{transform:scale(.98)}
 .chip.a-b{background:rgba(91,184,255,.12);color:var(--blue);border-color:rgba(91,184,255,.4);font-weight:800}
@@ -225,27 +225,27 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 .leaflet-popup-tip-container{display:none!important}
 .pop-type{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
 .pop-nm{font-family:'Outfit',sans-serif;font-size:16px;font-weight:900;color:var(--w);margin-bottom:5px}
-.pop-ds{font-size:12px;color:var(--w5);margin-bottom:14px;line-height:1.5}
-.pop-btn{width:100%;padding:11px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s}
+.pop-ds{font-size:12px;color:rgba(255,255,255,.7);margin-bottom:14px;line-height:1.5}
+.pop-btn{width:100%;padding:11px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0A1520;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s}
 .pop-btn:active{transform:scale(.97)}
 .map-leg{position:absolute;bottom:14px;left:12px;background:rgba(10,14,39,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:13px;padding:10px 14px;border:1px solid var(--b1);z-index:500;display:flex;flex-direction:column;gap:7px;box-shadow:0 4px 16px rgba(0,0,0,.5)}
-.leg-i{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:500;color:var(--w5)}
+.leg-i{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:500;color:rgba(255,255,255,.75)}
 .leg-d{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 
 /* ════════════ 4 — CREAR ════════════ */
 #s-crear{background:var(--bg)}
 .cr-wrap{padding:22px 20px 32px}
 .cr-ttl{font-family:'Outfit',sans-serif;font-size:28px;font-weight:900;color:var(--w);letter-spacing:-.5px;margin-bottom:4px}
-.cr-sub{font-size:13px;color:var(--w5);margin-bottom:22px}
+.cr-sub{font-size:13px;color:rgba(255,255,255,.65);margin-bottom:22px}
 .cr-toggle{display:grid;grid-template-columns:1fr 1fr;background:var(--s2);border-radius:14px;padding:4px;margin-bottom:24px;border:1px solid var(--b0)}
-.cr-tbtn{padding:12px;border-radius:11px;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;color:var(--w5);border:none;background:none;cursor:pointer;transition:all .2s}
-.cr-tbtn.cv{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000;font-weight:800;box-shadow:0 2px 14px rgba(0,212,160,.4)}
+.cr-tbtn{padding:12px;border-radius:11px;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;color:rgba(255,255,255,.6);border:none;background:none;cursor:pointer;transition:all .2s}
+.cr-tbtn.cv{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0A1520;font-weight:800;box-shadow:0 2px 14px rgba(0,212,160,.4)}
 .cr-tbtn.rv{background:linear-gradient(135deg,var(--red),#ff8080);color:#fff;font-weight:800}
 .cr-fg{margin-bottom:16px}
-.cr-lbl{display:block;font-size:11px;font-weight:700;color:var(--w3);margin-bottom:7px;text-transform:uppercase;letter-spacing:.6px}
-.cr-in{width:100%;padding:13px 16px;background:var(--s1);border:1px solid var(--b1);border-radius:13px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--w);outline:none;transition:all .2s;-webkit-appearance:none;appearance:none}
-.cr-in:focus{border-color:var(--teal);background:var(--s2);box-shadow:0 0 0 3px var(--tg)}
-.cr-in::placeholder{color:var(--w3)}
+.cr-lbl{display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,.65);margin-bottom:7px;text-transform:uppercase;letter-spacing:.6px}
+.cr-in{width:100%;padding:13px 16px;background:#111830;border:1px solid var(--b1);border-radius:13px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--w);outline:none;transition:all .2s;-webkit-appearance:none;appearance:none}
+.cr-in:focus{border-color:var(--teal);background:#1B2541;box-shadow:0 0 0 3px var(--tg)}
+.cr-in::placeholder{color:rgba(255,255,255,.4)}
 textarea.cr-in{resize:none;line-height:1.55}
 .cr-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .cr-fi{position:relative}
@@ -256,20 +256,20 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .yape-top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
 .yape-ico{width:38px;height:38px;background:linear-gradient(135deg,var(--teal),var(--teal2));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .yape-ttl{font-family:'Outfit',sans-serif;font-size:15px;font-weight:800;color:var(--w)}
-.yape-desc{font-size:12px;color:var(--w5);margin-bottom:12px;line-height:1.55}
+.yape-desc{font-size:12px;color:rgba(255,255,255,.65);margin-bottom:12px;line-height:1.55}
 .yape-btn{width:100%;padding:11px;background:var(--s2);border:1.5px dashed rgba(0,212,160,.4);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--teal);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s}
 .yape-btn:active{background:var(--tg)}
-.cr-pub{width:100%;padding:16px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000;border:none;border-radius:15px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 6px 28px rgba(0,212,160,.45);transition:all .18s;margin-top:6px;letter-spacing:.2px}
+.cr-pub{width:100%;padding:16px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0A1520;border:none;border-radius:15px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 6px 28px rgba(0,212,160,.45);transition:all .18s;margin-top:6px;letter-spacing:.2px}
 .cr-pub:active{transform:scale(.97)}
 .cr-pub.danger{background:linear-gradient(135deg,var(--red),#ff8080);box-shadow:0 6px 28px rgba(255,75,85,.4)}
 .rep-zone{background:var(--s1);border:2px dashed var(--b2);border-radius:16px;padding:40px 20px;text-align:center;cursor:pointer;margin-bottom:16px;transition:all .2s}
 .rep-zone.has-img{border-style:solid;border-color:var(--teal);padding:8px;background:var(--tg)}
 .rz-ico{width:60px;height:60px;background:linear-gradient(135deg,var(--red),#ff8080);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px;box-shadow:0 4px 16px rgba(255,75,85,.4)}
 .rz-ttl{font-family:'Outfit',sans-serif;font-size:15px;font-weight:800;color:var(--w);margin-bottom:4px}
-.rz-sub{font-size:12px;color:var(--w3)}
+.rz-sub{font-size:12px;color:rgba(255,255,255,.55)}
 .geo-row{background:var(--s1);border:1px solid var(--b1);border-radius:13px;padding:13px;display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .geo-ico{width:38px;height:38px;background:rgba(79,158,255,.14);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;border:1px solid rgba(79,158,255,.18)}
-.geo-lbl{font-size:10px;color:var(--w3);margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.geo-lbl{font-size:10px;color:rgba(255,255,255,.6);margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
 .geo-val{font-size:13px;font-weight:600;color:var(--w8)}
 .geo-btn{font-size:13px;font-weight:700;color:var(--blue);cursor:pointer;flex-shrink:0}
 .rep-warn{background:rgba(255,75,85,.06);border:1px solid rgba(255,75,85,.18);border-radius:11px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--w5);line-height:1.55}
@@ -278,7 +278,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 
 /* ════════════ 5 — PERFIL ════════════ */
 #s-perfil{background:var(--bg)}
-.perf-hero{height:200px;position:relative;overflow:visible;flex-shrink:0;border-bottom:1px solid var(--b0)}
+.perf-hero{height:210px;position:relative;overflow:visible;flex-shrink:0;border-bottom:1px solid var(--b0)}
 .ph-bg{position:absolute;inset:0;background:linear-gradient(135deg,#1a3a5c 0%,#0d1a35 50%,#05091a 100%);box-shadow:inset 0 0 80px rgba(0,212,160,.05)}
 .ph-c1{position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,160,.25),transparent 70%);top:-80px;right:-60px;animation:drift 12s ease-in-out infinite alternate;filter:blur(40px)}
 .ph-c2{position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(91,184,255,.15),transparent 70%);bottom:-60px;left:20px;animation:drift 14s ease-in-out infinite alternate-reverse;filter:blur(40px)}
@@ -288,14 +288,14 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .p-act{width:40px;height:40px;background:rgba(10,14,39,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.15);cursor:pointer;transition:all .2s}
 .p-act:active{background:var(--teal);transform:scale(.9)}
 .p-act svg{stroke:var(--w8);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
-.p-act:active svg{stroke:#000}
+.p-act:active svg{stroke:#0A1520}
 .perf-av-wrap{position:absolute;bottom:-40px;left:20px;z-index:10}
 .perf-av{width:100px;height:100px;border-radius:28px;border:4px solid var(--teal);background:var(--s2);overflow:hidden;cursor:pointer;position:relative;box-shadow:0 0 0 8px rgba(0,212,160,.12),0 12px 40px rgba(0,0,0,.7);transition:transform .2s;display:flex;align-items:center;justify-content:center}
 .perf-av img{width:100%;height:100%;object-fit:cover}
 .perf-av:active{transform:scale(.95)}
 .perf-av img{width:100%;height:100%;object-fit:cover}
 .perf-av-ed{position:absolute;bottom:0;right:0;width:28px;height:28px;background:var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;border:3px solid var(--bg);box-shadow:0 2px 8px rgba(0,212,160,.4)}
-.perf-info{padding:60px 20px 20px;border-bottom:1px solid var(--b0)}
+.perf-info{padding:58px 20px 16px;border-bottom:1px solid var(--b0)}
 .perf-nm{font-family:'Outfit',sans-serif;font-size:28px;font-weight:900;color:var(--w);letter-spacing:-.5px;margin-bottom:6px;user-select:all;cursor:text}
 .perf-meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--w5);margin-bottom:18px;flex-wrap:wrap;user-select:all;cursor:text}
 .perf-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;user-select:all}
@@ -304,7 +304,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .pst.xp{background:linear-gradient(135deg,rgba(0,212,160,.12),rgba(0,212,160,.05));border-color:rgba(0,212,160,.3)}
 .pst-v{font-family:'Outfit',sans-serif;font-size:24px;font-weight:900;color:var(--w);user-select:all}
 .pst.xp .pst-v{color:var(--teal);text-shadow:0 0 16px rgba(0,212,160,.5)}
-.pst-l{font-size:10px;color:var(--w3);margin-top:4px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.pst-l{font-size:10px;color:rgba(255,255,255,.55);margin-top:4px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
 
 /* Medallas */
 .medals{padding:0 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px;user-select:all}
@@ -321,7 +321,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .h-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;box-shadow:0 0 8px currentColor}
 .h-txt{flex:1}
 .h-ttl{font-size:13px;font-weight:600;color:var(--w8)}
-.h-time{font-size:11px;color:var(--w3);margin-top:3px}
+.h-time{font-size:11px;color:rgba(255,255,255,.5);margin-top:3px}
 
 /* ════════════ MODALS ════════════ */
 .overlay{position:absolute;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:800;display:none;align-items:flex-end;-webkit-user-select:none;user-select:none}
@@ -342,42 +342,42 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .cm-av img, .cm-cover img{width:100%;height:100%;object-fit:cover}
 .cm-av img{width:100%;height:100%;object-fit:cover}
 .cm-nm{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;color:var(--w);letter-spacing:-.3px}
-.cm-dist{font-size:13px;color:var(--w5)}
+.cm-dist{font-size:13px;color:rgba(255,255,255,.65)}
 .cm-stats{display:flex;gap:24px;margin-bottom:16px}
 .cm-sv{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;color:var(--w)}
-.cm-sl{font-size:10px;color:var(--w3);text-transform:uppercase;letter-spacing:.4px}
-.cm-flw{width:100%;padding:14px;border-radius:14px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;border:none;cursor:pointer;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000;margin-bottom:18px;letter-spacing:.2px;box-shadow:0 4px 22px rgba(0,212,160,.5);transition:all .2s}
-.cm-flw.fw{background:var(--s3);border:1.5px solid var(--b2);color:var(--w5);box-shadow:none}
+.cm-sl{font-size:10px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.4px}
+.cm-flw{width:100%;padding:14px;border-radius:14px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;border:none;cursor:pointer;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0A1520;margin-bottom:18px;letter-spacing:.2px;box-shadow:0 4px 22px rgba(0,212,160,.5);transition:all .2s}
+.cm-flw.fw{background:var(--s3);border:1.5px solid var(--b2);color:rgba(255,255,255,.7);box-shadow:none}
 .cm-tabs{display:flex;border-bottom:1px solid var(--b0);margin-bottom:18px}
-.cm-tab{padding:10px 16px;font-size:13px;font-weight:500;color:var(--w3);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .2s}
+.cm-tab{padding:10px 16px;font-size:13px;font-weight:500;color:rgba(255,255,255,.5);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .2s}
 .cm-tab.on{color:var(--teal);border-bottom-color:var(--teal);font-weight:800}
 .cm-vgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .cm-vi{aspect-ratio:9/16;background:var(--s2);border-radius:13px;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;border:1px solid var(--b0);position:relative}
 .cm-vi video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
 .evt-item{display:flex;gap:14px;padding:13px;background:var(--s2);border-radius:13px;margin-bottom:8px;border:1px solid var(--b0)}
 .evt-day-n{font-family:'Outfit',sans-serif;font-size:24px;font-weight:900;color:var(--teal);line-height:1}
-.evt-mon{font-size:10px;font-weight:800;color:var(--w3);text-transform:uppercase;letter-spacing:.4px}
+.evt-mon{font-size:10px;font-weight:800;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.4px}
 .evt-d{width:46px;text-align:center;flex-shrink:0}
 .evt-ttl{font-size:14px;font-weight:700;color:var(--w8)}
-.evt-ds{font-size:12px;color:var(--w5);margin-top:3px}
+.evt-ds{font-size:12px;color:rgba(255,255,255,.65);margin-top:3px}
 /* CV modal */
 .cv-hd{text-align:center;padding:8px 0 18px}
 .cv-av{width:84px;height:84px;border-radius:22px;background:var(--s2);margin:0 auto 14px;overflow:hidden;border:3px solid rgba(0,212,160,.35);box-shadow:0 0 0 6px rgba(0,212,160,.08);display:flex;align-items:center;justify-content:center}
 .cv-av img{width:100%;height:100%;object-fit:cover}
 .cv-av img{width:100%;height:100%;object-fit:cover}
 .cv-nm{font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:var(--w);margin-bottom:4px}
-.cv-inst{font-size:13px;color:var(--w5);margin-bottom:12px}
+.cv-inst{font-size:13px;color:rgba(255,255,255,.65);margin-bottom:12px}
 .cv-badge{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,rgba(0,212,160,.12),rgba(79,158,255,.08));border:1px solid rgba(0,212,160,.28);border-radius:999px;padding:7px 16px;font-size:12px;font-weight:800;color:var(--teal);margin-bottom:18px}
 .cv-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
 .cv-st{background:var(--s2);border-radius:12px;padding:11px;text-align:center;border:1px solid var(--b0)}
 .cv-sv{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;color:var(--teal)}
-.cv-sl{font-size:10px;color:var(--w3);margin-top:3px;text-transform:uppercase;letter-spacing:.4px}
+.cv-sl{font-size:10px;color:rgba(255,255,255,.55);margin-top:3px;text-transform:uppercase;letter-spacing:.4px}
 .cv-sec{font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;color:var(--w);margin:18px 0 12px;letter-spacing:-.2px}
 .cv-exp{display:flex;gap:12px;margin-bottom:12px}
 .cv-dot{width:9px;height:9px;background:var(--teal);border-radius:50%;margin-top:5px;flex-shrink:0;box-shadow:0 0 6px rgba(0,212,160,.6)}
 .cv-et{font-size:14px;font-weight:700;color:var(--w8)}
-.cv-eo{font-size:12px;color:var(--w5)}
-.cv-ed{font-size:11px;color:var(--w3)}
+.cv-eo{font-size:12px;color:rgba(255,255,255,.65)}
+.cv-ed{font-size:11px;color:rgba(255,255,255,.5)}
 .cv-skills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
 .cv-skill{padding:7px 14px;background:var(--tg);border:1px solid rgba(0,212,160,.2);border-radius:999px;font-size:12px;font-weight:700;color:var(--teal)}
 .cv-pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:18px}
@@ -386,12 +386,12 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .cv-ph img{width:100%;height:100%;object-fit:cover}
 .cv-print{width:100%;padding:15px;background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;border:none;border-radius:13px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
 /* Toast */
-.toast{position:absolute;top:60px;left:50%;transform:translateX(-50%) translateY(-8px);background:rgba(255,255,255,.1);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--b2);color:var(--w);padding:11px 20px;border-radius:999px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;white-space:nowrap;opacity:0;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:2000;pointer-events:none}
+.toast{position:absolute;top:60px;left:50%;transform:translateX(-50%) translateY(-8px);background:rgba(20,30,60,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.2);color:var(--w);padding:11px 20px;border-radius:999px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;white-space:nowrap;opacity:0;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:2000;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* ════════════ PERFIL — VIDEO GRID ════════════ */
 .perf-tabs{display:flex;border-bottom:1px solid var(--b0);margin:0 0 0 0;background:var(--s1)}
-.perf-tab{flex:1;padding:12px 0;text-align:center;font-size:13px;font-weight:600;color:var(--w3);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .2s;user-select:none}
+.perf-tab{flex:1;padding:12px 0;text-align:center;font-size:13px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .2s;user-select:none}
 .perf-tab.on{color:var(--teal);border-bottom-color:var(--teal);font-weight:800;text-shadow:0 0 10px rgba(0,212,160,.3)}
 
 /* TikTok-style video feed */
@@ -402,7 +402,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .pv-story-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.0),rgba(0,0,0,.5) 60%,rgba(0,0,0,.95));display:flex;flex-direction:column;justify-content:flex-end;padding:20px;color:#fff;opacity:0;transition:opacity .3s}
 .pv-story-card:hover .pv-story-overlay,
 .pv-story-card:active .pv-story-overlay{opacity:1}
-.pv-register-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000;padding:8px 14px;border-radius:999px;font-size:12px;font-weight:800;margin-bottom:12px;width:fit-content;box-shadow:0 4px 16px rgba(0,212,160,.4)}
+.pv-register-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0A1520;padding:8px 14px;border-radius:999px;font-size:12px;font-weight:800;margin-bottom:12px;width:fit-content;box-shadow:0 4px 16px rgba(0,212,160,.4)}
 .pv-story-title{font-family:'Outfit',sans-serif;font-size:18px;font-weight:900;margin-bottom:4px;letter-spacing:-.3px}
 .pv-story-desc{font-size:12px;color:rgba(255,255,255,.8);margin-bottom:8px}
 .pv-story-stats{font-size:11px;color:rgba(255,255,255,.6);display:flex;gap:12px}
@@ -412,32 +412,32 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .evt-item-card:active{background:var(--s3);transform:translateX(3px)}
 .evt-date{display:flex;flex-direction:column;align-items:center;min-width:50px;text-align:center}
 .evt-day{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;color:var(--teal);display:block}
-.evt-mon{font-size:10px;font-weight:700;color:var(--w3);text-transform:uppercase;margin-top:2px}
+.evt-mon{font-size:10px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;margin-top:2px}
 .evt-details{flex:1}
 .evt-card-title{font-size:14px;font-weight:700;color:var(--w8);margin-bottom:3px}
-.evt-card-loc{font-size:12px;color:var(--w5);margin-bottom:3px}
+.evt-card-loc{font-size:12px;color:rgba(255,255,255,.65);margin-bottom:3px}
 .evt-card-time{font-size:12px;color:var(--teal);margin-bottom:5px;font-weight:600}
-.evt-card-stats{font-size:11px;color:var(--w3)}
+.evt-card-stats{font-size:11px;color:rgba(255,255,255,.5)}
 
 /* Reportes */
 .rep-item-card{padding:14px;background:var(--s2);border-radius:14px;border:1px solid var(--b1);margin-bottom:12px;transition:all .2s;user-select:all}
 .rep-item-card:active{background:var(--s3);transform:translateX(3px)}
 .rep-status{display:inline-block;font-size:10px;font-weight:800;padding:4px 10px;border-radius:6px;color:#fff;margin-bottom:8px;text-transform:uppercase;letter-spacing:.3px}
 .rep-title{font-size:14px;font-weight:700;color:var(--w8);margin-bottom:4px}
-.rep-desc{font-size:12px;color:var(--w5);margin-bottom:6px}
+.rep-desc{font-size:12px;color:rgba(255,255,255,.65);margin-bottom:6px}
 .rep-votes{font-size:11px;color:var(--teal);font-weight:600}
 
 /* Config modal */
 .perf-config-modal .sh-body{padding:0!important}
 .config-section{border-bottom:1px solid var(--b1);padding:16px 20px}
 .config-section:last-child{border-bottom:none}
-.config-title{font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;color:var(--w3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:12px}
+.config-title{font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:12px}
 .config-items{display:flex;flex-direction:column;gap:10px}
 .config-item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--s2);border-radius:12px;cursor:pointer;transition:all .2s}
 .config-item:active{background:var(--s3);transform:translateX(4px)}
 .config-item-ico{font-size:20px;min-width:28px}
 .config-item-txt{flex:1;font-size:13px;font-weight:600;color:var(--w8)}
-.config-item-sub{font-size:11px;color:var(--w3);margin-top:2px}
+.config-item-sub{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px}
 .pvid-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
 .pv-cell{aspect-ratio:9/16;background:var(--s2);position:relative;overflow:hidden;cursor:pointer}
 .pv-cell video{width:100%;height:100%;object-fit:cover;display:block}
@@ -468,17 +468,38 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .cmt-nm{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--w);margin-bottom:3px}
 .cmt-txt{font-size:13px;color:var(--w8);line-height:1.5;margin-bottom:5px}
 .cmt-meta{display:flex;align-items:center;gap:12px}
-.cmt-time{font-size:11px;color:var(--w3)}
-.cmt-lk{font-size:11px;color:var(--w3);display:flex;align-items:center;gap:3px;cursor:pointer}
+.cmt-time{font-size:11px;color:rgba(255,255,255,.5)}
+.cmt-lk{font-size:11px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:3px;cursor:pointer}
 .cmt-lk.on{color:var(--red)}
 .cmt-bar{flex-shrink:0;padding:10px 14px 12px;border-top:1px solid var(--b0);display:flex;align-items:center;gap:10px;background:var(--s1)}
 .cmt-inp-av{width:34px;height:34px;border-radius:10px;overflow:hidden;flex-shrink:0;background:var(--s2)}
 .cmt-inp-av img{width:100%;height:100%;object-fit:cover}
 .cmt-inp{flex:1;background:var(--s2);border:1px solid var(--b1);border-radius:20px;padding:9px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--w);outline:none;appearance:none;-webkit-appearance:none}
-.cmt-inp::placeholder{color:var(--w3)}
+.cmt-inp::placeholder{color:rgba(255,255,255,.4)}
 .cmt-inp:focus{border-color:var(--teal)}
 .cmt-send{width:36px;height:36px;background:linear-gradient(135deg,var(--teal),var(--teal2));border-radius:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;border:none}
-.cmt-send svg{stroke:#000;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.cmt-send svg{stroke:#0A1520;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* ════════════ PROFILE COVER ════════════ */
+.ph-bg{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important}
+.ph-cover-btn{position:absolute;bottom:12px;right:12px;z-index:6;background:rgba(0,0,0,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:7px 13px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s}
+.ph-cover-btn:active{background:rgba(0,0,0,.75);transform:scale(.96)}
+
+/* ════════════ CREAR — mini mapa + mejoras ════════════ */
+#crearMap,#reportMap{height:190px;border-radius:14px;overflow:hidden;border:1px solid var(--b1);position:relative;z-index:1}
+.cr-map-wrap{margin-bottom:6px}
+.cr-map-hint{font-size:11px;color:rgba(255,255,255,.7);text-align:center;margin-bottom:16px;padding:5px 10px;background:rgba(91,184,255,.07);border-radius:8px;border:1px solid rgba(91,184,255,.25)}
+.cr-section-title{font-family:'Outfit',sans-serif;font-size:13px;font-weight:800;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.5px;margin:22px 0 12px;display:flex;align-items:center;gap:8px}
+.cr-section-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1)}
+.cr-link-wrap{position:relative}
+.cr-link-wrap .cr-in{padding-left:38px}
+.cr-link-ic{position:absolute;left:13px;top:50%;transform:translateY(-50%);stroke:var(--w3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;width:14px;height:14px}
+.cr-selected-loc{background:rgba(91,184,255,.14);border:1px solid rgba(91,184,255,.3);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--blue);display:flex;align-items:center;gap:8px;margin-bottom:16px}
+
+/* ════════════ PERF VIDEO CARDS ════════════ */
+.pv-story-card .pv-story-overlay{opacity:1;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,.88))}
+.pv-story-info{padding:0}
+.pv-story-card:active .pv-story-overlay{opacity:1}
 </style>
 </head>
 <body>
@@ -488,6 +509,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 <div class="splash-screen" id="splashScreen">
   <img class="splash-logo" src="logo.png" alt="MANTA">
   <p class="splash-tagline">Tejemos comunidad, conectamos vidas</p>
+  <div class="splash-loader"></div>
 </div>
 
 <!-- ── STATUS BAR ── -->
@@ -560,69 +582,177 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 <!-- ═══════ CREAR ═══════ -->
 <div class="screen" id="s-crear">
 <div class="cr-wrap">
-  <div class="cr-ttl">Crear iniciativa</div>
-  <div class="cr-sub">Activa tu barrio en minutos</div>
+  <div class="cr-ttl">Nueva Iniciativa</div>
+  <div class="cr-sub">Moviliza tu comunidad en minutos</div>
   <div class="cr-toggle">
     <button class="cr-tbtn cv" id="cBtn" onclick="switchCrear('c')">📢 Convocatoria</button>
-    <button class="cr-tbtn" id="rBtn" onclick="switchCrear('r')">🚨 Reportar Zona</button>
+    <button class="cr-tbtn" id="rBtn" onclick="switchCrear('r')">🚨 Reporte Ciudadano</button>
   </div>
-  <!-- CONVOCATORIA -->
+
+  <!-- ── CONVOCATORIA ── -->
   <div id="formC">
-    <div class="cr-fg"><label class="cr-lbl">Título</label><input class="cr-in" placeholder="Ej: Pintado de losa Pamplona Alta"></div>
-    <div class="cr-fg"><label class="cr-lbl">Descripción</label><textarea class="cr-in" rows="3" placeholder="Cuenta qué planean hacer y cómo participar..."></textarea></div>
+    <div class="cr-section-title">Información básica</div>
+    <div class="cr-fg"><label class="cr-lbl">Título de la iniciativa</label><input id="cTitulo" class="cr-in" placeholder="Ej: Pintado de losa deportiva en Pamplona Alta"></div>
+    <div class="cr-fg"><label class="cr-lbl">Descripción</label><textarea id="cDesc" class="cr-in" rows="3" placeholder="Describe el objetivo, cómo participar y qué llevar..."></textarea></div>
     <div class="cr-row">
-      <div class="cr-fg"><label class="cr-lbl">Distrito</label>
+      <div class="cr-fg"><label class="cr-lbl">Tipo de actividad</label>
+        <select id="cTipo" class="cr-in">
+          <option value="">Selecciona...</option>
+          <option>🤲 Voluntariado</option><option>🍲 Olla Común</option><option>📚 Taller Comunitario</option>
+          <option>🎨 Evento Cultural</option><option>🧹 Limpieza de espacios</option>
+          <option>🏥 Campaña de salud</option><option>⚽ Deporte comunitario</option>
+          <option>🌿 Medio ambiente</option><option>🏗️ Construcción comunitaria</option>
+        </select>
+      </div>
+      <div class="cr-fg"><label class="cr-lbl">Cupos disponibles</label>
         <div class="cr-fi">
-          <svg class="cr-fi-ic" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <select class="cr-in"><option>Surco</option><option>SJM</option><option>VES</option><option>Pachacámac</option><option>Chorrillos</option><option>Barranco</option></select>
+          <svg class="cr-fi-ic" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <input id="cCupos" type="number" class="cr-in" placeholder="50" min="1">
         </div>
       </div>
+    </div>
+    <div class="cr-row">
       <div class="cr-fg"><label class="cr-lbl">Fecha</label>
         <div class="cr-fi">
           <svg class="cr-fi-ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <input type="date" class="cr-in">
+          <input id="cFecha" type="date" class="cr-in">
+        </div>
+      </div>
+      <div class="cr-fg"><label class="cr-lbl">Hora inicio</label>
+        <div class="cr-fi">
+          <svg class="cr-fi-ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <input id="cHora" type="time" class="cr-in">
         </div>
       </div>
     </div>
-    <div class="cr-fg"><label class="cr-lbl">Tipo de actividad</label>
-      <select class="cr-in"><option>Voluntariado</option><option>Olla Común</option><option>Taller Comunitario</option><option>Evento Cultural</option><option>Limpieza de espacios</option><option>Campaña de salud</option><option>Deporte comunitario</option></select>
+
+    <div class="cr-section-title">Ubicación del evento</div>
+    <div class="cr-fg">
+      <label class="cr-lbl">Dirección exacta</label>
+      <div class="cr-fi">
+        <svg class="cr-fi-ic" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <input id="cDirec" class="cr-in" placeholder="Jr. Los Andes 432, Pamplona Alta">
+      </div>
     </div>
-    <div class="cr-fg"><label class="cr-lbl">Presupuesto (S/.)</label>
+    <div class="cr-row">
+      <div class="cr-fg"><label class="cr-lbl">Distrito</label>
+        <div class="cr-fi">
+          <svg class="cr-fi-ic" viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+          <select id="cDistrito" class="cr-in"><option value="">Selecciona...</option><option>Surco</option><option>San Juan de Miraflores</option><option>Villa El Salvador</option><option>Pachacámac</option><option>Chorrillos</option><option>Barranco</option><option>Villa María del Triunfo</option></select>
+        </div>
+      </div>
+      <div class="cr-fg"><label class="cr-lbl">Referencia</label>
+        <input id="cRef" class="cr-in" placeholder="Al lado del parque...">
+      </div>
+    </div>
+    <div class="cr-map-wrap">
+      <div class="cr-map-hint">📍 Toca el mapa para marcar el punto exacto del evento</div>
+      <div id="crearMap"></div>
+    </div>
+    <div class="cr-selected-loc" id="crLocResult" style="display:none">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5BB8FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span id="crLocText">Punto marcado</span>
+    </div>
+
+    <div class="cr-section-title">Contacto y financiamiento</div>
+    <div class="cr-fg"><label class="cr-lbl">WhatsApp o teléfono de contacto</label>
+      <div class="cr-fi">
+        <svg class="cr-fi-ic" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.09 6.09l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <input id="cTelf" class="cr-in" placeholder="+51 999 999 999" type="tel">
+      </div>
+    </div>
+    <div class="cr-fg"><label class="cr-lbl">Link de inscripción o más info (opcional)</label>
+      <div class="cr-link-wrap">
+        <svg class="cr-link-ic" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <input id="cLink" class="cr-in" placeholder="https://forms.gle/... o Instagram" type="url">
+      </div>
+    </div>
+    <div class="cr-fg"><label class="cr-lbl">Presupuesto estimado (S/.)</label>
       <div class="cr-fi">
         <svg class="cr-fi-ic" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        <input type="number" class="cr-in" placeholder="1200">
+        <input id="cPresup" type="number" class="cr-in" placeholder="0 (si es gratuito)" min="0">
       </div>
     </div>
     <div class="yape-card">
-      <div class="yape-top"><div class="yape-ico">🔗</div><div class="yape-ttl">Cofinanciación Yape / Plin</div></div>
+      <div class="yape-top"><div class="yape-ico">💳</div><div class="yape-ttl">Cofinanciación Yape / Plin</div></div>
       <div class="yape-desc">Sube tu QR para recibir microdonaciones. Si llegas a la meta, una empresa aliada duplica el monto.</div>
       <button class="yape-btn" onclick="document.getElementById('yInp').click()">🖼️ Subir QR de Yape / Plin</button>
-      <input type="file" id="yInp" accept="image/*" style="display:none" onchange="toast('✅ QR cargado')">
+      <input type="file" id="yInp" accept="image/*" style="display:none" onchange="yapeQrUp(this)">
+      <div id="yapePreview" style="display:none;margin-top:10px;border-radius:10px;overflow:hidden"><img id="yapeImg" style="width:100%;max-height:140px;object-fit:contain;background:#fff;border-radius:8px"></div>
     </div>
-    <button class="cr-pub" onclick="pubC()">
+    <button class="cr-pub" id="pubCBtn" onclick="pubC()">
       <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       Publicar en la Comunidad
     </button>
   </div>
-  <!-- REPORTAR -->
+
+  <!-- ── REPORTE CIUDADANO ── -->
   <div id="formR" style="display:none">
+    <div class="cr-section-title">Evidencia del problema</div>
     <div class="rep-zone" id="repZone" onclick="document.getElementById('repPic').click()">
       <div class="rz-ico">📷</div>
-      <div class="rz-ttl">Tomar foto del problema</div>
+      <div class="rz-ttl">Adjuntar foto del problema</div>
       <div class="rz-sub">Toca para abrir cámara o galería</div>
     </div>
     <input type="file" id="repPic" accept="image/*" capture="environment" style="display:none" onchange="repPicUp(this)">
+
+    <div class="cr-section-title">Descripción</div>
+    <div class="cr-fg"><label class="cr-lbl">¿Qué está pasando?</label>
+      <textarea id="rDesc" class="cr-in" rows="3" placeholder="Ej: Acumulación de basura en Jr. Los Andes desde hace 3 días sin recolección..."></textarea>
+    </div>
+    <div class="cr-fg"><label class="cr-lbl">Propuesta de solución</label>
+      <textarea id="rSol" class="cr-in" rows="2" placeholder="Ej: Solicitar camión de recolección y organizar jornada vecinal..."></textarea>
+    </div>
+    <div class="cr-row">
+      <div class="cr-fg"><label class="cr-lbl">Categoría</label>
+        <select id="rCat" class="cr-in">
+          <option value="">Selecciona...</option>
+          <option>🗑️ Residuos y limpieza</option><option>💡 Alumbrado público</option>
+          <option>🚧 Infraestructura vial</option><option>💧 Agua y desagüe</option>
+          <option>🌳 Áreas verdes</option><option>🔒 Seguridad vecinal</option>
+          <option>📢 Ruido y contaminación</option><option>🏗️ Construcción irregular</option>
+        </select>
+      </div>
+      <div class="cr-fg"><label class="cr-lbl">Urgencia</label>
+        <select id="rUrg" class="cr-in">
+          <option value="">Selecciona...</option>
+          <option>🔴 Alta — peligro inmediato</option>
+          <option>🟡 Media — afecta el barrio</option>
+          <option>🟢 Baja — mejora de calidad</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="cr-section-title">Ubicación</div>
     <div class="geo-row">
       <div class="geo-ico">📍</div>
-      <div style="flex:1"><div class="geo-lbl">Ubicación GPS</div><div class="geo-val" id="geoVal">Obteniendo ubicación...</div></div>
-      <div class="geo-btn" onclick="getGeo()">Ajustar</div>
+      <div style="flex:1"><div class="geo-lbl">Ubicación GPS</div><div class="geo-val" id="geoVal">Detectando...</div></div>
+      <div class="geo-btn" onclick="getGeo()">Actualizar</div>
     </div>
-    <div class="cr-fg"><label class="cr-lbl">¿Qué está pasando?</label><textarea class="cr-in" rows="3" placeholder="Acumulación de basura en Jr. Los Andes desde hace 3 días..."></textarea></div>
-    <div class="cr-fg"><label class="cr-lbl">Propuesta de solución</label><textarea class="cr-in" rows="3" placeholder="Solicitar camión de recolección y jornada vecinal de limpieza..."></textarea></div>
-    <div class="rep-warn">⚠️ Tu reporte recibirá <strong>votos de la comunidad</strong> y será elevado automáticamente a la Municipalidad cuando alcance 25 votos.</div>
+    <div class="cr-fg"><label class="cr-lbl">Dirección o referencia</label>
+      <div class="cr-fi">
+        <svg class="cr-fi-ic" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <input id="rDirec" class="cr-in" placeholder="Jr. Los Andes 432 · Pamplona Alta">
+      </div>
+    </div>
+    <div class="cr-map-wrap">
+      <div class="cr-map-hint">📍 Toca el mapa para marcar el punto exacto del problema</div>
+      <div id="reportMap"></div>
+    </div>
+    <div class="cr-selected-loc" id="repLocResult" style="display:none">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5BB8FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span id="repLocText">Punto marcado en el mapa</span>
+    </div>
+
+    <div class="cr-fg" style="margin-top:4px"><label class="cr-lbl">Contacto (opcional)</label>
+      <div class="cr-fi">
+        <svg class="cr-fi-ic" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.09 6.09l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <input id="rTelf" class="cr-in" placeholder="+51 999 999 999" type="tel">
+      </div>
+    </div>
     <button class="cr-pub danger" onclick="pubR()">
       <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      Enviar Reporte a la Muni
+      Enviar Reporte Ciudadano
     </button>
   </div>
   <div class="sp"></div>
@@ -643,23 +773,25 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 <!-- ═══════ PERFIL ═══════ -->
 <div class="screen" id="s-perfil">
   <div class="perf-hero">
-    <div class="ph-bg" style="background:linear-gradient(135deg,#1a3a5c,#0d1a35,#05091a)"></div>
-    <div class="ph-c1"></div><div class="ph-c2"></div>
+    <div class="ph-bg" id="phBg" style="background:linear-gradient(135deg,#1a3a5c,#0d1a35,#05091a);background-image:url('Comunidades/datathon.png');background-size:cover;background-position:center"></div>
     <div class="ph-grad"></div>
     <div class="perf-acts">
       <div class="p-act" onclick="shareProfile()"><svg width="16" height="16" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
       <div class="p-act" onclick="openModal('perf-config')"><svg width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></div>
     </div>
+    <div class="ph-cover-btn" onclick="document.getElementById('coverInp').click()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      Cambiar portada
+    </div>
     <div class="perf-av-wrap">
-      <div class="perf-av" onclick="document.getElementById('avInp').click()" style="background:linear-gradient(135deg,#1a3a5c,#0d1a35)">
-        <img id="avImg" src="Comunidades/datathon.png" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover">
-        <div id="avFallback" style="position:absolute;font-size:48px;display:none">👤</div>
-        <div class="perf-av-ed">✏️</div>
+      <div class="perf-av" onclick="document.getElementById('avInp').click()">
+        <img id="avImg" src="perfil.png" style="width:100%;height:100%;object-fit:cover">
+        <div class="perf-av-ed">📷</div>
       </div>
-      <script>document.getElementById('avImg').onerror=function(){document.getElementById('avFallback').style.display='block'}</script>
     </div>
   </div>
   <input type="file" id="avInp" accept="image/*" style="display:none" onchange="avUp(this)">
+  <input type="file" id="coverInp" accept="image/*" style="display:none" onchange="coverUp(this)">
   <div class="perf-info">
     <div style="user-select:all">
       <div class="perf-nm">Andrés Quiliche</div>
@@ -670,9 +802,9 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
       <div class="pst"><div class="pst-v">342</div><div class="pst-l">Seguidores</div></div>
       <div class="pst xp"><div class="pst-v">450</div><div class="pst-l">XP</div></div>
     </div>
-    <div style="display:flex;gap:10px;padding:0 20px;margin-bottom:16px">
-      <button style="flex:1;padding:10px;background:var(--teal);color:#000;border:none;border-radius:10px;font-weight:700;cursor:pointer" onclick="toast('👍 Seguido')">Seguir</button>
-      <button style="flex:1;padding:10px;background:var(--s2);color:var(--w);border:1px solid var(--b1);border-radius:10px;font-weight:700;cursor:pointer" onclick="toast('📨 Mensaje enviado')">Mensaje</button>
+    <div style="display:flex;gap:10px;margin-bottom:16px">
+      <button style="flex:1;padding:11px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0A1520;border:none;border-radius:12px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(0,212,160,.35);letter-spacing:.1px" onclick="openModal('perf-config')">✏️ Editar perfil</button>
+      <button style="flex:1;padding:11px;background:var(--s2);color:var(--w);border:1px solid var(--b1);border-radius:12px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer" onclick="shareProfile()">🔗 Compartir</button>
     </div>
   </div>
   <!-- Tabs para videos/eventos/reportes -->
@@ -684,34 +816,40 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
   
   <!-- Feed de Videos estilo TikTok -->
   <div id="perf-vid-feed" class="perf-vid-feed">
-    <div class="pv-story-card" style="position:relative;display:flex;align-items:center;justify-content:center">
-      <img src="Comunidades/datathon.png" alt="Mi proyecto - Datathon" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;font-size:56px">🏅</div>
+    <div class="pv-story-card" onclick="openPastEvent(0)">
+      <img src="Comunidades/debate.png" style="width:100%;height:100%;object-fit:cover;display:block">
       <div class="pv-story-overlay">
-        <div class="pv-story-info">
-          <div class="pv-story-title">Datathon</div>
-          <div class="pv-story-desc">Proyecto personal · Mi participación</div>
-        </div>
+        <div class="pv-register-btn">🎨 Arte</div>
+        <div class="pv-story-title">Mural Comunitario SJM</div>
+        <div class="pv-story-desc">Pinté el mural principal junto a 60 vecinos</div>
+        <div class="pv-story-stats"><span>👥 60 participantes</span><span>📅 10 MAY</span></div>
       </div>
     </div>
-    <div class="pv-story-card" style="position:relative;display:flex;align-items:center;justify-content:center">
-      <img src="perfil.png" alt="Foto de perfil" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;font-size:56px">👤</div>
+    <div class="pv-story-card" onclick="openPastEvent(1)">
+      <img src="Comunidades/ambiente.png" style="width:100%;height:100%;object-fit:cover;display:block">
       <div class="pv-story-overlay">
-        <div class="pv-story-info">
-          <div class="pv-story-title">Foto personal</div>
-          <div class="pv-story-desc">Imagen de mi perfil</div>
-        </div>
+        <div class="pv-register-btn">♻️ Ambiente</div>
+        <div class="pv-story-title">Jornada de Reciclaje Pachacámac</div>
+        <div class="pv-story-desc">Recolectamos más de 200 kg de residuos reciclables</div>
+        <div class="pv-story-stats"><span>👥 45 voluntarios</span><span>📅 28 ABR</span></div>
       </div>
     </div>
-    <div class="pv-story-card" style="position:relative;display:flex;align-items:center;justify-content:center">
-      <img src="logo.png" alt="Proyecto" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;font-size:56px">✨</div>
+    <div class="pv-story-card" onclick="openPastEvent(2)">
+      <img src="Comunidades/datathon.png" style="width:100%;height:100%;object-fit:cover;display:block">
       <div class="pv-story-overlay">
-        <div class="pv-story-info">
-          <div class="pv-story-title">Mi Trabajo</div>
-          <div class="pv-story-desc">Portafolio · Recursos</div>
-        </div>
+        <div class="pv-register-btn">📚 Taller</div>
+        <div class="pv-story-title">Taller de Emprendimiento Juvenil</div>
+        <div class="pv-story-desc">Facilitador principal · Centro Comunitario SJM</div>
+        <div class="pv-story-stats"><span>👥 50 jóvenes</span><span>📅 15 ABR</span></div>
+      </div>
+    </div>
+    <div class="pv-story-card" onclick="openPastEvent(3)">
+      <img src="Comunidades/comedorpopular.png" style="width:100%;height:100%;object-fit:cover;display:block">
+      <div class="pv-story-overlay">
+        <div class="pv-register-btn">🍲 Solidaridad</div>
+        <div class="pv-story-title">Olla Común Solidaria VES</div>
+        <div class="pv-story-desc">Coordinación y preparación para 80 familias</div>
+        <div class="pv-story-stats"><span>👥 80 familias</span><span>📅 2 ABR</span></div>
       </div>
     </div>
   </div>
@@ -980,13 +1118,13 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
         <div style="font-size:12px;color:var(--w5)">6 de 12 medallas desbloqueadas</div>
       </div>
       <div class="medals" style="margin:0;padding:0 20px">
-        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(79,158,255,.15)">🎖️</div><div class="medal-nm">Auditor Comunitario</div><div style="font-size:10px;color:var(--w3);margin-top:4px">Participó en 5 auditorías</div></div>
-        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(0,212,160,.12)">🏆</div><div class="medal-nm">Líder de Barrio</div><div style="font-size:10px;color:var(--w3);margin-top:4px">100+ horas de voluntariado</div></div>
-        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(255,107,127,.12)">🔥</div><div class="medal-nm">Primer Voto</div><div style="font-size:10px;color:var(--w3);margin-top:4px">Tu primer voto a un reporte</div></div>
-        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(0,212,160,.12)">♻️</div><div class="medal-nm">Reciclador</div><div style="font-size:10px;color:var(--w3);margin-top:4px">Participó en evento de reciclaje</div></div>
-        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(176,138,255,.12)">📢</div><div class="medal-nm">Voz Activa</div><div style="font-size:10px;color:var(--w3);margin-top:4px">50+ comentarios constructivos</div></div>
-        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(93,184,255,.12)">👥</div><div class="medal-nm">Conectador</div><div style="font-size:10px;color:var(--w3);margin-top:4px">20+ personas en comunidades</div></div>
-        <div class="medal locked"><div class="medal-ico" style="background:var(--s2)">⭐</div><div class="medal-nm">Próxima...</div><div style="font-size:10px;color:var(--w3);margin-top:4px">Desbloquealo pronto</div></div>
+        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(79,158,255,.15)">🎖️</div><div class="medal-nm">Auditor Comunitario</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:4px">Participó en 5 auditorías</div></div>
+        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(0,212,160,.12)">🏆</div><div class="medal-nm">Líder de Barrio</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:4px">100+ horas de voluntariado</div></div>
+        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(255,107,127,.12)">🔥</div><div class="medal-nm">Primer Voto</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:4px">Tu primer voto a un reporte</div></div>
+        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(0,212,160,.12)">♻️</div><div class="medal-nm">Reciclador</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:4px">Participó en evento de reciclaje</div></div>
+        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(176,138,255,.12)">📢</div><div class="medal-nm">Voz Activa</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:4px">50+ comentarios constructivos</div></div>
+        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(93,184,255,.12)">👥</div><div class="medal-nm">Conectador</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:4px">20+ personas en comunidades</div></div>
+        <div class="medal locked"><div class="medal-ico" style="background:var(--s2)">⭐</div><div class="medal-nm">Próxima...</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:4px">Desbloquealo pronto</div></div>
       </div>
     </div>
   </div>
@@ -1156,7 +1294,7 @@ const COMMS=[
    evts:[{d:5,m:"JUN",t:"Feria de talentos",ds:"Plaza SJM · 10am"}],
    desc:"Empoderamiento juvenil a través del emprendimiento.",tags:["#jovenes","#sjm","#taller"]},
   {id:6,name:"Mujeres VES",dist:"Villa El Salvador",type:"today",act:"Olla Común",em:"🍲",col:"#FF6B9D",
-  img:"Comunidades/comedorpopular.png",
+  img:"Comunidades/camping.png",
    lat:-12.198,lng:-76.955,fol:312,vids:12,
    evts:[{d:30,m:"MAY",t:"Donación de alimentos",ds:"Mercado VES · 9am"}],
    desc:"Olla común solidaria todos los jueves para el barrio.",tags:["#ollacomun","#ves","#solidaridad"]},
@@ -1166,12 +1304,12 @@ const COMMS=[
    evts:[{d:1,m:"JUN",t:"Festival de reciclaje",ds:"Parque EcoVerde · 9am"}],
    desc:"Iniciativa ambiental financiada por Fundación Romero.",tags:["#ecologia","#reciclaje","#financiado"]},
   {id:8,name:"Arte Comunitario SJM",dist:"San Juan de Miraflores",type:"today",act:"Evento Cultural",em:"🎨",col:"#B08AFF",
-  img:"Comunidades/debate.png",
+  img:"Comunidades/datathon.png",
    lat:-12.166,lng:-76.963,fol:423,vids:15,
    evts:[{d:7,m:"JUN",t:"Exposición vecinal",ds:"Casa cultura SJM · 4pm"}],
    desc:"Mural colectivo: arte y cultura vecinal en acción.",tags:["#arte","#cultura","#sjm"]}
 ];
-const TCOL={today:"#00D4A0",upcoming:"#5BB8FF",report:"#FF6B7F",funded:"#FFD60A"};
+const TCOL={today:"#00A87E",upcoming:"#2B7FCC",report:"#CC3348",funded:"#B08A00"};
 const TLBL={today:"Activo hoy",upcoming:"Próximo",report:"Reporte",funded:"Financiado"};
 const BGS=[
   "radial-gradient(ellipse at 35% 45%,#1a4d3a,#0a1f18 60%,#000)",
@@ -1281,7 +1419,7 @@ function syncFeedBtn(i,id){
   const b=document.getElementById('fpl'+i);
   if(b){b.textContent=flSt[id]?'✓':'+';b.style.background=flSt[id]?'rgba(255,255,255,.25)':'var(--teal)'}
 }
-function feedTab(el){document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('on'));el.classList.add('on')}
+function feedTab(el){document.querySelectorAll('#s-feed>.fhd .ftab').forEach(t=>t.classList.remove('on'));el.classList.add('on')}
 
 /* ════ MIS COMUNIDADES ════ */
 let mcMode='sig';
@@ -1390,7 +1528,7 @@ function initLeafMap(){
 }
 
 function filterMap(f,el){
-  document.querySelectorAll('.chip').forEach(c=>{c.className='chip'});
+  document.querySelectorAll('.map-bottom .chip, #mapChips .chip').forEach(c=>{c.className='chip'});
   el.classList.add({all:'a-g',today:'a-g',upcoming:'a-b',report:'a-r',funded:'a-y'}[f]||'a-g');
   mapMarkers.forEach(m=>{
     if(f==='all'||m._type===f){if(!leafMap.hasLayer(m))leafMap.addLayer(m)}
@@ -1428,24 +1566,84 @@ function goTo(screen){
   if(n) n.classList.add('on');
   if(screen==='mapa') setTimeout(initLeafMap,80);
   if(screen==='comus') renderMC();
+  if(screen==='crear') setTimeout(initCrearMap,120);
 }
 
 /* ════ CREAR ════ */
+let crearMapInst=null, crearMarker=null;
+let reportMapInst=null, reportMarker=null;
+
 function switchCrear(t){
   document.getElementById('formC').style.display=t==='c'?'block':'none';
   document.getElementById('formR').style.display=t==='r'?'block':'none';
   document.getElementById('cBtn').className='cr-tbtn'+(t==='c'?' cv':'');
   document.getElementById('rBtn').className='cr-tbtn'+(t==='r'?' rv':'');
-  if(t==='r') getGeo();
+  if(t==='r'){ getGeo(); setTimeout(initReportMap,120); }
+  if(t==='c'){ setTimeout(initCrearMap,120); }
 }
+
+function initCrearMap(){
+  if(crearMapInst){crearMapInst.invalidateSize();return}
+  crearMapInst=L.map('crearMap',{zoomControl:false,attributionControl:false}).setView([-12.165,-76.955],12);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19}).addTo(crearMapInst);
+  L.control.zoom({position:'topright'}).addTo(crearMapInst);
+  crearMapInst.on('click',function(e){
+    const {lat,lng}=e.latlng;
+    if(crearMarker) crearMapInst.removeLayer(crearMarker);
+    crearMarker=L.marker([lat,lng],{icon:L.divIcon({className:'',
+      html:`<div style="width:34px;height:34px;background:var(--teal);border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 4px 14px rgba(0,212,160,.6);display:flex;align-items:center;justify-content:center"><span style="transform:rotate(45deg);font-size:14px">📍</span></div>`,
+      iconSize:[34,34],iconAnchor:[17,34]})}).addTo(crearMapInst);
+    const loc=document.getElementById('crLocResult');
+    const txt=document.getElementById('crLocText');
+    if(loc && txt){
+      loc.style.display='flex';
+      txt.textContent=`${lat.toFixed(5)}, ${lng.toFixed(5)} — punto marcado`;
+    }
+  });
+}
+
+function initReportMap(){
+  if(reportMapInst){reportMapInst.invalidateSize();return}
+  reportMapInst=L.map('reportMap',{zoomControl:false,attributionControl:false}).setView([-12.165,-76.955],12);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19}).addTo(reportMapInst);
+  L.control.zoom({position:'topright'}).addTo(reportMapInst);
+  reportMapInst.on('click',function(e){
+    const {lat,lng}=e.latlng;
+    if(reportMarker) reportMapInst.removeLayer(reportMarker);
+    reportMarker=L.marker([lat,lng],{icon:L.divIcon({className:'',
+      html:`<div style="width:34px;height:34px;background:#FF6B7F;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 4px 14px rgba(255,107,127,.6);display:flex;align-items:center;justify-content:center"><span style="transform:rotate(45deg);font-size:14px">🚨</span></div>`,
+      iconSize:[34,34],iconAnchor:[17,34]})}).addTo(reportMapInst);
+    const loc=document.getElementById('repLocResult');
+    const txt=document.getElementById('repLocText');
+    if(loc && txt){
+      loc.style.display='flex';
+      txt.textContent=`${lat.toFixed(5)}, ${lng.toFixed(5)} — punto marcado`;
+    }
+    if(navigator.geolocation){
+      document.getElementById('geoVal').textContent=`${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+    }
+  });
+  // auto-center on user location
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(p=>{
+      reportMapInst.setView([p.coords.latitude,p.coords.longitude],14);
+    },()=>{});
+  }
+}
+
 function getGeo(){
+  const el=document.getElementById('geoVal');
+  if(!el) return;
+  el.textContent='Detectando...';
   if(navigator.geolocation){
     navigator.geolocation.getCurrentPosition(
-      p=>{document.getElementById('geoVal').textContent=`${p.coords.latitude.toFixed(5)}, ${p.coords.longitude.toFixed(5)}`},
-      ()=>{document.getElementById('geoVal').textContent='Av. Central 234, VES'}
+      p=>{el.textContent=`${p.coords.latitude.toFixed(5)}, ${p.coords.longitude.toFixed(5)}`;
+          if(reportMapInst) reportMapInst.setView([p.coords.latitude,p.coords.longitude],14);},
+      ()=>{el.textContent='Lima, Perú (GPS no disponible)'}
     );
-  } else {document.getElementById('geoVal').textContent='Av. Central 234, VES'}
+  } else {el.textContent='Lima, Perú (GPS no disponible)'}
 }
+
 function repPicUp(inp){
   if(!inp.files[0]) return;
   const r=new FileReader();
@@ -1456,16 +1654,112 @@ function repPicUp(inp){
   };
   r.readAsDataURL(inp.files[0]);
 }
-function pubC(){toast('✅ Convocatoria publicada');setTimeout(()=>goTo('feed'),900)}
-function pubR(){toast('✅ Reporte enviado a la Municipalidad');setTimeout(()=>goTo('feed'),900)}
+
+function yapeQrUp(inp){
+  if(!inp.files[0]) return;
+  const r=new FileReader();
+  r.onload=e=>{
+    document.getElementById('yapeImg').src=e.target.result;
+    document.getElementById('yapePreview').style.display='block';
+    toast('✅ QR de Yape/Plin cargado');
+  };
+  r.readAsDataURL(inp.files[0]);
+}
+
+function pubC(){
+  const titulo=document.getElementById('cTitulo');
+  const desc=document.getElementById('cDesc');
+  const tipo=document.getElementById('cTipo');
+  const fecha=document.getElementById('cFecha');
+  const distrito=document.getElementById('cDistrito');
+  // validaciones
+  if(!titulo||titulo.value.trim()===''){
+    highlightError(titulo,'Escribe un título para tu convocatoria');return;
+  }
+  if(!desc||desc.value.trim()===''){
+    highlightError(desc,'Describe la iniciativa');return;
+  }
+  if(!tipo||tipo.value===''){
+    highlightError(tipo,'Selecciona el tipo de actividad');return;
+  }
+  if(!fecha||fecha.value===''){
+    highlightError(fecha,'Elige una fecha');return;
+  }
+  if(!distrito||distrito.value===''){
+    highlightError(distrito,'Selecciona un distrito');return;
+  }
+  // publicar
+  const btn=document.getElementById('pubCBtn');
+  if(btn){btn.disabled=true;btn.style.opacity='.7';btn.textContent='Publicando...'}
+  setTimeout(()=>{
+    toast('✅ Convocatoria publicada exitosamente');
+    resetFormC();
+    if(btn){btn.disabled=false;btn.style.opacity='1';btn.innerHTML='<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Publicar en la Comunidad';}
+    setTimeout(()=>goTo('feed'),600);
+  },900);
+}
+
+function pubR(){
+  const desc=document.getElementById('rDesc');
+  const cat=document.getElementById('rCat');
+  const urg=document.getElementById('rUrg');
+  if(!desc||desc.value.trim()===''){
+    highlightError(desc,'Describe el problema');return;
+  }
+  if(!cat||cat.value===''){
+    highlightError(cat,'Selecciona una categoría');return;
+  }
+  if(!urg||urg.value===''){
+    highlightError(urg,'Indica el nivel de urgencia');return;
+  }
+  toast('✅ Reporte enviado. La comunidad puede votarlo para escalarlo a la Municipalidad.');
+  setTimeout(()=>goTo('feed'),1100);
+}
+
+function highlightError(el,msg){
+  if(!el) return;
+  el.style.borderColor='var(--red)';
+  el.style.boxShadow='0 0 0 3px rgba(255,75,85,.2)';
+  toast('⚠️ '+msg);
+  el.focus();
+  setTimeout(()=>{el.style.borderColor='';el.style.boxShadow=''},2500);
+}
+
+function resetFormC(){
+  ['cTitulo','cDesc','cCupos','cFecha','cHora','cDirec','cRef','cTelf','cLink','cPresup'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.value='';
+  });
+  ['cTipo','cDistrito'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.selectedIndex=0;
+  });
+  if(crearMarker && crearMapInst){crearMapInst.removeLayer(crearMarker);crearMarker=null;}
+  const loc=document.getElementById('crLocResult');
+  if(loc) loc.style.display='none';
+  document.getElementById('yapePreview').style.display='none';
+}
 
 /* ════ PERFIL ════ */
 function avUp(inp){
   if(!inp.files[0]) return;
   const r=new FileReader();
   r.onload=e=>{
-    document.getElementById('avImg').src=e.target.result;
-    document.getElementById('cvAvImg').src=e.target.result;
+    const av=document.getElementById('avImg');
+    if(av) av.src=e.target.result;
+    const cvAv=document.getElementById('cvAvImg');
+    if(cvAv) cvAv.src=e.target.result;
+    toast('✅ Foto de perfil actualizada');
+  };
+  r.readAsDataURL(inp.files[0]);
+}
+function coverUp(inp){
+  if(!inp.files[0]) return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const bg=document.getElementById('phBg');
+    if(bg){bg.style.backgroundImage=`url('${e.target.result}')`;bg.style.backgroundSize='cover';bg.style.backgroundPosition='center';}
+    toast('✅ Portada actualizada');
   };
   r.readAsDataURL(inp.files[0]);
 }
@@ -1483,7 +1777,7 @@ function renderPhotos(){
   g.innerHTML='';
   photos.forEach(src=>{
     const d=document.createElement('div'); d.className='ph-cell';
-    d.innerHTML=`<img src="${src}" onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,var(--s2),var(--s1))';this.parentNode.innerHTML+='<div style=\"font-size:24px;color:var(--w3)\">📷</div>'" style="width:100%;height:100%;object-fit:cover">`;
+    d.innerHTML=`<img src="${src}" onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,var(--s2),var(--s1))';this.parentNode.innerHTML+='<div style=\"font-size:24px;color:rgba(255,255,255,.5)\">📷</div>'" style="width:100%;height:100%;object-fit:cover">`;
     g.appendChild(d);
   });
   const add=document.createElement('div'); add.className='ph-cell ph-add-cell';
@@ -1493,7 +1787,7 @@ function renderPhotos(){
   // CV grid
   cv.innerHTML='';
   const shown=photos.slice(0,6);
-  shown.forEach(src=>{const d=document.createElement('div');d.className='cv-ph';d.innerHTML=`<img src="${src}" onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,var(--s2),var(--s1))';this.parentNode.innerHTML+='<div style=\\\"font-size:16px;color:var(--w3)\\\">📷</div>'" style="width:100%;height:100%;object-fit:cover">`;cv.appendChild(d)});
+  shown.forEach(src=>{const d=document.createElement('div');d.className='cv-ph';d.innerHTML=`<img src="${src}" onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,var(--s2),var(--s1))';this.parentNode.innerHTML+='<div style=\\\"font-size:16px;color:rgba(255,255,255,.5)\\\">📷</div>'" style="width:100%;height:100%;object-fit:cover">`;cv.appendChild(d)});
   ['📸','🌱','🏘️'].slice(Math.min(shown.length,3)).forEach(e=>{const d=document.createElement('div');d.className='cv-ph';d.textContent=e;cv.appendChild(d)});
   if(cv.children.length===0) cv.innerHTML='<div class="cv-ph">📸</div><div class="cv-ph">🌱</div><div class="cv-ph">🏘️</div>';
 }
@@ -1501,7 +1795,10 @@ function renderPhotos(){
 /* ════ COMMUNITY DETAIL (full-screen) ════ */
 let currentCommId=null;
 let currentEvent=null;
+let comDetailOrigin='comus';
 function openCM(id){
+  const active=document.querySelector('.screen.on');
+  if(active) comDetailOrigin=active.id.replace('s-','');
   const c=COMMS.find(x=>x.id===id); if(!c) return;
   currentCommId=id;
   const fw=flSt[id];
@@ -1511,12 +1808,12 @@ function openCM(id){
         <div><div class="evt-ttl">${e.t}</div><div class="evt-ds">${e.ds}</div></div>
         <div style="color:var(--teal);font-size:12px;margin-top:6px">Ver detalles →</div>
       </div>`).join('')
-    : '<p style="color:var(--w3);font-size:13px;text-align:center;padding:24px 0">Sin eventos próximos</p>';
+    : '<p style="color:rgba(255,255,255,.5);font-size:13px;text-align:center;padding:24px 0">Sin eventos próximos</p>';
   const rpHTML=c.type==='report'
     ? `<div class="evt-item" style="border-left:3px solid ${TCOL.report}">
         <div style="flex:1"><div class="evt-ttl" style="color:${TCOL.report}">🚨 ${c.desc}</div>
         <div class="evt-ds">Reportado hoy · 14 votos de la comunidad</div></div></div>`
-    : '<p style="color:var(--w3);font-size:13px;text-align:center;padding:24px 0">Sin reportes activos</p>';
+    : '<p style="color:rgba(255,255,255,.5);font-size:13px;text-align:center;padding:24px 0">Sin reportes activos</p>';
 
   document.getElementById('comDetailTitle').textContent=c.name;
   document.getElementById('comDetailBody').innerHTML=`
@@ -1546,7 +1843,7 @@ function openCM(id){
       <div class="cm-vgrid">${[1,2,3,4].map(n=>{
         const media = (n===1 && c.video)? `<video src="${c.video}" muted loop playsinline preload="none" onerror="this.style.display='none'" onloadeddata="this.style.display='block';this.play().catch(()=>{})"></video>` : `<img src="${c.img}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">`;
         return `
-        <div class="cm-vi">${media}<span style="font-size:28px">${c.em}</span><span style="font-size:11px;color:var(--w3)">Item ${n}</span></div>`
+        <div class="cm-vi">${media}<span style="font-size:28px">${c.em}</span><span style="font-size:11px;color:rgba(255,255,255,.5)">Item ${n}</span></div>`
       }).join('')}</div>
     </div>
     <div id="cmp-e${id}" style="display:none;padding:16px 20px 0">${evHTML}</div>
@@ -1627,7 +1924,7 @@ function joinEvent(commId,eventIdx){
 }
 
 function goBackFromComDetail(){
-  goTo('comus');
+  goTo(comDetailOrigin||'comus');
   currentCommId=null;
 }
 function cmTab(t,id){
@@ -1723,6 +2020,74 @@ function closeVidModal(){
   const v=document.getElementById('vidFull');
   v.pause(); v.src='';
   document.getElementById('vid-modal').classList.remove('open');
+}
+
+/* ════ PERFIL EVENTOS TABS ════ */
+function perfEvtTab(t){
+  const cur=document.getElementById('perf-evt-current');
+  const past=document.getElementById('perf-evt-past');
+  const tabCur=document.getElementById('evt-tab-cur');
+  const tabPast=document.getElementById('evt-tab-past');
+  if(!cur||!past) return;
+  cur.style.display=t==='cur'?'block':'none';
+  past.style.display=t==='past'?'block':'none';
+  tabCur.className='chip'+(t==='cur'?' a-g':'');
+  tabPast.className='chip'+(t==='past'?' a-g':'');
+}
+
+function openPastEvent(idx){
+  const pastEvts=[
+    {title:'Mural Comunitario SJM',col:'#FFD60A',em:'🎨',loc:'Parque Central · SJM',date:'10 MAY',stats:'60 participantes',desc:'Pintado colectivo de mural vecinal con temática barrial. Arte y comunidad juntos.',fotos:['Comunidades/debate.png','Comunidades/construccion.png','Comunidades/salud.png']},
+    {title:'Jornada de Reciclaje Pachacámac',col:'#00D4A0',em:'♻️',loc:'Parque EcoVerde · Pachacámac',date:'28 ABR',stats:'45 voluntarios',desc:'Jornada de clasificación y reciclaje con talleres educativos para adultos y niños.',fotos:['Comunidades/ambiente.png','Comunidades/camping.png','Comunidades/limpiaza.png']},
+    {title:'Taller de Emprendimiento Juvenil',col:'#B08AFF',em:'📚',loc:'Centro Comunitario SJM',date:'15 ABR',stats:'50 jóvenes',desc:'Taller formativo sobre planes de negocio, finanzas personales y emprendimiento social.',fotos:['Comunidades/debate.png','Comunidades/datathon.png','Comunidades/religion.png']},
+    {title:'Olla Común Solidaria VES',col:'#FF6B9D',em:'🍲',loc:'Mercado VES',date:'2 ABR',stats:'80 familias',desc:'Preparación y distribución de alimentos para familias vulnerables del distrito.',fotos:['Comunidades/comedorpopular.png','Comunidades/bomberos.png','Comunidades/salud.png']},
+  ];
+  const evt=pastEvts[idx]; if(!evt) return;
+  const body=document.getElementById('pastEvtBody');
+  body.innerHTML=`
+    <div style="text-align:center;padding:14px 0 18px">
+      <div style="font-size:42px;margin-bottom:8px">${evt.em}</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:19px;font-weight:900;color:var(--w)">${evt.title}</div>
+      <div style="font-size:12px;color:var(--w5);margin-top:4px">📍 ${evt.loc} · ${evt.date}</div>
+      <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(0,212,160,.1);border:1px solid rgba(0,212,160,.25);border-radius:999px;padding:5px 14px;margin-top:10px;font-size:12px;font-weight:700;color:var(--teal)">✅ Completado · 👥 ${evt.stats}</div>
+    </div>
+    <div style="font-size:13px;color:var(--w8);line-height:1.65;padding:0 4px;margin-bottom:18px">${evt.desc}</div>
+    <div style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:800;color:var(--w);margin-bottom:10px">📸 Fotos del evento</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      ${evt.fotos.map(src=>`<div style="aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:var(--s2);border:1px solid var(--b1)"><img src="${src}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'"></div>`).join('')}
+    </div>`;
+  openModal('past-evt-modal');
+}
+
+function openReportDetail(idx){
+  const reports=[
+    {title:'Acumulación de residuos en Av. Central',status:'Abierto',statusCol:'#FF6B7F',votos:22,desc:'Reporte de acumulación de basura sin recolección hace más de 3 días. Afecta a unas 40 familias del sector.',loc:'Av. Central · Cono Sur',fecha:'21 MAY',pasos:[{ic:'🗳️',txt:'22 votos ciudadanos',done:true},{ic:'📩',txt:'Envío automático a Municipalidad (faltan 3 votos)',done:false},{ic:'🏛️',txt:'Revisión municipal pendiente',done:false},{ic:'✅',txt:'Resolución del problema',done:false}]},
+    {title:'Reparación de luminarias en Jr. Los Pinos',status:'Resuelto',statusCol:'#00D4A0',votos:34,desc:'Las luminarias del jirón llevaban 2 semanas sin funcionar. La municipalidad respondió al tercer día de escalado.',loc:'Jr. Los Pinos · SJM',fecha:'9 MAY',pasos:[{ic:'🗳️',txt:'34 votos ciudadanos',done:true},{ic:'📩',txt:'Enviado a Municipalidad',done:true},{ic:'🏛️',txt:'Cuadrilla municipal atendió',done:true},{ic:'✅',txt:'Luminarias reparadas',done:true}]},
+    {title:'Drenaje obstruido en Pasaje 5',status:'En proceso',statusCol:'#5BB8FF',votos:18,desc:'El drenaje del pasaje 5 lleva obstruido 8 días causando charcos e insalubridad. La municipalidad ya registró el caso.',loc:'Pasaje 5 · Pamplona Alta',fecha:'16 MAY',pasos:[{ic:'🗳️',txt:'18 votos ciudadanos',done:true},{ic:'📩',txt:'Enviado a Municipalidad',done:true},{ic:'🏛️',txt:'Técnicos programados para esta semana',done:false},{ic:'✅',txt:'Drenaje despejado',done:false}]},
+  ];
+  const rep=reports[idx]; if(!rep) return;
+  const body=document.getElementById('reportDetailBody');
+  body.innerHTML=`
+    <div style="padding-bottom:4px">
+      <div style="display:inline-block;padding:5px 12px;border-radius:8px;background:${rep.statusCol};color:#fff;font-size:11px;font-weight:800;text-transform:uppercase;margin-bottom:12px">${rep.status}</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:900;color:var(--w);margin-bottom:6px">${rep.title}</div>
+      <div style="font-size:12px;color:var(--w5);margin-bottom:14px">📍 ${rep.loc} · 📅 ${rep.fecha}</div>
+      <div style="font-size:13px;color:var(--w8);line-height:1.65;margin-bottom:18px">${rep.desc}</div>
+      <div style="display:flex;align-items:center;gap:8px;background:rgba(0,212,160,.08);border:1px solid rgba(0,212,160,.2);border-radius:12px;padding:12px 14px;margin-bottom:18px">
+        <span style="font-size:20px">🗳️</span>
+        <div><div style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:900;color:var(--teal)">${rep.votos} votos</div><div style="font-size:11px;color:var(--w5)">Se necesitan 25 para escalar a la Municipalidad</div></div>
+      </div>
+      <div style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:800;color:var(--w);margin-bottom:12px">Seguimiento del reporte</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+        ${rep.pasos.map(p=>`<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:${p.done?'rgba(0,212,160,.08)':'rgba(255,255,255,.04)'};border-radius:10px;border:1px solid ${p.done?'rgba(0,212,160,.2)':'var(--b0)'}">
+          <span style="font-size:18px;min-width:24px">${p.ic}</span>
+          <span style="font-size:13px;color:${p.done?'var(--teal)':'var(--w5)'};">${p.txt}</span>
+          ${p.done?'<span style="margin-left:auto;font-size:14px">✅</span>':''}
+        </div>`).join('')}
+      </div>
+      ${rep.status==='Abierto'?`<button onclick="toast('🗳️ Voto registrado — ¡gracias!');closeModal('report-detail-modal')" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#0A1520;border:none;border-radius:13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 4px 18px rgba(0,212,160,.4)">🗳️ Votar por este reporte</button>`:''}
+    </div>`;
+  openModal('report-detail-modal');
 }
 
 /* ════ PERFIL TABS ════ */
