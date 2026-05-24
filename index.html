@@ -201,9 +201,29 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 
 /* ════════════ 3 — MAPA ════════════ */
 #s-mapa{position:relative}
-.map-hd{background:linear-gradient(180deg,rgba(10,14,39,.97) 0%,rgba(10,14,39,.88) 100%);padding:14px 20px 12px;flex-shrink:0;box-shadow:0 2px 20px rgba(0,0,0,.5);position:absolute;top:0;left:0;right:0;z-index:1000;border-radius:0 0 16px 16px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.08)}
-.map-ttl{font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:var(--w);display:flex;align-items:center;justify-content:space-between;letter-spacing:-.4px}
-.map-ttl-sub{font-size:11px;font-weight:500;color:rgba(255,255,255,.5);letter-spacing:.2px;margin-top:2px}
+.map-hd{background:linear-gradient(180deg,rgba(8,11,30,.98) 0%,rgba(8,11,30,.85) 100%);padding:14px 16px 14px;flex-shrink:0;position:absolute;top:0;left:0;right:0;z-index:1000;border-radius:0 0 20px 20px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.07)}
+.map-hd-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.map-ttl{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;color:var(--w);letter-spacing:-.4px;display:flex;align-items:center;gap:8px}
+.map-ttl-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal);animation:mapDotPulse 2s ease-in-out infinite}
+@keyframes mapDotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+.map-ttl-sub{font-size:11px;font-weight:500;color:rgba(255,255,255,.45);margin-top:1px}
+.map-hd-actions{display:flex;gap:8px}
+.map-act-btn{width:36px;height:36px;background:rgba(255,255,255,.08);border-radius:11px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:all .2s;flex-shrink:0}
+.map-act-btn:active{transform:scale(.88)}
+.map-act-btn svg{stroke:rgba(255,255,255,.65);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.map-act-btn.loc-btn{border-color:rgba(0,212,160,.3)}
+.map-act-btn.loc-btn svg{stroke:var(--teal)}
+.map-act-btn.loc-btn.locating{background:rgba(0,212,160,.15);animation:locPulse .8s ease-in-out infinite alternate}
+@keyframes locPulse{from{box-shadow:0 0 0 0 rgba(0,212,160,.4)}to{box-shadow:0 0 0 6px rgba(0,212,160,0)}}
+/* stats bar */
+.map-stats{display:flex;gap:6px}
+.map-stat{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:7px 10px;display:flex;align-items:center;gap:6px}
+.map-stat-ic{font-size:14px}
+.map-stat-body{}
+.map-stat-n{font-family:'Outfit',sans-serif;font-size:13px;font-weight:800;color:var(--w);line-height:1}
+.map-stat-l{font-size:9px;color:rgba(255,255,255,.4);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+/* location dot on map */
+.map-loc-dot{width:16px;height:16px;border-radius:50%;background:var(--blue);border:3px solid #fff;box-shadow:0 0 0 4px rgba(91,184,255,.3),0 2px 8px rgba(0,0,0,.5)}
 .map-filt{width:38px;height:38px;background:rgba(255,255,255,.08);border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:all .2s}
 .map-filt:active{background:var(--teal);transform:scale(.9)}
 .map-filt svg{stroke:rgba(255,255,255,.7);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
@@ -464,7 +484,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .h-time{font-size:11px;color:rgba(255,255,255,.5);margin-top:3px}
 
 /* ════════════ MODALS ════════════ */
-.overlay{position:absolute;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:800;display:none;align-items:flex-end;-webkit-user-select:none;user-select:none}
+.overlay{position:absolute;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:1200;display:none;align-items:flex-end;-webkit-user-select:none;user-select:none}
 .overlay.open{display:flex}
 .sheet{width:100%;max-height:92%;background:var(--s1);border-radius:28px 28px 0 0;overflow:hidden;display:flex;flex-direction:column;border-top:1px solid var(--b1);animation:slideUp .32s cubic-bezier(.4,0,.2,1)}
 .sheet.tall{max-height:97%}
@@ -746,18 +766,56 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 
 <!-- ═══════ MAPA ═══════ -->
 <div class="screen" id="s-mapa">
-  <!-- header FUERA de #leafmap para no quedar bajo los tiles de Leaflet -->
+  <!-- header FUERA de #leafmap -->
   <div class="map-hd">
-    <div class="map-ttl">
+    <div class="map-hd-row">
       <div>
-        <div>Mapa Interactivo</div>
-        <div class="map-ttl-sub">Lima Sur · comunidades activas</div>
+        <div class="map-ttl">
+          <div class="map-ttl-dot"></div>
+          Mapa Interactivo
+        </div>
+        <div class="map-ttl-sub">Lima Sur · comunidades y reportes activos</div>
       </div>
-      <div class="map-filt"><svg width="16" height="16" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></div>
+      <div class="map-hd-actions">
+        <!-- Botón ubicación actual -->
+        <div class="map-act-btn loc-btn" id="mapLocBtn" onclick="goToMyLocation()" title="Mi ubicación">
+          <svg width="17" height="17" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8" stroke-dasharray="2 2"/></svg>
+        </div>
+        <!-- Botón ver todos -->
+        <div class="map-act-btn" onclick="fitAllMarkers()" title="Ver todos">
+          <svg width="17" height="17" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </div>
+      </div>
+    </div>
+    <!-- Stats rápidas -->
+    <div class="map-stats">
+      <div class="map-stat">
+        <span class="map-stat-ic">🏘️</span>
+        <div class="map-stat-body">
+          <div class="map-stat-n">8</div>
+          <div class="map-stat-l">Comunidades</div>
+        </div>
+      </div>
+      <div class="map-stat">
+        <span class="map-stat-ic">⚡</span>
+        <div class="map-stat-body">
+          <div class="map-stat-n">4</div>
+          <div class="map-stat-l">Activas hoy</div>
+        </div>
+      </div>
+      <div class="map-stat">
+        <span class="map-stat-ic">⚠️</span>
+        <div class="map-stat-body">
+          <div class="map-stat-n">3</div>
+          <div class="map-stat-l">Reportes</div>
+        </div>
+      </div>
     </div>
   </div>
+
   <div id="leafmap"></div>
-  <!-- filtros estilo nav — sin el amarillo -->
+
+  <!-- filtros estilo nav -->
   <div class="map-fn-bar">
     <div class="map-fn on" data-f="all" onclick="filterMapFn('all',this)">
       <div class="map-fn-ic">
@@ -1449,8 +1507,6 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
   <div class="cert-viewer-bar">
     <div class="cert-viewer-title" id="certViewerTitle">Certificado</div>
     <div class="cert-viewer-actions">
-      <div class="cert-viewer-btn" onclick="certZoom(-1)" title="Alejar">−</div>
-      <div class="cert-viewer-btn" onclick="certZoom(1)" title="Acercar">+</div>
       <button class="cert-viewer-dl" id="certViewerDlBtn" onclick="certDownload()">📥 Descargar</button>
       <div class="cert-viewer-btn" onclick="closeCertViewer()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -1461,11 +1517,6 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
     <div class="cert-viewer-paper" id="certViewerPaper">
       <img id="certViewerImg" src="" alt="Certificado">
     </div>
-  </div>
-  <div class="cert-viewer-zoom">
-    <div class="cert-viewer-btn" onclick="certZoom(-1)">−</div>
-    <span class="cert-zoom-lbl" id="certZoomLbl">100%</span>
-    <div class="cert-viewer-btn" onclick="certZoom(1)">+</div>
   </div>
 </div>
 
@@ -2480,12 +2531,18 @@ function ccFlw(id){
 /* ════ MAP ════ */
 let leafMap=null, mapInited=false, mapMarkers=[];
 
+let userLocMarker=null;
+
 function initLeafMap(){
   if(mapInited){leafMap.invalidateSize();return}
   mapInited=true;
   leafMap=L.map('leafmap',{zoomControl:false,attributionControl:false}).setView([-12.165,-76.955],11);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19}).addTo(leafMap);
-  L.control.zoom({position:'topright'}).addTo(leafMap);
+  // Pane fuera de leaflet-map-pane para que el popup aparezca sobre la barra de filtros
+  leafMap.createPane('topPopup');
+  leafMap.getPane('topPopup').style.zIndex=2000;
+  // padding para que el header no tape los markers
+  leafMap.setPadding && leafMap.setPadding([0,0,0,0]);
   COMMS.forEach(c=>{
     const col=TCOL[c.type]||'#00D4A0';
     const ico=L.divIcon({className:'',
@@ -2495,7 +2552,7 @@ function initLeafMap(){
     const evtsList=c.evts.length
       ? c.evts.map((e,i)=>`<div style="padding:8px;background:rgba(255,255,255,.05);border-radius:6px;margin:4px 0;cursor:pointer;border-left:3px solid ${col};transition:all .2s" onclick="openEvent(${c.id},${i});document.querySelector('.leaflet-popup-close-button')?.click()" onmouseover="this.style.background='rgba(255,255,255,.1)'" onmouseout="this.style.background='rgba(255,255,255,.05)'"><div style="font-size:12px;font-weight:600;color:${col}">${e.t}</div><div style="font-size:11px;color:#aaa">${e.d} ${e.m} · ${e.ds}</div></div>`).join('')
       : '<div style="font-size:12px;color:#888;padding:8px">Sin eventos próximos</div>';
-    m.bindPopup(`<div style="max-width:220px;font-size:12px"><div class="pop-type" style="color:${col};font-weight:600;margin-bottom:6px">${c.act}</div><div class="pop-nm" style="font-size:13px;font-weight:600;margin-bottom:4px;color:white">${c.name}</div><div class="pop-ds" style="font-size:11px;color:#aaa;margin-bottom:10px">${c.desc}</div><div style="font-size:11px;font-weight:600;color:${col};margin-bottom:6px">📅 Eventos:</div>${evtsList}</div>`);
+    m.bindPopup(`<div style="max-width:220px;font-size:12px"><div class="pop-type" style="color:${col};font-weight:600;margin-bottom:6px">${c.act}</div><div class="pop-nm" style="font-size:13px;font-weight:600;margin-bottom:4px;color:white">${c.name}</div><div class="pop-ds" style="font-size:11px;color:#aaa;margin-bottom:10px">${c.desc}</div><div style="font-size:11px;font-weight:600;color:${col};margin-bottom:6px">📅 Eventos:</div>${evtsList}</div>`,{pane:'topPopup'});
     m._type=c.type; m._commId=c.id; mapMarkers.push(m);
   });
   // Report markers
@@ -2521,7 +2578,7 @@ function initLeafMap(){
         <span style="font-size:11px;color:#aaa">🗳️ ${r.votos} votos</span>
         <div onclick="document.querySelector('.leaflet-popup-close-button')?.click();setTimeout(()=>openReportDetail(${r.id}),200)" style="background:${col};color:#fff;font-size:11px;font-weight:700;padding:5px 12px;border-radius:8px;cursor:pointer">Ver reporte →</div>
       </div>
-    </div>`);
+    </div>`,{pane:'topPopup'});
     m._type='report'; m._repId=r.id; mapMarkers.push(m);
   });
 }
@@ -2537,6 +2594,41 @@ function filterMapFn(f,el){
 }
 function filterMap(f,el){
   filterMapFn(f,el);
+}
+
+function goToMyLocation(){
+  if(!leafMap){toast('⚠️ Abre el mapa primero');return}
+  const btn=document.getElementById('mapLocBtn');
+  btn.classList.add('locating');
+  if(!navigator.geolocation){toast('📍 Geolocalización no disponible');btn.classList.remove('locating');return}
+  navigator.geolocation.getCurrentPosition(pos=>{
+    btn.classList.remove('locating');
+    const lat=pos.coords.latitude, lng=pos.coords.longitude;
+    // quitar marcador anterior
+    if(userLocMarker) leafMap.removeLayer(userLocMarker);
+    // marcador pulsante de ubicación
+    const locIco=L.divIcon({className:'',
+      html:`<div style="position:relative">
+        <div style="width:18px;height:18px;background:#5BB8FF;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 4px rgba(91,184,255,.35),0 2px 10px rgba(0,0,0,.5)"></div>
+        <div style="position:absolute;inset:-6px;border-radius:50%;background:rgba(91,184,255,.2);animation:locRipple 1.8s ease-out infinite"></div>
+      </div>`,
+      iconSize:[18,18],iconAnchor:[9,9]});
+    userLocMarker=L.marker([lat,lng],{icon:locIco,zIndexOffset:2000}).addTo(leafMap);
+    userLocMarker.bindPopup(`<div style="font-size:13px;font-weight:700;color:#fff;text-align:center">📍 Tu ubicación actual<br><span style="font-size:11px;color:#aaa;font-weight:400">${lat.toFixed(4)}, ${lng.toFixed(4)}</span></div>`);
+    leafMap.flyTo([lat,lng],14,{duration:1.4});
+    toast('📍 Ubicación encontrada');
+  },err=>{
+    btn.classList.remove('locating');
+    toast('📍 No se pudo obtener tu ubicación');
+  },{enableHighAccuracy:true,timeout:8000});
+}
+
+function fitAllMarkers(){
+  if(!leafMap||!mapMarkers.length) return;
+  const visible=mapMarkers.filter(m=>leafMap.hasLayer(m));
+  if(!visible.length){toast('No hay marcadores visibles');return}
+  const group=L.featureGroup(visible);
+  leafMap.flyToBounds(group.getBounds().pad(.18),{duration:1.2});
 }
 
 function filterMapByComm(commId){
