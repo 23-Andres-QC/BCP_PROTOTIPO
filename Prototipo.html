@@ -1284,7 +1284,10 @@ function initLeafMap(){
       html:`<div style="width:50px;height:50px;background:${col};border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #111120;box-shadow:0 4px 20px ${col}99,0 0 0 2px ${col}33;display:flex;align-items:center;justify-content:center"><span style="transform:rotate(45deg);font-size:20px">${c.em}</span></div>`,
       iconSize:[50,50],iconAnchor:[25,50]});
     const m=L.marker([c.lat,c.lng],{icon:ico}).addTo(leafMap);
-    m.bindPopup(`<div><div class="pop-type" style="color:${col}">${c.act}</div><div class="pop-nm">${c.name}</div><div class="pop-ds">${c.desc}</div><button class="pop-btn" onclick="openCM(${c.id});document.querySelector('.leaflet-popup-close-button')?.click()">Ver comunidad →</button></div>`);
+    const evtsList=c.evts.length
+      ? c.evts.map((e,i)=>`<div style="padding:8px;background:rgba(255,255,255,.05);border-radius:6px;margin:4px 0;cursor:pointer;border-left:3px solid ${col};transition:all .2s" onclick="openEvent(${c.id},${i});document.querySelector('.leaflet-popup-close-button')?.click()" onmouseover="this.style.background='rgba(255,255,255,.1)'" onmouseout="this.style.background='rgba(255,255,255,.05)'"><div style="font-size:12px;font-weight:600;color:${col}">${e.t}</div><div style="font-size:11px;color:#aaa">${e.d} ${e.m} · ${e.ds}</div></div>`).join('')
+      : '<div style="font-size:12px;color:#888;padding:8px">Sin eventos próximos</div>';
+    m.bindPopup(`<div style="max-width:220px;font-size:12px"><div class="pop-type" style="color:${col};font-weight:600;margin-bottom:6px">${c.act}</div><div class="pop-nm" style="font-size:13px;font-weight:600;margin-bottom:4px;color:white">${c.name}</div><div class="pop-ds" style="font-size:11px;color:#aaa;margin-bottom:10px">${c.desc}</div><div style="font-size:11px;font-weight:600;color:${col};margin-bottom:6px">📅 Eventos:</div>${evtsList}</div>`);
     m._type=c.type; mapMarkers.push(m);
   });
 }
