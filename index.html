@@ -60,16 +60,10 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 }
 
 /* ════════════ STATUS BAR ════════════ */
-.sb{
-  height:var(--sb);display:flex;align-items:center;justify-content:space-between;
-  padding:0 22px;padding-top:env(safe-area-inset-top,0);
-  font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;
-  position:relative;z-index:300;background:var(--bg);border-bottom:1px solid var(--b0)
-}
-.sb-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:118px;height:34px;background:#000;border-radius:0 0 20px 20px;z-index:301}
+.sb{display:none}
 
 /* ════════════ SCREENS ════════════ */
-.screens{position:absolute;top:var(--sb);left:0;right:0;bottom:var(--nav);overflow:hidden}
+.screens{position:absolute;top:0;left:0;right:0;bottom:var(--nav);overflow:hidden}
 .screen{display:none;position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;background:var(--bg);-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .screen::-webkit-scrollbar{display:none}
 .screen.on{display:block}
