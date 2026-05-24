@@ -154,12 +154,12 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 .mc-list{padding:16px 16px 24px;display:flex;flex-direction:column;gap:14px}
 .cc{border-radius:20px;overflow:hidden;background:var(--s1);border:1px solid var(--b0);cursor:pointer;transition:transform .22s,box-shadow .22s;box-shadow:0 4px 24px rgba(0,0,0,.5)}
 .cc:active{transform:scale(.975);box-shadow:0 2px 10px rgba(0,0,0,.7)}
-.cc-img{height:155px;position:relative;overflow:hidden}
+.cc-img{height:155px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .cc-img img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
 .cc:active .cc-img img{transform:scale(1.04)}
-.cc-img-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.05) 55%,transparent 100%)}
-.cc-em{position:absolute;bottom:12px;left:14px;font-size:28px;filter:drop-shadow(0 2px 5px rgba(0,0,0,.7))}
-.cc-type-badge{position:absolute;top:11px;right:11px;padding:4px 10px;border-radius:999px;font-size:10px;font-weight:800;color:#000;letter-spacing:.3px;text-transform:uppercase}
+.cc-img-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.05) 55%,transparent 100%);z-index:1}
+.cc-em{position:absolute;bottom:12px;left:14px;font-size:28px;filter:drop-shadow(0 2px 5px rgba(0,0,0,.7));z-index:2}
+.cc-type-badge{position:absolute;top:11px;right:11px;padding:4px 10px;border-radius:999px;font-size:10px;font-weight:800;color:#000;letter-spacing:.3px;text-transform:uppercase;z-index:3}
 .cc-body{padding:14px}
 .cc-nm{font-family:'Outfit',sans-serif;font-size:17px;font-weight:900;color:var(--w);letter-spacing:-.2px;margin-bottom:3px}
 .cc-dist{font-size:12px;color:var(--w5);margin-bottom:12px}
@@ -265,7 +265,8 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .p-act svg{stroke:var(--w8);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
 .p-act:active svg{stroke:#000}
 .perf-av-wrap{position:absolute;bottom:-50px;left:20px;z-index:5}
-.perf-av{width:100px;height:100px;border-radius:28px;border:4px solid var(--teal);background:var(--s2);overflow:hidden;cursor:pointer;position:relative;box-shadow:0 0 0 8px rgba(0,212,160,.12),0 12px 40px rgba(0,0,0,.7);transition:transform .2s}
+.perf-av{width:100px;height:100px;border-radius:28px;border:4px solid var(--teal);background:var(--s2);overflow:hidden;cursor:pointer;position:relative;box-shadow:0 0 0 8px rgba(0,212,160,.12),0 12px 40px rgba(0,0,0,.7);transition:transform .2s;display:flex;align-items:center;justify-content:center}
+.perf-av img{width:100%;height:100%;object-fit:cover}
 .perf-av:active{transform:scale(.95)}
 .perf-av img{width:100%;height:100%;object-fit:cover}
 .perf-av-ed{position:absolute;bottom:0;right:0;width:28px;height:28px;background:var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;border:3px solid var(--bg);box-shadow:0 2px 8px rgba(0,212,160,.4)}
@@ -307,12 +308,13 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .sh-body{overflow-y:auto;flex:1;padding:16px 20px 32px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .sh-body::-webkit-scrollbar{display:none}
 /* CM modal */
-.cm-cover{height:145px;border-radius:16px;overflow:hidden;margin-bottom:18px;position:relative}
+.cm-cover{height:145px;border-radius:16px;overflow:hidden;margin-bottom:18px;position:relative;display:flex;align-items:center;justify-content:center}
 .cm-cover img{width:100%;height:100%;object-fit:cover}
 .cm-cov-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75),transparent 55%)}
 .cm-cov-em{position:absolute;bottom:14px;left:14px;font-size:32px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.7))}
 .cm-hd{display:flex;gap:14px;align-items:center;margin-bottom:16px}
-.cm-av{width:56px;height:56px;border-radius:16px;overflow:hidden;flex-shrink:0;border:1px solid var(--b2)}
+.cm-av{width:56px;height:56px;border-radius:16px;overflow:hidden;flex-shrink:0;border:1px solid var(--b2);display:flex;align-items:center;justify-content:center}
+.cm-av img, .cm-cover img{width:100%;height:100%;object-fit:cover}
 .cm-av img{width:100%;height:100%;object-fit:cover}
 .cm-nm{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;color:var(--w);letter-spacing:-.3px}
 .cm-dist{font-size:13px;color:var(--w5)}
@@ -335,7 +337,8 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .evt-ds{font-size:12px;color:var(--w5);margin-top:3px}
 /* CV modal */
 .cv-hd{text-align:center;padding:8px 0 18px}
-.cv-av{width:84px;height:84px;border-radius:22px;background:var(--s2);margin:0 auto 14px;overflow:hidden;border:3px solid rgba(0,212,160,.35);box-shadow:0 0 0 6px rgba(0,212,160,.08)}
+.cv-av{width:84px;height:84px;border-radius:22px;background:var(--s2);margin:0 auto 14px;overflow:hidden;border:3px solid rgba(0,212,160,.35);box-shadow:0 0 0 6px rgba(0,212,160,.08);display:flex;align-items:center;justify-content:center}
+.cv-av img{width:100%;height:100%;object-fit:cover}
 .cv-av img{width:100%;height:100%;object-fit:cover}
 .cv-nm{font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:var(--w);margin-bottom:4px}
 .cv-inst{font-size:13px;color:var(--w5);margin-bottom:12px}
@@ -354,6 +357,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .cv-skill{padding:7px 14px;background:var(--tg);border:1px solid rgba(0,212,160,.2);border-radius:999px;font-size:12px;font-weight:700;color:var(--teal)}
 .cv-pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:18px}
 .cv-ph{aspect-ratio:1;background:var(--s2);border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid var(--b0)}
+.cv-ph img{width:100%;height:100%;object-fit:cover}
 .cv-ph img{width:100%;height:100%;object-fit:cover}
 .cv-print{width:100%;padding:15px;background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;border:none;border-radius:13px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
 /* Toast */
@@ -594,6 +598,17 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 </div>
 </div>
 
+<!-- ═══════ DETALLE COMUNIDAD (full-page) ═══════ -->
+<div class="screen" id="s-com-detail" style="overflow-y:auto">
+  <div style="padding-top:0;position:relative">
+    <div style="position:sticky;top:0;z-index:100;background:rgba(10,14,39,.95);backdrop-filter:blur(12px);padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--b0)">
+      <button onclick="goBackFromComDetail()" style="width:38px;height:38px;background:rgba(255,255,255,.1);border:1px solid var(--b1);border-radius:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--w);font-size:18px;font-weight:700;padding:0">←</button>
+      <div style="flex:1;font-family:'Outfit',sans-serif;font-size:16px;font-weight:800;color:var(--w)" id="comDetailTitle">Comunidad</div>
+    </div>
+    <div id="comDetailBody" style="padding-bottom:24px"></div>
+  </div>
+</div>
+
 <!-- ═══════ PERFIL ═══════ -->
 <div class="screen" id="s-perfil">
   <div class="perf-hero">
@@ -605,8 +620,8 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
       <div class="p-act" onclick="openModal('perf-config')"><svg width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></div>
     </div>
     <div class="perf-av-wrap">
-      <div class="perf-av" onclick="document.getElementById('avInp').click()">
-        <img id="avImg" src="perfil.png" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2784%27 height=%2784%27%3E%3Crect width=%2784%27 height=%2784%27 fill=%27%23005ccc%27/%3E%3Ccircle cx=%2742%27 cy=%2730%27 r=%2717%27 fill=%27%2300D4A0%27/%3E%3Cellipse cx=%2742%27 cy=%2768%27 rx=%2727%27 ry=%2718%27 fill=%27%2300D4A0%27/%3E%3C/svg%3E'">
+      <div class="perf-av" onclick="document.getElementById('avInp').click()" style="background:linear-gradient(135deg,#1a3a5c,#0d1a35);display:flex;align-items:center;justify-content:center">
+        <img id="avImg" src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27100%27 height=%27100%27%3E%3Ccircle cx=%2750%27 cy=%2735%27 r=%2722%27 fill=%27%2300D4A0%27/%3E%3Cellipse cx=%2750%27 cy=%2775%27 rx=%2732%27 ry=%2723%27 fill=%27%2300D4A0%27/%3E%3C/svg%3E" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover">
         <div class="perf-av-ed">✏️</div>
       </div>
     </div>
@@ -614,8 +629,8 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
   <input type="file" id="avInp" accept="image/*" style="display:none" onchange="avUp(this)">
   <div class="perf-info">
     <div style="user-select:all">
-      <div class="perf-nm">Camila Quispe</div>
-      <div class="perf-meta" style="user-select:all"><span>@camilaquispe</span><span>•</span><span>🎓 ESAN</span><span>📍 Surco, Lima</span></div>
+      <div class="perf-nm">Andrés Quiliche</div>
+      <div class="perf-meta" style="user-select:all"><span>@andresqc</span><span>•</span><span>🎓 Universidad Nacional</span><span>📍 Lima, Perú</span></div>
     </div>
     <div class="perf-stats" style="user-select:all">
       <div class="pst"><div class="pst-v">24</div><div class="pst-l">Horas</div></div>
@@ -636,8 +651,8 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
   
   <!-- Feed de Videos estilo TikTok -->
   <div id="perf-vid-feed" class="perf-vid-feed">
-    <div class="pv-story-card" onclick="openVidModal('video01.mp4')">
-      <video src="video01.mp4" muted loop playsinline preload="metadata" onloadeddata="this.play().catch(()=>{})"></video>
+    <div class="pv-story-card" onclick="openVidModal('video01.mp4')" style="background:linear-gradient(135deg,#FF6B7F,#FF6B9D)">
+      <video src="video01.mp4" muted loop playsinline preload="none" onerror="this.parentNode.style.backgroundImage='linear-gradient(135deg,#FF6B7F,#FF6B9D)';this.style.display='none'" onloadeddata="this.play().catch(()=>{})"></video>
       <div class="pv-story-overlay">
         <div class="pv-register-btn" title="Registrarse para participar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 19v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="12" y1="14" x2="12" y2="20"/></svg> Registrarse</div>
         <div class="pv-story-info">
@@ -647,8 +662,8 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
         </div>
       </div>
     </div>
-    <div class="pv-story-card" onclick="openVidModal('video02.mp4')">
-      <video src="video02.mp4" muted loop playsinline preload="metadata" onloadeddata="this.play().catch(()=>{})"></video>
+    <div class="pv-story-card" onclick="openVidModal('video02.mp4')" style="background:linear-gradient(135deg,#5BB8FF,#00D4A0)">
+      <video src="video02.mp4" muted loop playsinline preload="none" onerror="this.parentNode.style.backgroundImage='linear-gradient(135deg,#5BB8FF,#00D4A0)';this.style.display='none'" onloadeddata="this.play().catch(()=>{})"></video>
       <div class="pv-story-overlay">
         <div class="pv-register-btn" title="Registrarse para participar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 19v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="12" y1="14" x2="12" y2="20"/></svg> Registrarse</div>
         <div class="pv-story-info">
@@ -658,8 +673,8 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
         </div>
       </div>
     </div>
-    <div class="pv-story-card" onclick="openVidModal('video03.mp4')">
-      <video src="video03.mp4" muted loop playsinline preload="metadata" onloadeddata="this.play().catch(()=>{})"></video>
+    <div class="pv-story-card" onclick="openVidModal('video03.mp4')" style="background:linear-gradient(135deg,#FFD60A,#FFB030)">
+      <video src="video03.mp4" muted loop playsinline preload="none" onerror="this.parentNode.style.backgroundImage='linear-gradient(135deg,#FFD60A,#FFB030)';this.style.display='none'" onloadeddata="this.play().catch(()=>{})"></video>
       <div class="pv-story-overlay">
         <div class="pv-register-btn" title="Registrarse para participar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 19v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="12" y1="14" x2="12" y2="20"/></svg> Registrarse</div>
         <div class="pv-story-info">
@@ -761,9 +776,9 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
   <div class="sheet tall"><div class="sh-handle"></div>
   <div class="sh-body">
     <div class="cv-hd">
-      <div class="cv-av"><img id="cvAvImg" src="perfil.png" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2784%27 height=%2784%27%3E%3Crect width=%2784%27 height=%2784%27 fill=%27%23001f18%27/%3E%3Ccircle cx=%2742%27 cy=%2730%27 r=%2717%27 fill=%27%2300D4A0%27/%3E%3Cellipse cx=%2742%27 cy=%2768%27 rx=%2727%27 ry=%2718%27 fill=%27%2300D4A0%27/%3E%3C/svg%3E'"></div>
-      <div class="cv-nm">Camila Quispe</div>
-      <div class="cv-inst">🎓 ESAN · 📍 Surco, Lima</div>
+      <div class="cv-av" style="background:linear-gradient(135deg,#1a3a5c,#0d1a35);display:flex;align-items:center;justify-content:center"><img id="cvAvImg" src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27100%27 height=%27100%27%3E%3Ccircle cx=%2750%27 cy=%2735%27 r=%2722%27 fill=%27%2300D4A0%27/%3E%3Cellipse cx=%2750%27 cy=%2775%27 rx=%2732%27 ry=%2723%27 fill=%27%2300D4A0%27/%3E%3C/svg%3E" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover"></div>
+      <div class="cv-nm">Andrés Quiliche</div>
+      <div class="cv-inst">🎓 Universidad Nacional · 📍 Lima, Perú</div>
       <div class="cv-badge">✅ Verificado por Municipalidad de Lima</div>
     </div>
     <div class="cv-stats">
@@ -772,9 +787,9 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
       <div class="cv-st"><div class="cv-sv">450</div><div class="cv-sl">XP</div></div>
     </div>
     <div class="cv-sec">Experiencia Comunitaria</div>
-    <div class="cv-exp"><div class="cv-dot"></div><div><div class="cv-et">Coordinadora de Voluntariado</div><div class="cv-eo">Unidos por Surco · Surco</div><div class="cv-ed">Ene 2025 – Presente</div></div></div>
-    <div class="cv-exp"><div class="cv-dot"></div><div><div class="cv-et">Fiscalizadora Vecinal</div><div class="cv-eo">Municipalidad de Surco</div><div class="cv-ed">Mar 2024 – Dic 2024</div></div></div>
-    <div class="cv-exp"><div class="cv-dot"></div><div><div class="cv-et">Promotora de Olla Común</div><div class="cv-eo">Mujeres VES · VES</div><div class="cv-ed">Jun 2023 – Feb 2024</div></div></div>
+    <div class="cv-exp"><div class="cv-dot"></div><div><div class="cv-et">Coordinador de Proyectos Comunitarios</div><div class="cv-eo">BarrioActivo · Lima</div><div class="cv-ed">Mar 2025 – Presente</div></div></div>
+    <div class="cv-exp"><div class="cv-dot"></div><div><div class="cv-et">Desarrollador de Iniciativas Sociales</div><div class="cv-eo">Red Comunitaria Nacional</div><div class="cv-ed">Ago 2024 – Feb 2025</div></div></div>
+    <div class="cv-exp"><div class="cv-dot"></div><div><div class="cv-et">Facilitador de Cambio Comunitario</div><div class="cv-eo">Asociación Civil Barrio Fuerte</div><div class="cv-ed">Ene 2023 – Jul 2024</div></div></div>
     <div class="cv-sec">Habilidades</div>
     <div class="cv-skills"><span class="cv-skill">Liderazgo vecinal</span><span class="cv-skill">Gestión de proyectos</span><span class="cv-skill">Comunicación</span><span class="cv-skill">Auditoría social</span><span class="cv-skill">Recaudación</span></div>
     <div class="cv-sec">Fotos participativas</div>
@@ -1194,8 +1209,8 @@ function renderMC(){
     const fw=flSt[c.id];
     const nxt=c.evts[0];
     return `<div class="cc" onclick="openCM(${c.id})">
-      <div class="cc-img">
-        <img src="${c.img}" alt="${c.name}" loading="lazy" onerror="this.parentNode.style.background='${c.col}22';this.remove()">
+      <div class="cc-img" style="background:${c.col}22;display:flex;align-items:center;justify-content:center">
+        <img src="${c.img}" alt="${c.name}" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover">
         <div class="cc-img-grad"></div>
         <div class="cc-em">${c.em}</div>
         <div class="cc-type-badge" style="background:${TCOL[c.type]}">${TLBL[c.type]}</div>
@@ -1320,7 +1335,7 @@ function renderPhotos(){
   g.innerHTML='';
   photos.forEach(src=>{
     const d=document.createElement('div'); d.className='ph-cell';
-    d.innerHTML=`<img src="${src}">`;
+    d.innerHTML=`<img src="${src}" onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,var(--s2),var(--s1))';this.parentNode.innerHTML+='<div style=\"font-size:24px;color:var(--w3)\">📷</div>'" style="width:100%;height:100%;object-fit:cover">`;
     g.appendChild(d);
   });
   const add=document.createElement('div'); add.className='ph-cell ph-add-cell';
@@ -1330,14 +1345,16 @@ function renderPhotos(){
   // CV grid
   cv.innerHTML='';
   const shown=photos.slice(0,6);
-  shown.forEach(src=>{const d=document.createElement('div');d.className='cv-ph';d.innerHTML=`<img src="${src}">`;cv.appendChild(d)});
+  shown.forEach(src=>{const d=document.createElement('div');d.className='cv-ph';d.innerHTML=`<img src="${src}" onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,var(--s2),var(--s1))';this.parentNode.innerHTML+='<div style=\\\"font-size:16px;color:var(--w3)\\\">📷</div>'" style="width:100%;height:100%;object-fit:cover">`;cv.appendChild(d)});
   ['📸','🌱','🏘️'].slice(Math.min(shown.length,3)).forEach(e=>{const d=document.createElement('div');d.className='cv-ph';d.textContent=e;cv.appendChild(d)});
   if(cv.children.length===0) cv.innerHTML='<div class="cv-ph">📸</div><div class="cv-ph">🌱</div><div class="cv-ph">🏘️</div>';
 }
 
-/* ════ COMMUNITY MODAL ════ */
+/* ════ COMMUNITY DETAIL (full-screen) ════ */
+let currentCommId=null;
 function openCM(id){
   const c=COMMS.find(x=>x.id===id); if(!c) return;
+  currentCommId=id;
   const fw=flSt[id];
   const evHTML=c.evts.length
     ? c.evts.map(e=>`<div class="evt-item">
@@ -1351,28 +1368,29 @@ function openCM(id){
         <div class="evt-ds">Reportado hoy · 14 votos de la comunidad</div></div></div>`
     : '<p style="color:var(--w3);font-size:13px;text-align:center;padding:24px 0">Sin reportes activos</p>';
 
-  document.getElementById('cmBody').innerHTML=`
-    <div class="cm-cover">
-      <img src="${c.img}" alt="${c.name}" onerror="this.style.display='none'">
+  document.getElementById('comDetailTitle').textContent=c.name;
+  document.getElementById('comDetailBody').innerHTML=`
+    <div class="cm-cover" style="background:${c.col}22;display:flex;align-items:center;justify-content:center">
+      <img src="${c.img}" alt="${c.name}" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover">
       <div class="cm-cov-grad"></div>
       <div class="cm-cov-em">${c.em}</div>
     </div>
-    <div class="cm-hd">
-      <div class="cm-av"><img src="${c.img}" onerror="this.style.display='none'"></div>
+    <div class="cm-hd" style="padding:16px 20px">
+      <div class="cm-av" style="background:${c.col}22;display:flex;align-items:center;justify-content:center"><img src="${c.img}" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover"></div>
       <div><div class="cm-nm">${c.name}</div><div class="cm-dist">📍 ${c.dist} · ${c.act}</div></div>
     </div>
-    <div class="cm-stats">
+    <div class="cm-stats" style="padding:0 20px">
       <div><div class="cm-sv">${c.fol}</div><div class="cm-sl">Seguidores</div></div>
       <div><div class="cm-sv">${c.vids}</div><div class="cm-sl">Videos</div></div>
       <div><div class="cm-sv">${c.evts.length}</div><div class="cm-sl">Eventos</div></div>
     </div>
-    <button class="cm-flw ${fw?'fw':''}" id="cmflw${id}" onclick="cmFlw(${id})">${fw?'✓ Siguiendo':'+ Seguir comunidad'}</button>
-    <div class="cm-tabs">
-      <span class="cm-tab on" id="cmt-v${id}" onclick="cmTab('v',${id})">Videos</span>
-      <span class="cm-tab" id="cmt-e${id}" onclick="cmTab('e',${id})">Eventos</span>
-      <span class="cm-tab" id="cmt-r${id}" onclick="cmTab('r',${id})">Reportes</span>
+    <button class="cm-flw ${fw?'fw':''}" id="cmflw${id}" onclick="cmFlw(${id})" style="margin:16px 20px 0">${fw?'✓ Siguiendo':'+ Seguir comunidad'}</button>
+    <div class="cm-tabs" style="margin:18px 20px 0;border-bottom:1px solid var(--b0);padding:0;display:flex">
+      <span class="cm-tab on" id="cmt-v${id}" onclick="cmTab('v',${id})" style="flex:1;text-align:center">Videos</span>
+      <span class="cm-tab" id="cmt-e${id}" onclick="cmTab('e',${id})" style="flex:1;text-align:center">Eventos</span>
+      <span class="cm-tab" id="cmt-r${id}" onclick="cmTab('r',${id})" style="flex:1;text-align:center">Reportes</span>
     </div>
-    <div id="cmp-v${id}">
+    <div id="cmp-v${id}" style="padding:16px 20px 0">
       <div class="cm-vgrid">${[1,2,3,4].map(n=>`
         <div class="cm-vi">
           <video src="video0${((n-1)%3)+1}.mp4" muted loop playsinline preload="none"
@@ -1382,13 +1400,19 @@ function openCM(id){
           <span style="font-size:11px;color:var(--w3)">Video ${n}</span>
         </div>`).join('')}</div>
     </div>
-    <div id="cmp-e${id}" style="display:none">${evHTML}</div>
-    <div id="cmp-r${id}" style="display:none">${rpHTML}</div>`;
-  openModal('cm-modal');
+    <div id="cmp-e${id}" style="display:none;padding:16px 20px 0">${evHTML}</div>
+    <div id="cmp-r${id}" style="display:none;padding:16px 20px 0">${rpHTML}</div>`;
+  goTo('com-detail');
+}
+
+function goBackFromComDetail(){
+  goTo('comus');
+  currentCommId=null;
 }
 function cmTab(t,id){
   ['v','e','r'].forEach(x=>{
-    document.getElementById(`cmt-${x}${id}`)?.classList.toggle('on',x===t);
+    const tab=document.getElementById(`cmt-${x}${id}`);
+    if(tab) tab.classList.toggle('on',x===t);
     const p=document.getElementById(`cmp-${x}${id}`);
     if(p) p.style.display=x===t?'block':'none';
   });
@@ -1400,6 +1424,11 @@ function cmFlw(id){
   toast(flSt[id]?'✅ Siguiendo '+COMMS.find(c=>c.id===id)?.name:'Dejaste de seguir');
   updateMCBadge();
   COMMS.forEach((c,i)=>{if(c.id===id) syncFeedBtn(i,id)});
+}
+
+function goBackFromComDetail(){
+  goTo('comus');
+  currentCommId=null;
 }
 
 /* ════ MODALS ════ */
@@ -1459,7 +1488,7 @@ function sendCmt(){
   const inp=document.getElementById('cmtInput');
   const txt=inp.value.trim();
   if(!txt||!activeCmtId) return;
-  const newC={nm:'Camila Quispe',av:'perfil.png',txt,t:'Ahora',lk:0,liked:false};
+  const newC={nm:'Andrés Quiliche',av:'perfil.png',txt,t:'Ahora',lk:0,liked:false};
   CMTS[activeCmtId].push(newC);
   inp.value='';
   openComments(activeCmtId);
