@@ -89,7 +89,7 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 .fw{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .fw::-webkit-scrollbar{display:none}
 .fp{height:100%;scroll-snap-align:start;position:relative;overflow:hidden;flex-shrink:0}
-.fp-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(22px) brightness(.35) saturate(1.6);transform:scale(1.08);will-change:transform}
+.fp-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(22px) brightness(.35) saturate(1.6);transform:scale(1.08);will-change:transform;background-color:rgba(0,0,0,.5)}
 .fp-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
 .fp-grad-t{position:absolute;top:0;inset-inline:0;height:200px;background:linear-gradient(to bottom,rgba(0,0,0,.75),transparent);z-index:2;pointer-events:none}
 .fp-grad-b{position:absolute;bottom:0;inset-inline:0;height:60%;background:linear-gradient(to top,rgba(0,0,0,.96) 0%,rgba(0,0,0,.55) 40%,transparent 100%);z-index:2;pointer-events:none}
@@ -113,7 +113,7 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 .fpa-n{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,.85)}
 /* Community avatar */
 .fp-cav{position:relative;margin-bottom:6px;cursor:pointer}
-.fp-av{width:48px;height:48px;border-radius:14px;overflow:hidden;border:2.5px solid var(--teal);box-shadow:0 0 14px rgba(0,212,160,.5)}
+.fp-av{width:48px;height:48px;border-radius:14px;overflow:hidden;border:2.5px solid var(--teal);box-shadow:0 0 14px rgba(0,212,160,.5);display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--s2),var(--s1))}
 .fp-av img{width:100%;height:100%;object-fit:cover}
 .fp-plus{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:20px;height:20px;background:var(--teal);border-radius:50%;border:2.5px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:12px;color:#000;font-weight:900;box-shadow:0 0 8px rgba(0,212,160,.5);transition:background .2s}
 /* Bottom info */
@@ -1070,9 +1070,10 @@ function buildFeed(){
   COMMS.forEach((c,i)=>{
     const fp=document.createElement('div'); fp.className='fp'; fp.style.background=BGS[i];
     fp.innerHTML=`
-      <div class="fp-bg" style="background-image:url('${c.img}')"></div>
+      <div class="fp-bg" style="background-image:url('${c.img}');background-color:${c.col}33" onerror="this.style.backgroundImage='none'"></div>
+      <div class="fp-fallback" style="background:linear-gradient(135deg,${c.col}44,${c.col}22);opacity:0;position:absolute;inset:0;z-index:-1"></div>
       <video class="fp-vid" id="vid${i}" src="video0${(i%3)+1}.mp4" loop muted playsinline preload="none"
-        onerror="this.style.display='none'" onloadeddata="this.style.display='block'"></video>
+        onerror="this.parentNode.style.backgroundImage='linear-gradient(135deg,${c.col},${c.col}44)';this.style.display='none'" onloadeddata="this.style.display='block'"></video>
       <div class="fp-mute" id="muteBtn${i}" onclick="toggleMute(${i})">
         <svg id="muteIc${i}" width="18" height="18" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
       </div>
@@ -1087,7 +1088,7 @@ function buildFeed(){
       </div>
       <div class="fp-ac">
         <div class="fp-cav" onclick="openCM(${c.id})">
-          <div class="fp-av"><img src="${c.img}" onerror="this.style.background='${c.col}33';this.style.display='none'"></div>
+          <div class="fp-av"><img src="${c.img}" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover"></div>
           <div class="fp-plus" id="fpl${i}" onclick="event.stopPropagation();feedFlw(${i},${c.id})">+</div>
         </div>
         <div class="fpa" id="flk${i}" onclick="feedLike(this,${i})">
@@ -1113,6 +1114,12 @@ function buildFeed(){
         <div class="fp-mus"><div class="fp-mus-ico">🎵</div><div class="fp-mus-txt">${SONGS[i]}</div></div>
       </div>`;
     w.appendChild(fp);
+    // Agregar listener para detectar si la imagen carga
+    const bgEl = fp.querySelector('.fp-bg');
+    const fallbackEl = fp.querySelector('.fp-fallback');
+    const img = new Image();
+    img.onerror = () => { if(fallbackEl) fallbackEl.style.opacity = '1'; };
+    img.src = c.img;
     // try video
     document.getElementById('vid'+i).load();
   });
