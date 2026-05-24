@@ -340,13 +340,113 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .pst.xp .pst-v{color:var(--teal);text-shadow:0 0 16px rgba(0,212,160,.5)}
 .pst-l{font-size:10px;color:rgba(255,255,255,.55);margin-top:4px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
 
-/* Medallas */
-.medals{padding:0 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px;user-select:all}
-.medal{background:linear-gradient(135deg,var(--s2),var(--s1));border:1px solid var(--b1);border-radius:14px;padding:12px 8px;text-align:center;transition:all .2s}
-.medal:active{background:var(--s3);transform:scale(.98)}
-.medal.locked{opacity:.3;filter:grayscale(.8);cursor:not-allowed}
-.medal-ico{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:24px;background:rgba(0,212,160,.08)}
-.medal-nm{font-size:10px;font-weight:700;color:var(--w8);line-height:1.35;text-transform:uppercase;letter-spacing:.2px}
+/* ════ BADGES / MEDALLAS ════ */
+.bdg-hero{padding:20px 20px 16px;display:flex;align-items:center;gap:14px}
+.bdg-xp-wrap{flex:1}
+.bdg-xp-top{display:flex;justify-content:space-between;margin-bottom:5px}
+.bdg-xp-lbl{font-size:11px;font-weight:700;color:var(--w5)}
+.bdg-xp-val{font-size:11px;font-weight:800;color:var(--teal)}
+.bdg-xp-bar{height:7px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
+.bdg-xp-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--blue));border-radius:99px;width:54%}
+.bdg-count-box{background:linear-gradient(135deg,rgba(0,212,160,.15),rgba(91,184,255,.1));border:1px solid rgba(0,212,160,.3);border-radius:14px;padding:10px 14px;text-align:center;flex-shrink:0}
+.bdg-count-n{font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:var(--teal);line-height:1}
+.bdg-count-l{font-size:9px;color:var(--w5);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+
+.bdg-sec{padding:0 20px;margin-bottom:18px}
+.bdg-sec-ttl{font-size:10px;font-weight:800;color:var(--w5);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.bdg-sec-ttl::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08)}
+.bdg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+
+.bdg{position:relative;border-radius:18px;padding:14px 8px 12px;text-align:center;cursor:pointer;transition:transform .18s;overflow:hidden}
+.bdg:active{transform:scale(.93)}
+.bdg::before{content:'';position:absolute;inset:0;border-radius:18px;border:1.5px solid rgba(255,255,255,.12)}
+.bdg-glow{position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:80px;height:80px;border-radius:50%;opacity:.35;filter:blur(18px);pointer-events:none}
+.bdg-ico-ring{position:relative;width:56px;height:56px;margin:0 auto 9px}
+.bdg-ring{position:absolute;inset:-4px;border-radius:50%;border:2px solid transparent;animation:bdgSpin 4s linear infinite}
+.bdg-ico{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;position:relative;z-index:1}
+.bdg-shine{position:absolute;inset:0;border-radius:50%;overflow:hidden;z-index:2;pointer-events:none}
+.bdg-shine::after{content:'';position:absolute;top:-50%;left:-75%;width:50%;height:200%;background:rgba(255,255,255,.3);transform:skewX(-20deg);animation:bdgShine 4s ease-in-out infinite}
+@keyframes bdgShine{0%,65%,100%{left:-75%}45%{left:130%}}
+@keyframes bdgSpin{to{transform:rotate(360deg)}}
+.bdg-nm{font-size:10px;font-weight:800;color:var(--w);line-height:1.3;margin-bottom:3px;text-transform:uppercase;letter-spacing:.3px}
+.bdg-desc{font-size:9px;color:var(--w5);line-height:1.4}
+.bdg-tier{position:absolute;top:7px;right:7px;font-size:10px}
+.bdg-new{position:absolute;top:6px;left:6px;background:var(--red);color:#fff;font-size:8px;font-weight:800;padding:2px 5px;border-radius:6px;letter-spacing:.3px}
+
+/* Locked badges */
+.bdg.bdg-locked{opacity:.4}
+.bdg.bdg-locked .bdg-shine::after{display:none}
+.bdg.bdg-locked .bdg-ring{display:none}
+.bdg-lock-ic{position:absolute;bottom:34px;right:calc(50% - 28px + 20px);font-size:12px;opacity:.7}
+
+/* ════ BADGE DETAIL OVERLAY ════ */
+.bdg-detail{position:absolute;inset:0;z-index:1100;display:none;align-items:center;justify-content:center;background:rgba(5,8,20,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.bdg-detail.open{display:flex;animation:bdgDetailIn .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes bdgDetailIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+.bdg-detail-card{width:calc(100% - 48px);max-width:320px;border-radius:28px;padding:32px 24px 28px;text-align:center;position:relative;overflow:hidden}
+.bdg-detail-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px}
+/* Big animated icon */
+.bdg-detail-ico-wrap{position:relative;width:110px;height:110px;margin:0 auto 20px}
+.bdg-detail-ring1{position:absolute;inset:-8px;border-radius:50%;border:2px solid transparent;animation:bdgSpin 3s linear infinite}
+.bdg-detail-ring2{position:absolute;inset:-16px;border-radius:50%;border:1.5px solid transparent;animation:bdgSpin 5s linear infinite reverse}
+.bdg-detail-ico{width:110px;height:110px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:52px;animation:bdgDetailPop .5s cubic-bezier(.34,1.56,.64,1) .1s both}
+@keyframes bdgDetailPop{from{transform:scale(.3) rotate(-20deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.bdg-detail-shine{position:absolute;inset:0;border-radius:50%;overflow:hidden}
+.bdg-detail-shine::after{content:'';position:absolute;top:-50%;left:-75%;width:50%;height:200%;background:rgba(255,255,255,.35);transform:skewX(-20deg);animation:bdgShine 2.5s ease-in-out infinite}
+/* Particles */
+.bdg-particle{position:absolute;border-radius:50%;pointer-events:none;animation:bdgParticle 1.8s ease-out both}
+@keyframes bdgParticle{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:var(--tx,translateY(-60px)) scale(0)}}
+.bdg-detail-tier{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:99px;font-size:12px;font-weight:800;margin-bottom:12px;animation:bdgDetailFade .4s ease .3s both}
+.bdg-detail-nm{font-family:'Outfit',sans-serif;font-size:24px;font-weight:900;color:#fff;margin-bottom:8px;animation:bdgDetailFade .4s ease .35s both}
+.bdg-detail-desc{font-size:14px;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:20px;animation:bdgDetailFade .4s ease .4s both}
+.bdg-detail-cond{background:rgba(255,255,255,.07);border-radius:14px;padding:12px 16px;margin-bottom:20px;animation:bdgDetailFade .4s ease .45s both}
+.bdg-detail-cond-lbl{font-size:10px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.bdg-detail-cond-val{font-size:13px;font-weight:700;color:#fff}
+.bdg-detail-date{font-size:12px;color:rgba(255,255,255,.4);animation:bdgDetailFade .4s ease .5s both}
+@keyframes bdgDetailFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* Progress badges */
+.bdg-prog-list{padding:0 20px;margin-bottom:18px;display:flex;flex-direction:column;gap:10px}
+.bdg-prog{background:var(--s2);border:1px solid var(--b1);border-radius:16px;padding:13px 14px;display:flex;gap:12px;align-items:center;cursor:pointer;transition:background .2s}
+.bdg-prog:active{background:var(--s3)}
+.bdg-prog-ico{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.bdg-prog-body{flex:1;min-width:0}
+.bdg-prog-nm{font-size:13px;font-weight:800;color:var(--w);margin-bottom:2px}
+.bdg-prog-cond{font-size:11px;color:var(--w5);margin-bottom:7px}
+.bdg-prog-bar{height:5px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
+.bdg-prog-fill{height:100%;border-radius:99px}
+.bdg-prog-pct{font-size:10px;font-weight:700;margin-top:4px}
+/* ════ MEDALS MODAL TABS ════ */
+.mdl-tabs{display:flex;gap:6px;padding:0 20px 16px}
+.mdl-tab{flex:1;padding:9px 6px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid var(--b1);font-size:12px;font-weight:700;color:var(--w5);text-align:center;cursor:pointer;transition:all .2s}
+.mdl-tab.on{background:linear-gradient(135deg,rgba(0,212,160,.18),rgba(91,184,255,.12));border-color:rgba(0,212,160,.35);color:var(--teal)}
+/* ════ CANJEABLES ════ */
+.canje-list{padding:0 20px;display:flex;flex-direction:column;gap:12px}
+.canje-card{border-radius:18px;overflow:hidden;border:1px solid var(--b1);background:var(--s2);cursor:pointer;transition:transform .18s}
+.canje-card:active{transform:scale(.98)}
+.canje-card.locked-canje{opacity:.6}
+.canje-head{padding:14px 14px 10px;display:flex;gap:12px;align-items:flex-start}
+.canje-ico-box{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.canje-info{flex:1;min-width:0}
+.canje-provider{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
+.canje-name{font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;color:var(--w);margin-bottom:3px;line-height:1.2}
+.canje-desc{font-size:11px;color:var(--w5);line-height:1.4}
+.canje-foot{padding:10px 14px 14px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.06)}
+.canje-req{display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex:1}
+.canje-req-chip{background:rgba(255,255,255,.07);border-radius:8px;padding:4px 8px;font-size:10px;font-weight:700;color:var(--w5);display:flex;align-items:center;gap:4px}
+.canje-req-chip.ok{background:rgba(0,212,160,.1);border:1px solid rgba(0,212,160,.25);color:var(--teal)}
+.canje-btn{border:none;border-radius:12px;padding:9px 16px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.canje-btn.available{background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;box-shadow:0 3px 14px rgba(0,212,160,.35)}
+.canje-btn.unavailable{background:rgba(255,255,255,.07);color:var(--w5);cursor:not-allowed}
+.canje-badge-avail{background:linear-gradient(135deg,rgba(0,212,160,.15),rgba(0,212,160,.08));border:1px solid rgba(0,212,160,.3);border-radius:99px;padding:3px 10px;font-size:10px;font-weight:800;color:var(--teal)}
+/* ════ HISTORIAL CANJEADOS ════ */
+.canje-hist-list{padding:0 20px;display:flex;flex-direction:column;gap:10px}
+.canje-hist-item{background:var(--s2);border:1px solid var(--b1);border-radius:14px;padding:12px 14px;display:flex;gap:12px;align-items:center}
+.canje-hist-ico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.canje-hist-body{flex:1}
+.canje-hist-nm{font-size:13px;font-weight:800;color:var(--w);margin-bottom:2px}
+.canje-hist-meta{font-size:11px;color:var(--w5)}
+.canje-hist-status{font-size:11px;font-weight:700;border-radius:8px;padding:3px 10px;white-space:nowrap}
 
 /* Historial */
 .hist-list{padding:0 20px 28px;display:flex;flex-direction:column;gap:8px;user-select:all}
@@ -419,6 +519,41 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .cv-ph img{width:100%;height:100%;object-fit:cover}
 .cv-ph img{width:100%;height:100%;object-fit:cover}
 .cv-print{width:100%;padding:15px;background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;border:none;border-radius:13px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
+/* CV — solicitud certificado */
+.cv-cert-req{background:var(--s2);border:1px solid var(--b1);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+.cv-cert-req-nm{font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;color:var(--w);margin-bottom:6px}
+.cv-cert-req-date{font-size:11px;color:var(--w5);margin-bottom:10px}
+.cv-stepper{display:flex;align-items:flex-start;gap:0;position:relative;margin-bottom:4px}
+.cv-step{display:flex;flex-direction:column;align-items:center;flex:1;position:relative}
+.cv-step-dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--b2);background:var(--s1);display:flex;align-items:center;justify-content:center;font-size:10px;z-index:1;flex-shrink:0}
+.cv-step-dot.done{background:var(--teal);border-color:var(--teal);color:#0A1520}
+.cv-step-dot.active{background:var(--blue);border-color:var(--blue);animation:cvPulse 1.4s ease-in-out infinite}
+@keyframes cvPulse{0%,100%{box-shadow:0 0 0 0 rgba(91,184,255,.5)}50%{box-shadow:0 0 0 5px rgba(91,184,255,0)}}
+.cv-step-line{position:absolute;top:10px;left:50%;width:100%;height:2px;background:var(--b1);z-index:0}
+.cv-step-line.done{background:var(--teal)}
+.cv-step:last-child .cv-step-line{display:none}
+.cv-step-lbl{font-size:9px;color:var(--w5);margin-top:5px;text-align:center;line-height:1.3}
+.cv-step-lbl.done{color:var(--teal)}
+.cv-step-lbl.active{color:var(--blue)}
+.cv-ev-btn{width:100%;padding:13px;background:rgba(0,212,160,.12);border:1px solid rgba(0,212,160,.3);color:var(--teal);border-radius:12px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;cursor:pointer;margin-top:6px;transition:all .2s}
+.cv-ev-btn:active{background:rgba(0,212,160,.22)}
+/* Certificados tab */
+.cert-panel{padding:16px 20px 24px;display:flex;flex-direction:column;gap:12px}
+.cert-card{background:linear-gradient(135deg,#0f2040,#162a4a);border:1px solid rgba(91,184,255,.25);border-radius:18px;padding:18px 16px;position:relative;overflow:hidden}
+.cert-card::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;background:radial-gradient(circle,rgba(0,212,160,.15),transparent 70%);border-radius:50%}
+.cert-seal{position:absolute;top:14px;right:14px;width:44px;height:44px;background:linear-gradient(135deg,var(--teal),var(--blue));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 16px rgba(0,212,160,.4)}
+.cert-category{font-size:10px;font-weight:700;color:var(--teal);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.cert-name{font-family:'Outfit',sans-serif;font-size:16px;font-weight:900;color:var(--w);margin-bottom:4px;padding-right:52px}
+.cert-org{font-size:12px;color:var(--w5);margin-bottom:10px}
+.cert-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cert-date{background:rgba(255,255,255,.07);border-radius:8px;padding:4px 10px;font-size:11px;color:var(--w8)}
+.cert-hours{background:rgba(0,212,160,.1);border:1px solid rgba(0,212,160,.2);border-radius:8px;padding:4px 10px;font-size:11px;color:var(--teal);font-weight:700}
+.cert-dl{margin-top:12px;display:flex;align-items:center;justify-content:space-between}
+.cert-dl-btn{background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;border:none;border-radius:10px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif}
+.cert-id{font-size:10px;color:rgba(255,255,255,.3)}
+.cert-empty{text-align:center;padding:40px 20px;color:var(--w5)}
+.cert-empty-ico{font-size:48px;margin-bottom:12px}
+.cert-empty-txt{font-size:14px;font-weight:600;color:var(--w5)}
 /* Toast */
 .toast{position:absolute;top:60px;left:50%;transform:translateX(-50%) translateY(-8px);background:rgba(20,30,60,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.2);color:var(--w);padding:11px 20px;border-radius:999px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;white-space:nowrap;opacity:0;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:2000;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -479,6 +614,21 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .pv-plays{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;color:#fff;display:flex;align-items:center;gap:3px;text-shadow:0 1px 4px rgba(0,0,0,.8)}
 .pv-play-ic{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:32px;height:32px;background:rgba(0,0,0,.45);border-radius:50%;display:flex;align-items:center;justify-content:center;pointer-events:none}
 .pv-play-ic svg{stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ════════════ CERT VIEWER ════════════ */
+.cert-viewer{position:absolute;inset:0;background:rgba(5,8,20,.97);z-index:950;display:none;flex-direction:column}
+.cert-viewer.open{display:flex}
+.cert-viewer-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(0,0,0,.5);backdrop-filter:blur(16px);flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.08)}
+.cert-viewer-title{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--w);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cert-viewer-actions{display:flex;gap:8px;align-items:center}
+.cert-viewer-btn{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:var(--w);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.cert-viewer-btn:active{background:rgba(255,255,255,.2)}
+.cert-viewer-dl{background:linear-gradient(135deg,var(--teal),var(--blue));border:none;border-radius:10px;color:#fff;font-size:12px;font-weight:700;padding:0 14px;height:36px;cursor:pointer;font-family:'Outfit',sans-serif;white-space:nowrap}
+.cert-viewer-scroll{flex:1;overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:20px 12px;-webkit-overflow-scrolling:touch}
+.cert-viewer-paper{background:#fff;border-radius:8px;box-shadow:0 8px 48px rgba(0,0,0,.7);transform-origin:top center;transition:transform .25s ease;max-width:100%}
+.cert-viewer-paper img{display:block;width:100%;border-radius:8px}
+.cert-viewer-zoom{display:flex;align-items:center;justify-content:center;gap:12px;padding:12px 16px;background:rgba(0,0,0,.4);flex-shrink:0;border-top:1px solid rgba(255,255,255,.06)}
+.cert-zoom-lbl{font-size:13px;font-weight:700;color:var(--w5);min-width:44px;text-align:center}
 
 /* ════════════ VIDEO FULL MODAL ════════════ */
 .vid-overlay{position:absolute;inset:0;background:#000;z-index:900;display:none;flex-direction:column}
@@ -845,7 +995,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
   <input type="file" id="coverInp" accept="image/*" style="display:none" onchange="coverUp(this)">
   <div class="perf-info">
     <div style="user-select:all">
-      <div class="perf-nm">Andrés Quiliche</div>
+      <div class="perf-nm">Huayhuas Chavez</div>
       <div class="perf-meta" style="user-select:all"><span>@andresqc</span><span>•</span><span>🎓 Universidad Nacional</span><span>📍 Lima, Perú</span></div>
     </div>
     <div class="perf-stats" style="user-select:all">
@@ -858,11 +1008,12 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
       <button style="flex:1;padding:11px;background:var(--s2);color:var(--w);border:1px solid var(--b1);border-radius:12px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer" onclick="shareProfile()">🔗 Compartir</button>
     </div>
   </div>
-  <!-- Tabs para videos/eventos/reportes -->
+  <!-- Tabs para videos/eventos/reportes/certificados -->
   <div class="perf-tabs">
     <div class="perf-tab on" id="pt-vid" onclick="perfTab('vid')">📹 Videos</div>
     <div class="perf-tab" id="pt-evt" onclick="perfTab('evt')">📅 Eventos</div>
     <div class="perf-tab" id="pt-rep" onclick="perfTab('rep')">🚨 Reportes</div>
+    <div class="perf-tab" id="pt-cert" onclick="perfTab('cert')">🎓 Certs</div>
   </div>
   
   <!-- Feed de Videos estilo TikTok -->
@@ -1012,6 +1163,47 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
     </div>
   </div>
 
+  <!-- Panel de Certificados -->
+  <div id="perf-cert-panel" style="display:none" class="cert-panel">
+    <button onclick="openModal('all-certs-modal')" style="width:100%;padding:13px;background:rgba(91,184,255,.1);border:1px solid rgba(91,184,255,.25);color:var(--blue);border-radius:13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
+      🎓 Ver todos mis certificados y descargar
+    </button>
+    <div class="cert-card">
+      <div class="cert-seal">🏗️</div>
+      <div class="cert-category">Construcción Comunitaria</div>
+      <div class="cert-name">Voluntariado Activo en Obra Vecinal</div>
+      <div class="cert-org">Municipalidad de Lima · Distrito Surco</div>
+      <div class="cert-meta">
+        <span class="cert-date">📅 15 MAY 2025</span>
+        <span class="cert-hours">⏱️ 12h voluntariado</span>
+      </div>
+      <div class="cert-dl">
+        <span class="cert-id">ID: MML-2025-0041</span>
+        <div style="display:flex;gap:6px">
+          <button class="cert-dl-btn" style="background:rgba(255,255,255,.1);color:var(--w)" onclick="openCertViewer('certificado01.png','Voluntariado Activo en Obra Vecinal')">👁️ Ver</button>
+          <button class="cert-dl-btn" onclick="certDirectDownload('certificado01.png','Certificado-MML-2025-0041')">📥</button>
+        </div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-seal">🍽️</div>
+      <div class="cert-category">Seguridad Alimentaria</div>
+      <div class="cert-name">Coordinador de Distribución Alimentaria</div>
+      <div class="cert-org">Municipalidad de Lima · Villa El Salvador</div>
+      <div class="cert-meta">
+        <span class="cert-date">📅 3 ABR 2025</span>
+        <span class="cert-hours">⏱️ 8h voluntariado</span>
+      </div>
+      <div class="cert-dl">
+        <span class="cert-id">ID: MML-2025-0029</span>
+        <div style="display:flex;gap:6px">
+          <button class="cert-dl-btn" style="background:rgba(255,255,255,.1);color:var(--w)" onclick="openCertViewer('certificado02.png','Coordinador de Distribución Alimentaria')">👁️ Ver</button>
+          <button class="cert-dl-btn" onclick="certDirectDownload('certificado02.png','Certificado-MML-2025-0029')">📥</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="sp"></div>
 </div>
 
@@ -1049,8 +1241,8 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
   <div class="sheet tall"><div class="sh-handle"></div>
   <div class="sh-body">
     <div class="cv-hd">
-      <div class="cv-av" style="background:linear-gradient(135deg,#1a3a5c,#0d1a35);display:flex;align-items:center;justify-content:center"><img id="cvAvImg" src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27100%27 height=%27100%27%3E%3Ccircle cx=%2750%27 cy=%2735%27 r=%2722%27 fill=%27%2300D4A0%27/%3E%3Cellipse cx=%2750%27 cy=%2775%27 rx=%2732%27 ry=%2723%27 fill=%27%2300D4A0%27/%3E%3C/svg%3E" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover"></div>
-      <div class="cv-nm">Andrés Quiliche</div>
+      <div class="cv-av" style="background:linear-gradient(135deg,#1a3a5c,#0d1a35);display:flex;align-items:center;justify-content:center"><img id="cvAvImg" src="perfil.png" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27100%27 height=%27100%27%3E%3Ccircle cx=%2750%27 cy=%2735%27 r=%2722%27 fill=%27%2300D4A0%27/%3E%3Cellipse cx=%2750%27 cy=%2775%27 rx=%2732%27 ry=%2723%27 fill=%27%2300D4A0%27/%3E%3C/svg%3E'" style="width:100%;height:100%;object-fit:cover"></div>
+      <div class="cv-nm">Huayhuas Chavez</div>
       <div class="cv-inst">🎓 Universidad Nacional · 📍 Lima, Perú</div>
       <div class="cv-badge">✅ Verificado por Municipalidad de Lima</div>
     </div>
@@ -1067,8 +1259,205 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
     <div class="cv-skills"><span class="cv-skill">Liderazgo vecinal</span><span class="cv-skill">Gestión de proyectos</span><span class="cv-skill">Comunicación</span><span class="cv-skill">Auditoría social</span><span class="cv-skill">Recaudación</span></div>
     <div class="cv-sec">Fotos participativas</div>
     <div class="cv-pgrid" id="cvPgrid"><div class="cv-ph">📸</div><div class="cv-ph">🌱</div><div class="cv-ph">🏘️</div></div>
+
+    <!-- Solicitudes de certificado -->
+    <div class="cv-sec">Mis solicitudes de certificado</div>
+
+    <div class="cv-cert-req">
+      <div class="cv-cert-req-nm">🏗️ Voluntariado Activo en Obra Vecinal</div>
+      <div class="cv-cert-req-date">Enviado el 10 MAY 2025 · Municipalidad de Lima</div>
+      <div class="cv-stepper">
+        <div class="cv-step">
+          <div class="cv-step-line done"></div>
+          <div class="cv-step-dot done">✓</div>
+          <div class="cv-step-lbl done">Enviado</div>
+        </div>
+        <div class="cv-step">
+          <div class="cv-step-line done"></div>
+          <div class="cv-step-dot done">✓</div>
+          <div class="cv-step-lbl done">Revisión</div>
+        </div>
+        <div class="cv-step">
+          <div class="cv-step-line done"></div>
+          <div class="cv-step-dot done">✓</div>
+          <div class="cv-step-lbl done">Aprobado</div>
+        </div>
+        <div class="cv-step">
+          <div class="cv-step-line"></div>
+          <div class="cv-step-dot done">🎓</div>
+          <div class="cv-step-lbl done">Emitido</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-cert-req">
+      <div class="cv-cert-req-nm">🏥 Campaña de Salud Comunitaria</div>
+      <div class="cv-cert-req-date">Enviado el 18 MAY 2025 · Municipalidad de Lima</div>
+      <div class="cv-stepper">
+        <div class="cv-step">
+          <div class="cv-step-line done"></div>
+          <div class="cv-step-dot done">✓</div>
+          <div class="cv-step-lbl done">Enviado</div>
+        </div>
+        <div class="cv-step">
+          <div class="cv-step-line done"></div>
+          <div class="cv-step-dot active">⏳</div>
+          <div class="cv-step-lbl active">En revisión</div>
+        </div>
+        <div class="cv-step">
+          <div class="cv-step-line"></div>
+          <div class="cv-step-dot"></div>
+          <div class="cv-step-lbl">Aprobado</div>
+        </div>
+        <div class="cv-step">
+          <div class="cv-step-line"></div>
+          <div class="cv-step-dot"></div>
+          <div class="cv-step-lbl">Emitido</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="cv-ev-btn" onclick="openModal('cert-evidence-modal')">📎 Enviar nueva evidencia para certificado</button>
+
+    <div style="height:14px"></div>
     <button class="cv-print" onclick="window.print()">🖨️ Descargar / Imprimir CV</button>
   </div></div>
+</div>
+
+<!-- Modal todos los certificados -->
+<div class="overlay" id="all-certs-modal" onclick="closeBg(event,'all-certs-modal')">
+  <div class="sheet tall"><div class="sh-handle"></div>
+  <div class="sh-body">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <div style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:900;color:var(--w)">🎓 Mis Certificados</div>
+      <div style="background:rgba(0,212,160,.15);border:1px solid rgba(0,212,160,.3);border-radius:8px;padding:4px 12px;font-size:12px;font-weight:700;color:var(--teal)">2 emitidos</div>
+    </div>
+    <div style="font-size:13px;color:var(--w5);margin-bottom:20px">Certificados verificados por la Municipalidad de Lima</div>
+
+    <!-- Cert 1 -->
+    <div style="background:linear-gradient(135deg,#0f2040,#162a4a);border:1px solid rgba(91,184,255,.2);border-radius:16px;padding:16px;margin-bottom:12px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:12px;right:12px;width:38px;height:38px;background:linear-gradient(135deg,var(--teal),var(--blue));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 12px rgba(0,212,160,.4)">🏗️</div>
+      <div style="font-size:10px;font-weight:700;color:var(--teal);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px">Construcción Comunitaria</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:15px;font-weight:800;color:var(--w);margin-bottom:3px;padding-right:44px">Voluntariado Activo en Obra Vecinal</div>
+      <div style="font-size:11px;color:var(--w5);margin-bottom:10px">Municipalidad de Lima · Distrito Surco</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+        <span style="background:rgba(255,255,255,.07);border-radius:8px;padding:3px 10px;font-size:11px;color:var(--w8)">📅 15 MAY 2025</span>
+        <span style="background:rgba(0,212,160,.1);border:1px solid rgba(0,212,160,.2);border-radius:8px;padding:3px 10px;font-size:11px;color:var(--teal);font-weight:700">⏱️ 12h</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:10px;color:rgba(255,255,255,.25)">ID: MML-2025-0041</span>
+        <div style="display:flex;gap:8px">
+          <button onclick="openCertViewer('certificado01.png','Voluntariado Activo en Obra Vecinal')" style="background:rgba(255,255,255,.08);border:1px solid var(--b2);color:var(--w);border-radius:9px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer">👁️ Ver</button>
+          <button onclick="certDirectDownload('certificado01.png','Certificado-MML-2025-0041')" style="background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer">📥 Descargar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cert 2 -->
+    <div style="background:linear-gradient(135deg,#0f2040,#162a4a);border:1px solid rgba(91,184,255,.2);border-radius:16px;padding:16px;margin-bottom:16px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:12px;right:12px;width:38px;height:38px;background:linear-gradient(135deg,var(--teal),var(--blue));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 12px rgba(0,212,160,.4)">🍽️</div>
+      <div style="font-size:10px;font-weight:700;color:var(--teal);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px">Seguridad Alimentaria</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:15px;font-weight:800;color:var(--w);margin-bottom:3px;padding-right:44px">Coordinador de Distribución Alimentaria</div>
+      <div style="font-size:11px;color:var(--w5);margin-bottom:10px">Municipalidad de Lima · Villa El Salvador</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+        <span style="background:rgba(255,255,255,.07);border-radius:8px;padding:3px 10px;font-size:11px;color:var(--w8)">📅 3 ABR 2025</span>
+        <span style="background:rgba(0,212,160,.1);border:1px solid rgba(0,212,160,.2);border-radius:8px;padding:3px 10px;font-size:11px;color:var(--teal);font-weight:700">⏱️ 8h</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:10px;color:rgba(255,255,255,.25)">ID: MML-2025-0029</span>
+        <div style="display:flex;gap:8px">
+          <button onclick="openCertViewer('certificado02.png','Coordinador de Distribución Alimentaria')" style="background:rgba(255,255,255,.08);border:1px solid var(--b2);color:var(--w);border-radius:9px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer">👁️ Ver</button>
+          <button onclick="certDirectDownload('certificado02.png','Certificado-MML-2025-0029')" style="background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer">📥 Descargar</button>
+        </div>
+      </div>
+    </div>
+
+    <button onclick="certDirectDownload('certificado01.png','Certificado-MML-2025-0041');setTimeout(()=>certDirectDownload('certificado02.png','Certificado-MML-2025-0029'),600)" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;border:none;border-radius:13px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 4px 20px rgba(0,212,160,.3)">
+      📦 Descargar todos
+    </button>
+  </div></div>
+</div>
+
+<!-- Modal envío de evidencia para certificado -->
+<div class="overlay" id="cert-evidence-modal" onclick="closeBg(event,'cert-evidence-modal')">
+  <div class="sheet" style="max-height:88%"><div class="sh-handle"></div>
+  <div class="sh-body">
+    <div style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:900;color:var(--w);margin-bottom:4px">📎 Enviar evidencia</div>
+    <div style="font-size:13px;color:var(--w5);margin-bottom:20px">La Municipalidad revisará tu evidencia y emitirá tu certificado en 3–5 días hábiles.</div>
+
+    <div style="font-size:12px;font-weight:700;color:var(--w8);margin-bottom:8px">Actividad realizada</div>
+    <select id="certActSelect" style="width:100%;padding:12px 14px;background:var(--s2);border:1px solid var(--b2);border-radius:12px;color:var(--w);font-size:14px;margin-bottom:14px;appearance:none">
+      <option value="">Selecciona una actividad...</option>
+      <option>🏗️ Voluntariado Activo en Obra Vecinal</option>
+      <option>🏥 Campaña de Salud Comunitaria</option>
+      <option>🍽️ Distribución de Alimentos VES</option>
+      <option>🌿 Jornada de Reciclaje</option>
+      <option>🎨 Mural Comunitario SJM</option>
+      <option>Otra actividad...</option>
+    </select>
+
+    <div style="font-size:12px;font-weight:700;color:var(--w8);margin-bottom:8px">Descripción de tu participación</div>
+    <textarea id="certDesc" style="width:100%;padding:12px 14px;background:var(--s2);border:1px solid var(--b2);border-radius:12px;color:var(--w);font-size:13px;resize:none;height:80px;margin-bottom:14px" placeholder="Ej: Participé 6 horas en la construcción del muro del parque Los Olivos, coordinando a 12 vecinos..."></textarea>
+
+    <div style="font-size:12px;font-weight:700;color:var(--w8);margin-bottom:8px">Evidencia fotográfica</div>
+    <label style="display:flex;align-items:center;justify-content:center;gap:10px;background:var(--s2);border:2px dashed rgba(0,212,160,.3);border-radius:12px;padding:18px;cursor:pointer;margin-bottom:6px" onclick="document.getElementById('certEvidFile').click()">
+      <span style="font-size:24px">📸</span>
+      <span style="font-size:13px;color:var(--w5)" id="certEvidLbl">Subir foto o video de evidencia</span>
+    </label>
+    <input type="file" id="certEvidFile" accept="image/*,video/*" style="display:none" onchange="document.getElementById('certEvidLbl').textContent=this.files[0]?.name||'Subir foto o video de evidencia'">
+
+    <div style="font-size:11px;color:var(--w5);margin-bottom:20px">Formatos aceptados: JPG, PNG, MP4. Máx. 20MB.</div>
+
+    <button onclick="submitCertEvidence()" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;border:none;border-radius:13px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 4px 20px rgba(0,212,160,.35)">
+      📤 Enviar a Municipalidad
+    </button>
+  </div></div>
+</div>
+
+<!-- Badge detail overlay -->
+<div class="bdg-detail" id="bdg-detail" onclick="closeBdgDetail(event)">
+  <div class="bdg-detail-card" id="bdgDetailCard">
+    <div class="bdg-detail-close" onclick="closeBdgDetail()">✕</div>
+    <div class="bdg-detail-ico-wrap">
+      <div class="bdg-detail-ring1" id="bdgRing1"></div>
+      <div class="bdg-detail-ring2" id="bdgRing2"></div>
+      <div class="bdg-detail-ico" id="bdgDetailIco"></div>
+      <div class="bdg-detail-shine"></div>
+    </div>
+    <div class="bdg-detail-tier" id="bdgDetailTier"></div>
+    <div class="bdg-detail-nm" id="bdgDetailNm"></div>
+    <div class="bdg-detail-desc" id="bdgDetailDesc"></div>
+    <div class="bdg-detail-cond">
+      <div class="bdg-detail-cond-lbl">Condición de desbloqueo</div>
+      <div class="bdg-detail-cond-val" id="bdgDetailCond"></div>
+    </div>
+    <div class="bdg-detail-date" id="bdgDetailDate"></div>
+  </div>
+</div>
+
+<!-- Visor de certificado tipo PDF -->
+<div class="cert-viewer" id="cert-viewer">
+  <div class="cert-viewer-bar">
+    <div class="cert-viewer-title" id="certViewerTitle">Certificado</div>
+    <div class="cert-viewer-actions">
+      <div class="cert-viewer-btn" onclick="certZoom(-1)" title="Alejar">−</div>
+      <div class="cert-viewer-btn" onclick="certZoom(1)" title="Acercar">+</div>
+      <button class="cert-viewer-dl" id="certViewerDlBtn" onclick="certDownload()">📥 Descargar</button>
+      <div class="cert-viewer-btn" onclick="closeCertViewer()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+    </div>
+  </div>
+  <div class="cert-viewer-scroll" id="certViewerScroll">
+    <div class="cert-viewer-paper" id="certViewerPaper">
+      <img id="certViewerImg" src="" alt="Certificado">
+    </div>
+  </div>
+  <div class="cert-viewer-zoom">
+    <div class="cert-viewer-btn" onclick="certZoom(-1)">−</div>
+    <span class="cert-zoom-lbl" id="certZoomLbl">100%</span>
+    <div class="cert-viewer-btn" onclick="certZoom(1)">+</div>
+  </div>
 </div>
 
 <!-- Modal video full screen -->
@@ -1091,7 +1480,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
             <div class="config-item-ico">🏆</div>
             <div>
               <div class="config-item-txt">Medallas y Reconocimientos</div>
-              <div class="config-item-sub">6 medallas desbloqueadas · Ver todas</div>
+              <div class="config-item-sub">10 logros desbloqueados · 22 en total</div>
             </div>
           </div>
           <div class="config-item" onclick="openModal('history-modal');closeModal('perf-config')">
@@ -1161,22 +1550,529 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 
 <!-- Modal Medallas -->
 <div class="overlay" id="medals-modal" onclick="closeBg(event,'medals-modal')">
-  <div class="sheet tall">
+  <div class="sheet tall" style="height:97%">
     <div class="sh-handle"></div>
-    <div class="sh-body">
-      <div style="text-align:center;padding:14px 0">
-        <div style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:900;color:var(--w);margin-bottom:4px">Medallas y Logros</div>
-        <div style="font-size:12px;color:var(--w5)">6 de 12 medallas desbloqueadas</div>
+    <div class="sh-body" style="padding:0">
+
+      <!-- Tabs del modal -->
+      <div style="padding:16px 20px 0">
+        <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;color:var(--w);margin-bottom:14px">🏅 Logros & Beneficios</div>
+        <div class="mdl-tabs">
+          <div class="mdl-tab on" id="mt-medals" onclick="mdlTab('medals')">🏅 Medallas</div>
+          <div class="mdl-tab" id="mt-canje" onclick="mdlTab('canje')">🎁 Canjeables</div>
+          <div class="mdl-tab" id="mt-hist" onclick="mdlTab('hist')">📋 Canjeados</div>
+        </div>
       </div>
-      <div class="medals" style="margin:0;padding:0 20px">
-        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(79,158,255,.15)">🎖️</div><div class="medal-nm">Auditor Comunitario</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:4px">Participó en 5 auditorías</div></div>
-        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(0,212,160,.12)">🏆</div><div class="medal-nm">Líder de Barrio</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:4px">100+ horas de voluntariado</div></div>
-        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(255,107,127,.12)">🔥</div><div class="medal-nm">Primer Voto</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:4px">Tu primer voto a un reporte</div></div>
-        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(0,212,160,.12)">♻️</div><div class="medal-nm">Reciclador</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:4px">Participó en evento de reciclaje</div></div>
-        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(176,138,255,.12)">📢</div><div class="medal-nm">Voz Activa</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:4px">50+ comentarios constructivos</div></div>
-        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(93,184,255,.12)">👥</div><div class="medal-nm">Conectador</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:4px">20+ personas en comunidades</div></div>
-        <div class="medal locked"><div class="medal-ico" style="background:var(--s2)">⭐</div><div class="medal-nm">Próxima...</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:4px">Desbloquealo pronto</div></div>
+
+      <!-- Panel Medallas -->
+      <div id="mdl-panel-medals">
+
+      <!-- Hero XP -->
+      <div style="padding:18px 20px 0">
+        <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;color:var(--w);margin-bottom:2px">🏅 Medallas & Logros</div>
+        <div style="font-size:12px;color:var(--w5);margin-bottom:14px">Acción comunitaria que deja huella</div>
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:20px">
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+              <span style="font-size:11px;font-weight:700;color:var(--w5)">Nivel 4 · Voluntario Activo</span>
+              <span style="font-size:11px;font-weight:800;color:var(--teal)">450 / 800 XP</span>
+            </div>
+            <div style="height:7px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden">
+              <div style="height:100%;width:56%;background:linear-gradient(90deg,var(--teal),var(--blue));border-radius:99px"></div>
+            </div>
+          </div>
+          <div style="background:linear-gradient(135deg,rgba(0,212,160,.18),rgba(91,184,255,.12));border:1px solid rgba(0,212,160,.3);border-radius:14px;padding:10px 14px;text-align:center;flex-shrink:0">
+            <div style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:var(--teal);line-height:1">10</div>
+            <div style="font-size:9px;color:var(--w5);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:2px">/ 22 logros</div>
+          </div>
+        </div>
       </div>
+
+      <!-- ✅ DESBLOQUEADAS -->
+      <div class="bdg-sec">
+        <div class="bdg-sec-ttl">✅ Desbloqueadas</div>
+        <div class="bdg-grid">
+
+          <!-- Primer Paso -->
+          <div class="bdg" onclick="openBdg('primer_paso')" style="background:linear-gradient(145deg,#0d2a1a,#081810);cursor:pointer">
+            <div class="bdg-glow" style="background:#00D4A0"></div>
+            <div class="bdg-tier">🥉</div>
+            <div class="bdg-ico-ring">
+              <div class="bdg-ring" style="border-top-color:#00D4A0;border-right-color:rgba(0,212,160,.3)"></div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(0,212,160,.25),rgba(0,212,160,.08))">🌱</div>
+              <div class="bdg-shine"></div>
+            </div>
+            <div class="bdg-nm">Primer Paso</div>
+            <div class="bdg-desc">Te uniste a MANTA</div>
+          </div>
+
+          <!-- Explorador -->
+          <div class="bdg" onclick="openBdg('explorador')" style="background:linear-gradient(145deg,#0d1f35,#080e1c);cursor:pointer">
+            <div class="bdg-glow" style="background:#5BB8FF"></div>
+            <div class="bdg-tier">🥉</div>
+            <div class="bdg-ico-ring">
+              <div class="bdg-ring" style="border-top-color:#5BB8FF;border-right-color:rgba(91,184,255,.3)"></div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(91,184,255,.25),rgba(91,184,255,.08))">🧭</div>
+              <div class="bdg-shine"></div>
+            </div>
+            <div class="bdg-nm">Explorador</div>
+            <div class="bdg-desc">Visitaste todas las secciones</div>
+          </div>
+
+          <!-- Primer Voto -->
+          <div class="bdg" onclick="openBdg('primer_voto')" style="background:linear-gradient(145deg,#2a0d15,#150508);cursor:pointer">
+            <div class="bdg-glow" style="background:#FF6B7F"></div>
+            <div class="bdg-tier">🥉</div>
+            <div class="bdg-ico-ring">
+              <div class="bdg-ring" style="border-top-color:#FF6B7F;border-right-color:rgba(255,107,127,.3)"></div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(255,107,127,.25),rgba(255,107,127,.08))">🗳️</div>
+              <div class="bdg-shine"></div>
+            </div>
+            <div class="bdg-nm">Primer Voto</div>
+            <div class="bdg-desc">Votaste tu primer reporte</div>
+          </div>
+
+          <!-- Conectado -->
+          <div class="bdg" onclick="openBdg('conectado')" style="background:linear-gradient(145deg,#1a0d2a,#0d0815);cursor:pointer">
+            <div class="bdg-glow" style="background:#B08AFF"></div>
+            <div class="bdg-tier">🥉</div>
+            <div class="bdg-ico-ring">
+              <div class="bdg-ring" style="border-top-color:#B08AFF;border-right-color:rgba(176,138,255,.3)"></div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(176,138,255,.25),rgba(176,138,255,.08))">🤝</div>
+              <div class="bdg-shine"></div>
+            </div>
+            <div class="bdg-nm">Conectado</div>
+            <div class="bdg-desc">Primera comunidad seguida</div>
+          </div>
+
+          <!-- Voz Activa -->
+          <div class="bdg" onclick="openBdg('voz_activa')" style="background:linear-gradient(145deg,#1a1a0d,#0d0d06);cursor:pointer">
+            <div class="bdg-glow" style="background:#FFD60A"></div>
+            <div class="bdg-tier">🥈</div>
+            <div class="bdg-ico-ring">
+              <div class="bdg-ring" style="border-top-color:#FFD60A;border-right-color:rgba(255,214,10,.3)"></div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(255,214,10,.25),rgba(255,214,10,.08))">📢</div>
+              <div class="bdg-shine"></div>
+            </div>
+            <div class="bdg-nm">Voz Activa</div>
+            <div class="bdg-desc">50+ comentarios</div>
+          </div>
+
+          <!-- Reciclador -->
+          <div class="bdg" onclick="openBdg('reciclador')" style="background:linear-gradient(145deg,#0d2a12,#081510);cursor:pointer">
+            <div class="bdg-glow" style="background:#00A87E"></div>
+            <div class="bdg-tier">🥈</div>
+            <div class="bdg-ico-ring">
+              <div class="bdg-ring" style="border-top-color:#00A87E;border-right-color:rgba(0,168,126,.3)"></div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(0,168,126,.25),rgba(0,168,126,.08))">♻️</div>
+              <div class="bdg-shine"></div>
+            </div>
+            <div class="bdg-nm">Reciclador</div>
+            <div class="bdg-desc">Jornada ambiental</div>
+          </div>
+
+          <!-- Auditor -->
+          <div class="bdg" onclick="openBdg('auditor')" style="background:linear-gradient(145deg,#0d1f35,#080e1c);cursor:pointer">
+            <div class="bdg-glow" style="background:#4F9EFF"></div>
+            <div class="bdg-tier">🥈</div>
+            <div class="bdg-ico-ring">
+              <div class="bdg-ring" style="border-top-color:#4F9EFF;border-right-color:rgba(79,158,255,.3)"></div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(79,158,255,.25),rgba(79,158,255,.08))">🎖️</div>
+              <div class="bdg-shine"></div>
+            </div>
+            <div class="bdg-nm">Auditor Social</div>
+            <div class="bdg-desc">5 auditorías comunitarias</div>
+          </div>
+
+          <!-- 10 Horas -->
+          <div class="bdg" onclick="openBdg('diez_horas')" style="background:linear-gradient(145deg,#1a2a0d,#0d1508);cursor:pointer">
+            <div class="bdg-glow" style="background:#7AE23D"></div>
+            <div class="bdg-tier">🥈</div>
+            <div class="bdg-ico-ring">
+              <div class="bdg-ring" style="border-top-color:#7AE23D;border-right-color:rgba(122,226,61,.3)"></div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(122,226,61,.25),rgba(122,226,61,.08))">⏱️</div>
+              <div class="bdg-shine"></div>
+            </div>
+            <div class="bdg-nm">10 Horas</div>
+            <div class="bdg-desc">10h de voluntariado</div>
+          </div>
+
+          <!-- Conectador -->
+          <div class="bdg" onclick="openBdg('conectador')" style="background:linear-gradient(145deg,#1a0d20,#0e0812);cursor:pointer">
+            <div class="bdg-glow" style="background:#E040FB"></div>
+            <div class="bdg-new">NEW</div>
+            <div class="bdg-tier">🥈</div>
+            <div class="bdg-ico-ring">
+              <div class="bdg-ring" style="border-top-color:#E040FB;border-right-color:rgba(224,64,251,.3)"></div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(224,64,251,.25),rgba(224,64,251,.08))">👥</div>
+              <div class="bdg-shine"></div>
+            </div>
+            <div class="bdg-nm">Conectador</div>
+            <div class="bdg-desc">20+ personas convocadas</div>
+          </div>
+
+          <!-- Certificado -->
+          <div class="bdg" onclick="openBdg('certificado')" style="background:linear-gradient(145deg,#1a1500,#0e0d00);cursor:pointer">
+            <div class="bdg-glow" style="background:#FFD60A"></div>
+            <div class="bdg-new">NEW</div>
+            <div class="bdg-tier">🥈</div>
+            <div class="bdg-ico-ring">
+              <div class="bdg-ring" style="border-top-color:#FFD60A;border-right-color:rgba(255,214,10,.3)"></div>
+              <div class="bdg-ico" style="background:radial-gradient(circle,rgba(255,214,10,.25),rgba(255,214,10,.08))">🎓</div>
+              <div class="bdg-shine"></div>
+            </div>
+            <div class="bdg-nm">Certificado</div>
+            <div class="bdg-desc">1er certificado emitido</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 📈 EN PROGRESO -->
+      <div class="bdg-sec">
+        <div class="bdg-sec-ttl">📈 En progreso</div>
+      </div>
+      <div class="bdg-prog-list">
+
+        <div class="bdg-prog">
+          <div class="bdg-prog-ico" style="background:radial-gradient(circle,rgba(0,212,160,.2),rgba(0,212,160,.06))">🏆</div>
+          <div class="bdg-prog-body">
+            <div class="bdg-prog-nm">Líder de Barrio</div>
+            <div class="bdg-prog-cond">Alcanza 100h de voluntariado · llevas 24h</div>
+            <div class="bdg-prog-bar"><div class="bdg-prog-fill" style="width:24%;background:linear-gradient(90deg,var(--teal),var(--teal2))"></div></div>
+            <div class="bdg-prog-pct" style="color:var(--teal)">24 / 100 horas</div>
+          </div>
+        </div>
+
+        <div class="bdg-prog">
+          <div class="bdg-prog-ico" style="background:radial-gradient(circle,rgba(255,107,127,.2),rgba(255,107,127,.06))">🔥</div>
+          <div class="bdg-prog-body">
+            <div class="bdg-prog-nm">Incansable</div>
+            <div class="bdg-prog-cond">30 días de actividad consecutiva · llevas 12</div>
+            <div class="bdg-prog-bar"><div class="bdg-prog-fill" style="width:40%;background:linear-gradient(90deg,#FF6B7F,#FF9A3D)"></div></div>
+            <div class="bdg-prog-pct" style="color:#FF6B7F">12 / 30 días</div>
+          </div>
+        </div>
+
+        <div class="bdg-prog">
+          <div class="bdg-prog-ico" style="background:radial-gradient(circle,rgba(176,138,255,.2),rgba(176,138,255,.06))">🏛️</div>
+          <div class="bdg-prog-body">
+            <div class="bdg-prog-nm">Defensor Cívico</div>
+            <div class="bdg-prog-cond">Escala 10 reportes a la Municipalidad</div>
+            <div class="bdg-prog-bar"><div class="bdg-prog-fill" style="width:30%;background:linear-gradient(90deg,#B08AFF,#E040FB)"></div></div>
+            <div class="bdg-prog-pct" style="color:#B08AFF">3 / 10 reportes</div>
+          </div>
+        </div>
+
+        <div class="bdg-prog">
+          <div class="bdg-prog-ico" style="background:radial-gradient(circle,rgba(122,226,61,.2),rgba(122,226,61,.06))">🌍</div>
+          <div class="bdg-prog-body">
+            <div class="bdg-prog-nm">Embajador Verde</div>
+            <div class="bdg-prog-cond">Participa en 5 eventos ambientales</div>
+            <div class="bdg-prog-bar"><div class="bdg-prog-fill" style="width:40%;background:linear-gradient(90deg,#7AE23D,#00D4A0)"></div></div>
+            <div class="bdg-prog-pct" style="color:#7AE23D">2 / 5 eventos</div>
+          </div>
+        </div>
+
+        <div class="bdg-prog">
+          <div class="bdg-prog-ico" style="background:radial-gradient(circle,rgba(255,214,10,.2),rgba(255,214,10,.06))">🚀</div>
+          <div class="bdg-prog-body">
+            <div class="bdg-prog-nm">Multiplicador</div>
+            <div class="bdg-prog-cond">Invita a 50 personas a MANTA</div>
+            <div class="bdg-prog-bar"><div class="bdg-prog-fill" style="width:24%;background:linear-gradient(90deg,#FFD60A,#FFB030)"></div></div>
+            <div class="bdg-prog-pct" style="color:#FFD60A">12 / 50 personas</div>
+          </div>
+        </div>
+
+        <div class="bdg-prog">
+          <div class="bdg-prog-ico" style="background:radial-gradient(circle,rgba(91,184,255,.2),rgba(91,184,255,.06))">🌈</div>
+          <div class="bdg-prog-body">
+            <div class="bdg-prog-nm">Diversidad</div>
+            <div class="bdg-prog-cond">Participa en 8 tipos de actividades distintas</div>
+            <div class="bdg-prog-bar"><div class="bdg-prog-fill" style="width:50%;background:linear-gradient(90deg,#5BB8FF,#B08AFF)"></div></div>
+            <div class="bdg-prog-pct" style="color:#5BB8FF">4 / 8 tipos</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 🔒 BLOQUEADAS -->
+      <div class="bdg-sec">
+        <div class="bdg-sec-ttl">🔒 Por desbloquear</div>
+        <div class="bdg-grid">
+
+          <div class="bdg bdg-locked" style="background:var(--s2)">
+            <div class="bdg-ico-ring">
+              <div class="bdg-ico" style="background:var(--s3)">👑</div>
+            </div>
+            <div class="bdg-nm">Leyenda</div>
+            <div class="bdg-desc">500h voluntariado</div>
+          </div>
+
+          <div class="bdg bdg-locked" style="background:var(--s2)">
+            <div class="bdg-ico-ring">
+              <div class="bdg-ico" style="background:var(--s3)">🥇</div>
+            </div>
+            <div class="bdg-nm">Oro Comunitario</div>
+            <div class="bdg-desc">50 eventos asistidos</div>
+          </div>
+
+          <div class="bdg bdg-locked" style="background:var(--s2)">
+            <div class="bdg-ico-ring">
+              <div class="bdg-ico" style="background:var(--s3)">🎓</div>
+            </div>
+            <div class="bdg-nm">Mentor</div>
+            <div class="bdg-desc">Guía a 5 voluntarios</div>
+          </div>
+
+          <div class="bdg bdg-locked" style="background:var(--s2)">
+            <div class="bdg-ico-ring">
+              <div class="bdg-ico" style="background:var(--s3)">💡</div>
+            </div>
+            <div class="bdg-nm">Innovador</div>
+            <div class="bdg-desc">Propuesta municipal aprobada</div>
+          </div>
+
+          <div class="bdg bdg-locked" style="background:var(--s2)">
+            <div class="bdg-ico-ring">
+              <div class="bdg-ico" style="background:var(--s3)">🛡️</div>
+            </div>
+            <div class="bdg-nm">Guardián</div>
+            <div class="bdg-desc">200h voluntariado</div>
+          </div>
+
+          <div class="bdg bdg-locked" style="background:var(--s2)">
+            <div class="bdg-ico-ring">
+              <div class="bdg-ico" style="background:var(--s3)">🌟</div>
+            </div>
+            <div class="bdg-nm">Estrella</div>
+            <div class="bdg-desc">Top 10 del distrito</div>
+          </div>
+
+          <div class="bdg bdg-locked" style="background:var(--s2)">
+            <div class="bdg-ico-ring">
+              <div class="bdg-ico" style="background:var(--s3)">🏗️</div>
+            </div>
+            <div class="bdg-nm">Constructor</div>
+            <div class="bdg-desc">10 obras comunitarias</div>
+          </div>
+
+          <div class="bdg bdg-locked" style="background:var(--s2)">
+            <div class="bdg-ico-ring">
+              <div class="bdg-ico" style="background:var(--s3)">🍽️</div>
+            </div>
+            <div class="bdg-nm">Solidario</div>
+            <div class="bdg-desc">20 ollas comunes</div>
+          </div>
+
+          <div class="bdg bdg-locked" style="background:var(--s2)">
+            <div class="bdg-ico-ring">
+              <div class="bdg-ico" style="background:var(--s3)">💎</div>
+            </div>
+            <div class="bdg-nm">Diamante</div>
+            <div class="bdg-desc">Máximo nivel MANTA</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div style="height:16px"></div>
+      </div><!-- /mdl-panel-medals -->
+
+      <!-- Panel Canjeables -->
+      <div id="mdl-panel-canje" style="display:none;padding-top:4px">
+        <div style="padding:0 20px 12px;font-size:12px;color:var(--w5)">Beneficios otorgados por la Municipalidad de Lima y aliados. Canjea con tus insignias ganadas.</div>
+
+        <div class="canje-list">
+
+          <!-- DISPONIBLE -->
+          <div class="canje-card">
+            <div class="canje-head">
+              <div class="canje-ico-box" style="background:linear-gradient(135deg,rgba(0,168,126,.2),rgba(0,168,126,.08))">📚</div>
+              <div class="canje-info">
+                <div class="canje-provider" style="color:#00A87E">Biblioteca Nacional del Perú</div>
+                <div class="canje-name">Libro gratis a elección</div>
+                <div class="canje-desc">Retira un libro gratuito en cualquier sede de la Biblioteca Nacional.</div>
+              </div>
+            </div>
+            <div class="canje-foot">
+              <div class="canje-req">
+                <span class="canje-req-chip ok">🧭 Explorador</span>
+              </div>
+              <button class="canje-btn available" onclick="canjearlo('Libro gratis a elección')">Canjear</button>
+            </div>
+          </div>
+
+          <div class="canje-card">
+            <div class="canje-head">
+              <div class="canje-ico-box" style="background:linear-gradient(135deg,rgba(0,212,160,.2),rgba(0,212,160,.08))">🌿</div>
+              <div class="canje-info">
+                <div class="canje-provider" style="color:var(--teal)">Municipalidad de Lima</div>
+                <div class="canje-name">Kit de plantas para jardín</div>
+                <div class="canje-desc">Kit de 5 plantas nativas para tu hogar o espacio verde vecinal.</div>
+              </div>
+            </div>
+            <div class="canje-foot">
+              <div class="canje-req">
+                <span class="canje-req-chip ok">♻️ Reciclador</span>
+              </div>
+              <button class="canje-btn available" onclick="canjearlo('Kit de plantas para jardín')">Canjear</button>
+            </div>
+          </div>
+
+          <div class="canje-card">
+            <div class="canje-head">
+              <div class="canje-ico-box" style="background:linear-gradient(135deg,rgba(255,214,10,.2),rgba(255,214,10,.08))">🎪</div>
+              <div class="canje-info">
+                <div class="canje-provider" style="color:#FFB030">Parque de las Leyendas</div>
+                <div class="canje-name">Entrada gratis (2 personas)</div>
+                <div class="canje-desc">Ingreso gratuito para ti y un acompañante al Parque de las Leyendas.</div>
+              </div>
+            </div>
+            <div class="canje-foot">
+              <div class="canje-req">
+                <span class="canje-req-chip ok">👥 Conectador</span>
+              </div>
+              <button class="canje-btn available" onclick="canjearlo('Entrada Parque de las Leyendas')">Canjear</button>
+            </div>
+          </div>
+
+          <div class="canje-card">
+            <div class="canje-head">
+              <div class="canje-ico-box" style="background:linear-gradient(135deg,rgba(91,184,255,.2),rgba(91,184,255,.08))">🎓</div>
+              <div class="canje-info">
+                <div class="canje-provider" style="color:var(--blue)">SENATI · Aliado</div>
+                <div class="canje-name">Curso online gratuito</div>
+                <div class="canje-desc">Acceso a cualquier curso corto online en la plataforma SENATI Digital.</div>
+              </div>
+            </div>
+            <div class="canje-foot">
+              <div class="canje-req">
+                <span class="canje-req-chip ok">⏱️ 10 Horas</span>
+              </div>
+              <button class="canje-btn available" onclick="canjearlo('Curso online SENATI')">Canjear</button>
+            </div>
+          </div>
+
+          <!-- BLOQUEADOS -->
+          <div class="canje-card locked-canje">
+            <div class="canje-head">
+              <div class="canje-ico-box" style="background:rgba(255,255,255,.05)">🏛️</div>
+              <div class="canje-info">
+                <div class="canje-provider" style="color:var(--w5)">MALI · Museo de Arte de Lima</div>
+                <div class="canje-name">Entrada gratis al MALI</div>
+                <div class="canje-desc">Ingreso libre a la exposición permanente y temporal del mes.</div>
+              </div>
+            </div>
+            <div class="canje-foot">
+              <div class="canje-req">
+                <span class="canje-req-chip">🎖️ Auditor Social</span>
+                <span class="canje-req-chip">📢 Voz Activa</span>
+              </div>
+              <button class="canje-btn unavailable">🔒 Bloqueado</button>
+            </div>
+          </div>
+
+          <div class="canje-card locked-canje">
+            <div class="canje-head">
+              <div class="canje-ico-box" style="background:rgba(255,255,255,.05)">🚇</div>
+              <div class="canje-info">
+                <div class="canje-provider" style="color:var(--w5)">Metro de Lima</div>
+                <div class="canje-name">2 pasajes gratis en el Metro</div>
+                <div class="canje-desc">Carga de 2 pasajes gratuitos en tu tarjeta Lima Pass.</div>
+              </div>
+            </div>
+            <div class="canje-foot">
+              <div class="canje-req">
+                <span class="canje-req-chip">⏱️ 24h voluntariado</span>
+              </div>
+              <button class="canje-btn unavailable">🔒 Bloqueado</button>
+            </div>
+          </div>
+
+          <div class="canje-card locked-canje">
+            <div class="canje-head">
+              <div class="canje-ico-box" style="background:rgba(255,255,255,.05)">🎭</div>
+              <div class="canje-info">
+                <div class="canje-provider" style="color:var(--w5)">Gran Teatro Nacional</div>
+                <div class="canje-name">Entrada a función cultural</div>
+                <div class="canje-desc">Ingreso gratuito a una función del mes en el Gran Teatro Nacional.</div>
+              </div>
+            </div>
+            <div class="canje-foot">
+              <div class="canje-req">
+                <span class="canje-req-chip">🏆 Líder de Barrio</span>
+              </div>
+              <button class="canje-btn unavailable">🔒 Bloqueado</button>
+            </div>
+          </div>
+
+          <div class="canje-card locked-canje">
+            <div class="canje-head">
+              <div class="canje-ico-box" style="background:rgba(255,255,255,.05)">🏊</div>
+              <div class="canje-info">
+                <div class="canje-provider" style="color:var(--w5)">Municipalidad · Instalaciones</div>
+                <div class="canje-name">Pase mensual piscina municipal</div>
+                <div class="canje-desc">Acceso libre por 30 días a la piscina del polideportivo municipal.</div>
+              </div>
+            </div>
+            <div class="canje-foot">
+              <div class="canje-req">
+                <span class="canje-req-chip">🛡️ Guardián</span>
+              </div>
+              <button class="canje-btn unavailable">🔒 Bloqueado</button>
+            </div>
+          </div>
+
+          <div class="canje-card locked-canje">
+            <div class="canje-head">
+              <div class="canje-ico-box" style="background:rgba(255,255,255,.05)">🗺️</div>
+              <div class="canje-info">
+                <div class="canje-provider" style="color:var(--w5)">Municipalidad · Turismo</div>
+                <div class="canje-name">Tour guiado Lima Histórica</div>
+                <div class="canje-desc">Recorrido histórico oficial por el Centro de Lima con guía municipal.</div>
+              </div>
+            </div>
+            <div class="canje-foot">
+              <div class="canje-req">
+                <span class="canje-req-chip">🎖️ Auditor Social</span>
+                <span class="canje-req-chip">🤝 Conectado</span>
+              </div>
+              <button class="canje-btn unavailable">🔒 Bloqueado</button>
+            </div>
+          </div>
+
+        </div>
+        <div style="height:20px"></div>
+      </div><!-- /mdl-panel-canje -->
+
+      <!-- Panel Historial de canjeados -->
+      <div id="mdl-panel-hist" style="display:none;padding-top:4px">
+        <div style="padding:0 20px 14px;font-size:12px;color:var(--w5)">Beneficios ya canjeados · 2 en total</div>
+        <div class="canje-hist-list">
+
+          <div class="canje-hist-item">
+            <div class="canje-hist-ico" style="background:linear-gradient(135deg,rgba(0,212,160,.18),rgba(0,212,160,.06))">🌿</div>
+            <div class="canje-hist-body">
+              <div class="canje-hist-nm">Kit de plantas para jardín</div>
+              <div class="canje-hist-meta">Municipalidad de Lima · 14 MAY 2025</div>
+            </div>
+            <span class="canje-hist-status" style="background:rgba(0,212,160,.12);color:var(--teal)">Retirado</span>
+          </div>
+
+          <div class="canje-hist-item">
+            <div class="canje-hist-ico" style="background:linear-gradient(135deg,rgba(91,184,255,.18),rgba(91,184,255,.06))">🎓</div>
+            <div class="canje-hist-body">
+              <div class="canje-hist-nm">Curso online SENATI</div>
+              <div class="canje-hist-meta">SENATI Digital · 2 ABR 2025</div>
+            </div>
+            <span class="canje-hist-status" style="background:rgba(91,184,255,.12);color:var(--blue)">Activo</span>
+          </div>
+
+        </div>
+        <div style="height:20px"></div>
+      </div><!-- /mdl-panel-hist -->
+
     </div>
   </div>
 </div>
@@ -2093,7 +2989,7 @@ function sendCmt(){
   const inp=document.getElementById('cmtInput');
   const txt=inp.value.trim();
   if(!txt||!activeCmtId) return;
-  const newC={nm:'Andrés Quiliche',av:'perfil.png',txt,t:'Ahora',lk:0,liked:false};
+  const newC={nm:'Huayhuas Chavez',av:'perfil.png',txt,t:'Ahora',lk:0,liked:false};
   CMTS[activeCmtId].push(newC);
   inp.value='';
   openComments(activeCmtId);
@@ -2177,14 +3073,128 @@ function openReportDetail(idx){
   openModal('report-detail-modal');
 }
 
+/* ════ BADGE DETAIL ════ */
+const BADGE_DATA={
+  primer_paso: {ico:'🌱',nm:'Primer Paso',desc:'Diste el primer paso para transformar tu comunidad uniéndote a MANTA.',cond:'Unirte a MANTA',date:'📅 Desbloqueada el 1 MAR 2025',col:'#00D4A0',tier:'🥉 Bronce',bg:'linear-gradient(145deg,#061a10,#030d08)'},
+  explorador:  {ico:'🧭',nm:'Explorador',desc:'Curiosidad que inspira. Exploraste cada rincón de la plataforma.',cond:'Visitar todas las secciones de MANTA',date:'📅 Desbloqueada el 3 MAR 2025',col:'#5BB8FF',tier:'🥉 Bronce',bg:'linear-gradient(145deg,#050f1a,#020608)'},
+  primer_voto: {ico:'🗳️',nm:'Primer Voto',desc:'Cada voto cuenta. Emitiste tu primera opinión ciudadana.',cond:'Votar en tu primer reporte ciudadano',date:'📅 Desbloqueada el 8 MAR 2025',col:'#FF6B7F',tier:'🥉 Bronce',bg:'linear-gradient(145deg,#1a0408,#0d0204)'},
+  conectado:   {ico:'🤝',nm:'Conectado',desc:'Nadie cambia su barrio solo. Seguiste tu primera comunidad activa.',cond:'Seguir tu primera comunidad',date:'📅 Desbloqueada el 10 MAR 2025',col:'#B08AFF',tier:'🥉 Bronce',bg:'linear-gradient(145deg,#0d0818,#06030d)'},
+  voz_activa:  {ico:'📢',nm:'Voz Activa',desc:'Tu voz moviliza. Más de 50 comentarios constructivos en la comunidad.',cond:'Publicar 50+ comentarios en comunidades',date:'📅 Desbloqueada el 2 ABR 2025',col:'#FFD60A',tier:'🥈 Plata',bg:'linear-gradient(145deg,#181200,#0d0a00)'},
+  reciclador:  {ico:'♻️',nm:'Reciclador',desc:'El ambiente te necesita. Participaste en una jornada de reciclaje vecinal.',cond:'Asistir a un evento ambiental de reciclaje',date:'📅 Desbloqueada el 12 ABR 2025',col:'#00A87E',tier:'🥈 Plata',bg:'linear-gradient(145deg,#041a0d,#020d06)'},
+  auditor:     {ico:'🎖️',nm:'Auditor Social',desc:'Transparencia y rendición de cuentas. Participaste en 5 auditorías comunitarias.',cond:'Completar 5 auditorías sociales',date:'📅 Desbloqueada el 20 ABR 2025',col:'#4F9EFF',tier:'🥈 Plata',bg:'linear-gradient(145deg,#03101e,#01080f)'},
+  diez_horas:  {ico:'⏱️',nm:'10 Horas',desc:'Diez horas de vida dedicadas a tu comunidad. Esto es solo el comienzo.',cond:'Acumular 10 horas de voluntariado',date:'📅 Desbloqueada el 30 ABR 2025',col:'#7AE23D',tier:'🥈 Plata',bg:'linear-gradient(145deg,#0d1a04,#060d02)'},
+  conectador:  {ico:'👥',nm:'Conectador',desc:'Eres el puente que necesitaba el barrio. Convocaste a más de 20 personas.',cond:'Convocar a 20+ personas en actividades',date:'📅 Desbloqueada el 10 MAY 2025',col:'#E040FB',tier:'🥈 Plata',bg:'linear-gradient(145deg,#150820,#0a040f)'},
+  certificado: {ico:'🎓',nm:'Certificado',desc:'La Municipalidad reconoció tu aporte. Obtuviste tu primer certificado oficial.',cond:'Recibir tu primer certificado emitido',date:'📅 Desbloqueada el 15 MAY 2025',col:'#FFD60A',tier:'🥈 Plata',bg:'linear-gradient(145deg,#181200,#0d0a00)'},
+};
+function openBdg(key){
+  const d=BADGE_DATA[key]; if(!d) return;
+  const card=document.getElementById('bdgDetailCard');
+  card.style.background=d.bg;
+  card.style.border=`1px solid ${d.col}33`;
+  card.style.boxShadow=`0 0 60px ${d.col}22,inset 0 0 40px ${d.col}08`;
+  document.getElementById('bdgDetailIco').textContent=d.ico;
+  document.getElementById('bdgDetailIco').style.background=`radial-gradient(circle,${d.col}40,${d.col}10)`;
+  document.getElementById('bdgDetailIco').style.boxShadow=`0 0 30px ${d.col}66`;
+  document.getElementById('bdgRing1').style.cssText+=`;border-top-color:${d.col};border-right-color:${d.col}44`;
+  document.getElementById('bdgRing2').style.cssText+=`;border-top-color:${d.col}66;border-left-color:${d.col}33`;
+  document.getElementById('bdgDetailTier').textContent=d.tier;
+  document.getElementById('bdgDetailTier').style.background=`${d.col}22`;
+  document.getElementById('bdgDetailTier').style.color=d.col;
+  document.getElementById('bdgDetailTier').style.border=`1px solid ${d.col}44`;
+  document.getElementById('bdgDetailNm').textContent=d.nm;
+  document.getElementById('bdgDetailDesc').textContent=d.desc;
+  document.getElementById('bdgDetailCond').textContent=d.cond;
+  document.getElementById('bdgDetailDate').textContent=d.date;
+  spawnBdgParticles(card,d.col);
+  document.getElementById('bdg-detail').classList.add('open');
+}
+function spawnBdgParticles(card,col){
+  card.querySelectorAll('.bdg-particle').forEach(p=>p.remove());
+  [0,40,80,120,160,200,240,280,320].forEach((a,i)=>{
+    const p=document.createElement('div'); p.className='bdg-particle';
+    const r=55+Math.random()*30;
+    const tx=`translate(${Math.cos(a*Math.PI/180)*r}px,${Math.sin(a*Math.PI/180)*r}px)`;
+    p.style.cssText=`width:${4+Math.random()*5}px;height:${4+Math.random()*5}px;background:${col};left:calc(50% - 3px);top:55px;--tx:${tx};animation-delay:${i*.06}s;position:absolute;border-radius:50%`;
+    card.appendChild(p);
+  });
+}
+function closeBdgDetail(e){
+  if(e&&e.target!==document.getElementById('bdg-detail'))return;
+  document.getElementById('bdg-detail').classList.remove('open');
+}
+
+/* ════ MEDALS MODAL TABS ════ */
+function mdlTab(t){
+  ['medals','canje','hist'].forEach(k=>{
+    document.getElementById('mt-'+k).classList.toggle('on',t===k);
+    document.getElementById('mdl-panel-'+k).style.display=t===k?'block':'none';
+  });
+}
+function canjearlo(nombre){
+  closeModal('medals-modal');
+  setTimeout(()=>toast('🎁 ¡'+nombre+' canjeado! Presenta tu código en ventanilla.'),300);
+}
+
+/* ════ CERT VIEWER ════ */
+let _certSrc='', _certScale=1;
+const CERT_SCALES=[0.5,0.75,1,1.25,1.5,2];
+
+function openCertViewer(src, title){
+  _certSrc=src; _certScale=1;
+  document.getElementById('certViewerImg').src=src;
+  document.getElementById('certViewerTitle').textContent=title||'Certificado';
+  document.getElementById('certViewerPaper').style.transform='scale(1)';
+  document.getElementById('certZoomLbl').textContent='100%';
+  document.getElementById('certViewerScroll').scrollTop=0;
+  document.getElementById('cert-viewer').classList.add('open');
+  // close the all-certs modal so viewer is on top
+  closeModal('all-certs-modal');
+}
+
+function closeCertViewer(){
+  document.getElementById('cert-viewer').classList.remove('open');
+}
+
+function certZoom(dir){
+  const idx=CERT_SCALES.indexOf(_certScale);
+  const next=Math.max(0,Math.min(CERT_SCALES.length-1,idx+dir));
+  _certScale=CERT_SCALES[next];
+  const pct=Math.round(_certScale*100)+'%';
+  document.getElementById('certViewerPaper').style.transform=`scale(${_certScale})`;
+  document.getElementById('certZoomLbl').textContent=pct;
+}
+
+function certDownload(){
+  certDirectDownload(_certSrc,'Certificado');
+}
+
+function certDirectDownload(src, name){
+  const a=document.createElement('a');
+  a.href=src; a.download=name+'.png'; a.click();
+}
+
+/* ════ CERTIFICADOS ════ */
+function submitCertEvidence(){
+  const act=document.getElementById('certActSelect').value;
+  const desc=document.getElementById('certDesc').value.trim();
+  if(!act){toast('⚠️ Selecciona una actividad');return}
+  if(!desc){toast('⚠️ Describe tu participación');return}
+  closeModal('cert-evidence-modal');
+  setTimeout(()=>toast('📤 Evidencia enviada — revisión en 3–5 días hábiles'),300);
+  document.getElementById('certActSelect').value='';
+  document.getElementById('certDesc').value='';
+  document.getElementById('certEvidLbl').textContent='Subir foto o video de evidencia';
+}
+
 /* ════ PERFIL TABS ════ */
 function perfTab(t){
-  document.getElementById('pt-vid').classList.toggle('on',t==='vid');
-  document.getElementById('pt-evt').classList.toggle('on',t==='evt');
-  document.getElementById('pt-rep').classList.toggle('on',t==='rep');
+  ['vid','evt','rep','cert'].forEach(k=>{
+    document.getElementById('pt-'+k).classList.toggle('on',t===k);
+  });
   document.getElementById('perf-vid-feed').style.display=t==='vid'?'flex':'none';
   document.getElementById('perf-evt-panel').style.display=t==='evt'?'block':'none';
   document.getElementById('perf-rep-panel').style.display=t==='rep'?'block':'none';
+  document.getElementById('perf-cert-panel').style.display=t==='cert'?'flex':'none';
 }
 
 function shareProfile(){
