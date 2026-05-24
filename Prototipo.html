@@ -621,10 +621,12 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
       <div class="p-act" onclick="openModal('perf-config')"><svg width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></div>
     </div>
     <div class="perf-av-wrap">
-      <div class="perf-av" onclick="document.getElementById('avInp').click()" style="background:linear-gradient(135deg,#1a3a5c,#0d1a35);display:flex;align-items:center;justify-content:center">
-        <img id="avImg" src="https://i.pravatar.cc/150?img=25" onerror="this.style.display='none';this.parentNode.innerHTML='<div style=&quot;font-size:48px&quot;>👤</div>'" style="width:100%;height:100%;object-fit:cover">
+      <div class="perf-av" onclick="document.getElementById('avInp').click()" style="background:linear-gradient(135deg,#1a3a5c,#0d1a35)">
+        <img id="avImg" src="https://i.pravatar.cc/150?img=25" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover">
+        <div id="avFallback" style="position:absolute;font-size:48px;display:none">👤</div>
         <div class="perf-av-ed">✏️</div>
       </div>
+      <script>document.getElementById('avImg').onerror=function(){document.getElementById('avFallback').style.display='block'}</script>
     </div>
   </div>
   <input type="file" id="avInp" accept="image/*" style="display:none" onchange="avUp(this)">
@@ -652,8 +654,9 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
   
   <!-- Feed de Videos estilo TikTok -->
   <div id="perf-vid-feed" class="perf-vid-feed">
-    <div class="pv-story-card" onclick="openVidModal('video01.mp4')" style="background:linear-gradient(135deg,#FF6B7F,#FF6B9D)">
-      <video src="video01.mp4" muted loop playsinline preload="none" onerror="this.parentNode.style.backgroundImage='linear-gradient(135deg,#FF6B7F,#FF6B9D)';this.style.display='none'" onloadeddata="this.play().catch(()=>{})"></video>
+    <div class="pv-story-card" onclick="openVidModal('video01.mp4')" style="background:linear-gradient(135deg,#FF6B7F,#FF6B9D);position:relative;display:flex;align-items:center;justify-content:center">
+      <video src="video01.mp4" muted loop playsinline preload="none" onerror="this.style.display='none'" onloadeddata="this.play().catch(()=>{})"></video>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;font-size:56px">🏗️</div>
       <div class="pv-story-overlay">
         <div class="pv-register-btn" title="Registrarse para participar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 19v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="12" y1="14" x2="12" y2="20"/></svg> Registrarse</div>
         <div class="pv-story-info">
@@ -663,8 +666,9 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
         </div>
       </div>
     </div>
-    <div class="pv-story-card" onclick="openVidModal('video02.mp4')" style="background:linear-gradient(135deg,#5BB8FF,#00D4A0)">
-      <video src="video02.mp4" muted loop playsinline preload="none" onerror="this.parentNode.style.backgroundImage='linear-gradient(135deg,#5BB8FF,#00D4A0)';this.style.display='none'" onloadeddata="this.play().catch(()=>{})"></video>
+    <div class="pv-story-card" onclick="openVidModal('video02.mp4')" style="background:linear-gradient(135deg,#5BB8FF,#00D4A0);position:relative;display:flex;align-items:center;justify-content:center">
+      <video src="video02.mp4" muted loop playsinline preload="none" onerror="this.style.display='none'" onloadeddata="this.play().catch(()=>{})"></video>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;font-size:56px">🏥</div>
       <div class="pv-story-overlay">
         <div class="pv-register-btn" title="Registrarse para participar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 19v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="12" y1="14" x2="12" y2="20"/></svg> Registrarse</div>
         <div class="pv-story-info">
@@ -674,8 +678,9 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
         </div>
       </div>
     </div>
-    <div class="pv-story-card" onclick="openVidModal('video03.mp4')" style="background:linear-gradient(135deg,#FFD60A,#FFB030)">
-      <video src="video03.mp4" muted loop playsinline preload="none" onerror="this.parentNode.style.backgroundImage='linear-gradient(135deg,#FFD60A,#FFB030)';this.style.display='none'" onloadeddata="this.play().catch(()=>{})"></video>
+    <div class="pv-story-card" onclick="openVidModal('video03.mp4')" style="background:linear-gradient(135deg,#FFD60A,#FFB030);position:relative;display:flex;align-items:center;justify-content:center">
+      <video src="video03.mp4" muted loop playsinline preload="none" onerror="this.style.display='none'" onloadeddata="this.play().catch(()=>{})"></video>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;font-size:56px">🍽️</div>
       <div class="pv-story-overlay">
         <div class="pv-register-btn" title="Registrarse para participar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 19v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="12" y1="14" x2="12" y2="20"/></svg> Registrarse</div>
         <div class="pv-story-info">
@@ -1029,42 +1034,42 @@ let activeCmtId=null;
 /* ════ DATA ════ */
 const COMMS=[
   {id:1,name:"Voluntaria de Construcción",dist:"Pamplona Alta, Surco",type:"today",act:"Construcción Comunitaria",em:"🏗️",col:"#FFB030",
-   img:"https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&h=340&fit=crop&auto=format",
+   img:"https://picsum.photos/400/300?random=1",
    lat:-12.135,lng:-76.985,fol:342,vids:3,
    evts:[{d:24,m:"MAY",t:"Pintado de losa deportiva",ds:"Pamplona Alta · 8am"}],
    desc:"Restauración de espacios deportivos con voluntarios comprometidos.",tags:["#construcción","#voluntariado","#surco"]},
   {id:2,name:"Agentes de Salud Comunitaria",dist:"San Juan de Miraflores",type:"today",act:"Salud Pública",em:"🏥",col:"#5BB8FF",
-   img:"https://images.unsplash.com/photo-1576091160550-112173f31c74?w=600&h=340&fit=crop&auto=format",
+   img:"https://picsum.photos/400/300?random=2",
    lat:-12.159,lng:-76.975,fol:267,vids:3,
    evts:[{d:28,m:"MAY",t:"Campaña de salud preventiva",ds:"Centro de Salud SJM · 2pm"}],
    desc:"Agentes capacitados en promoción de salud e higiene comunitaria.",tags:["#salud","#agentes","#sjm"]},
   {id:3,name:"Alimento Para Todos",dist:"Villa El Salvador",type:"today",act:"Seguridad Alimentaria",em:"🍽️",col:"#FFD60A",
-   img:"https://images.unsplash.com/photo-1504674900153-640481dd0b9e?w=600&h=340&fit=crop&auto=format",
+   img:"https://picsum.photos/400/300?random=3",
    lat:-12.195,lng:-76.952,fol:456,vids:3,
    evts:[{d:23,m:"MAY",t:"Distribución de alimentos",ds:"Plaza Central VES · 10am"}],
    desc:"Iniciativa de seguridad alimentaria para familias en vulnerabilidad.",tags:["#alimentación","#ves","#solidaridad"]},
   {id:4,name:"Unidos por Surco",dist:"Surco",type:"upcoming",act:"Voluntariado Integral",em:"💚",col:"#00D4A0",
-   img:"https://images.unsplash.com/photo-1593113598332-cd288d649433?w=600&h=340&fit=crop&auto=format",
+   img:"https://picsum.photos/400/300?random=4",
    lat:-12.140,lng:-76.990,fol:234,vids:8,
    evts:[{d:31,m:"MAY",t:"Limpieza parque",ds:"Parque Los Olivos · 7am"}],
    desc:"Comunidad integral de voluntarios activos en Surco.",tags:["#voluntariado","#surco","#activo"]},
   {id:5,name:"Juventud SJM",dist:"San Juan de Miraflores",type:"upcoming",act:"Taller de Emprendimiento",em:"📘",col:"#B08AFF",
-   img:"https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=340&fit=crop&auto=format",
+   img:"https://picsum.photos/400/300?random=5",
    lat:-12.162,lng:-76.970,fol:156,vids:5,
    evts:[{d:5,m:"JUN",t:"Feria de talentos",ds:"Plaza SJM · 10am"}],
    desc:"Empoderamiento juvenil a través del emprendimiento.",tags:["#jovenes","#sjm","#taller"]},
   {id:6,name:"Mujeres VES",dist:"Villa El Salvador",type:"today",act:"Olla Común",em:"🍲",col:"#FF6B9D",
-   img:"https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&h=340&fit=crop&auto=format",
+   img:"https://picsum.photos/400/300?random=6",
    lat:-12.198,lng:-76.955,fol:312,vids:12,
    evts:[{d:30,m:"MAY",t:"Donación de alimentos",ds:"Mercado VES · 9am"}],
    desc:"Olla común solidaria todos los jueves para el barrio.",tags:["#ollacomun","#ves","#solidaridad"]},
   {id:7,name:"EcoVerde Pachacámac",dist:"Pachacámac",type:"funded",act:"Medio Ambiente",em:"🌿",col:"#00D4A0",
-   img:"https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=600&h=340&fit=crop&auto=format",
+   img:"https://picsum.photos/400/300?random=7",
    lat:-12.228,lng:-76.942,fol:189,vids:6,
    evts:[{d:1,m:"JUN",t:"Festival de reciclaje",ds:"Parque EcoVerde · 9am"}],
    desc:"Iniciativa ambiental financiada por Fundación Romero.",tags:["#ecologia","#reciclaje","#financiado"]},
   {id:8,name:"Arte Comunitario SJM",dist:"San Juan de Miraflores",type:"today",act:"Evento Cultural",em:"🎨",col:"#B08AFF",
-   img:"https://images.unsplash.com/photo-1499781350541-7783f6c6a0c8?w=600&h=340&fit=crop&auto=format",
+   img:"https://picsum.photos/400/300?random=8",
    lat:-12.166,lng:-76.963,fol:423,vids:15,
    evts:[{d:7,m:"JUN",t:"Exposición vecinal",ds:"Casa cultura SJM · 4pm"}],
    desc:"Mural colectivo: arte y cultura vecinal en acción.",tags:["#arte","#cultura","#sjm"]}
