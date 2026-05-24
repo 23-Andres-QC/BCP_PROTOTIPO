@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover">
-<title>BarrioActivo</title>
+<title>MANTA</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -17,6 +17,21 @@
   --blue:#5BB8FF;--red:#FF6B7F;--gold:#FFD60A;--purple:#B08AFF;--pink:#FF6B9D;
   --nav:60px;--sb:48px;
 }
+/* ════════════ SPLASH ════════════ */
+.splash-screen{
+  position:absolute;inset:0;z-index:9999;
+  background:#FFFFFF;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1);
+}
+.splash-screen.hide{opacity:0;transform:scale(1.08);pointer-events:none}
+.splash-logo{width:240px;animation:splashPulse 2.5s ease-in-out infinite}
+@keyframes splashPulse{0%,100%{filter:drop-shadow(0 0 15px rgba(0,180,140,.15))}50%{filter:drop-shadow(0 0 40px rgba(0,180,140,.35))}}
+.splash-tagline{font-family:'Outfit',sans-serif;font-size:12px;color:rgba(30,40,80,.45);margin-top:14px;letter-spacing:2px;text-transform:uppercase;opacity:0;animation:splashFade .8s ease .6s forwards;font-weight:600}
+.splash-loader{width:40px;height:3px;background:rgba(0,0,0,.06);border-radius:3px;margin-top:28px;overflow:hidden;opacity:0;animation:splashFade .5s ease .8s forwards}
+.splash-loader::after{content:'';display:block;width:60%;height:100%;background:linear-gradient(90deg,#00D4A0,#5BB8FF);border-radius:3px;animation:splashLoad 2s ease-in-out infinite}
+@keyframes splashLoad{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+@keyframes splashFade{to{opacity:1}}
 /* ════════════ RESET ════════════ */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{height:100%;height:-webkit-fill-available}
@@ -191,6 +206,13 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 .chips::-webkit-scrollbar{display:none}
 .chip{flex-shrink:0;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--b1);background:var(--s2);color:var(--w5);transition:all .2s}
 .chip.a-g{background:rgba(0,212,160,.12);color:var(--teal);border-color:rgba(0,212,160,.4);font-weight:800}
+.map-hd .chips{display:none}
+/* compact bottom controls (same style as top chips) */
+.map-bottom{position:absolute;left:50%;transform:translateX(-50%);bottom:14px;z-index:500;display:flex;align-items:center;justify-content:center;padding:6px}
+.map-bottom .chips{display:flex;gap:8px}
+.map-bottom .chip{padding:7px 12px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;border:1px solid var(--b1);background:var(--s3);color:var(--w5);transition:all .16s}
+.map-bottom .chip.a-g{background:rgba(0,212,160,.12);color:var(--teal);border-color:rgba(0,212,160,.28)}
+.map-bottom .chip:active{transform:scale(.98)}
 .chip.a-b{background:rgba(91,184,255,.12);color:var(--blue);border-color:rgba(91,184,255,.4);font-weight:800}
 .chip.a-r{background:rgba(255,107,127,.12);color:#FF6B7F;border-color:rgba(255,107,127,.4);font-weight:800}
 .chip.a-y{background:rgba(255,214,10,.12);color:var(--gold);border-color:rgba(255,214,10,.4);font-weight:800}
@@ -460,6 +482,11 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 <div class="frame">
 <div class="phone">
 
+<div class="splash-screen" id="splashScreen">
+  <img class="splash-logo" src="logo.png" alt="MANTA">
+  <p class="splash-tagline">Tejemos comunidad, conectamos vidas</p>
+</div>
+
 <!-- ── STATUS BAR ── -->
 <div class="sb">
   <span style="position:relative;z-index:302">9:41</span>
@@ -510,21 +537,21 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
         Mapa de Impacto
         <div class="map-filt"><svg width="16" height="16" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></div>
       </div>
-      <div class="chips" id="mapChips">
-        <span class="chip a-g" onclick="filterMap('all',this)">Todos</span>
-        <span class="chip" onclick="filterMap('today',this)">🟢 Activos</span>
-        <span class="chip" onclick="filterMap('upcoming',this)">🔵 Próximos</span>
-        <span class="chip" onclick="filterMap('report',this)">🔴 Reportes</span>
-        <span class="chip" onclick="filterMap('funded',this)">🟡 Financiados</span>
-      </div>
+        <!-- top chips are hidden; bottom legend will host controls for better UX on small screens -->
+        <div class="chips" id="mapChips" style="display:none">
+          <button class="chip a-g" onclick="filterMap('all',this)">Todos</button>
+        </div>
     </div>
   </div>
-  <div class="map-leg">
-    <div class="leg-i"><div class="leg-d" style="background:#00D4A0;box-shadow:0 0 5px #00D4A0"></div>Activo hoy</div>
-    <div class="leg-i"><div class="leg-d" style="background:#4F9EFF;box-shadow:0 0 5px #4F9EFF"></div>Próximo</div>
-    <div class="leg-i"><div class="leg-d" style="background:#FF4B55;box-shadow:0 0 5px #FF4B55"></div>Reporte</div>
-    <div class="leg-i"><div class="leg-d" style="background:#FFB930;box-shadow:0 0 5px #FFB930"></div>Financiado</div>
-  </div>
+    <!-- compact bottom controls: simple, centered, same look as top chips -->
+    <div class="map-bottom">
+      <div class="chips map-bottom-chips">
+        <span class="chip a-g" onclick="filterMap('today',this)" style="background:rgba(0,212,160,.15);color:#00D4A0;border-color:rgba(0,212,160,.35)">🟢 Activo hoy</span>
+        <span class="chip" onclick="filterMap('upcoming',this)" style="background:rgba(91,184,255,.12);color:#5BB8FF;border-color:rgba(91,184,255,.35)">🔵 Próximo</span>
+        <span class="chip" onclick="filterMap('report',this)" style="background:rgba(255,107,127,.12);color:#FF6B7F;border-color:rgba(255,107,127,.35)">🔴 Reporte</span>
+        <span class="chip" onclick="filterMap('funded',this)" style="background:rgba(255,214,10,.12);color:#FFD60A;border-color:rgba(255,214,10,.35)">🟡 Financiado</span>
+      </div>
+    </div>
 </div>
 
 <!-- ═══════ CREAR ═══════ -->
@@ -622,7 +649,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
     </div>
     <div class="perf-av-wrap">
       <div class="perf-av" onclick="document.getElementById('avInp').click()" style="background:linear-gradient(135deg,#1a3a5c,#0d1a35)">
-        <img id="avImg" src="https://i.pravatar.cc/150?img=25" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover">
+        <img id="avImg" src="perfil.png" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover">
         <div id="avFallback" style="position:absolute;font-size:48px;display:none">👤</div>
         <div class="perf-av-ed">✏️</div>
       </div>
@@ -693,55 +720,109 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
   </div>
   
   <!-- Panel de Eventos -->
-  <div id="perf-evt-panel" style="display:none;padding:0 20px 24px">
-    <div class="evt-item-card" style="user-select:all">
-      <div class="evt-date"><span class="evt-day">24</span><span class="evt-mon">MAY</span></div>
-      <div class="evt-details">
-        <div class="evt-card-title">Pintado de losa deportiva</div>
-        <div class="evt-card-loc">📍 Pamplona Alta · Surco</div>
-        <div class="evt-card-time">⏰ 8:00 AM - 2:00 PM</div>
-        <div class="evt-card-stats">👥 40 voluntarios · 💪 Muy activo</div>
+  <div id="perf-evt-panel" style="display:none;padding:16px 20px 24px">
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <button class="chip a-g" id="evt-tab-cur" onclick="perfEvtTab('cur')" style="border:none;cursor:pointer">📅 Actuales</button>
+      <button class="chip" id="evt-tab-past" onclick="perfEvtTab('past')" style="border:none;cursor:pointer">📜 Pasados</button>
+    </div>
+    <div id="perf-evt-current">
+      <div class="evt-item-card" style="cursor:pointer" onclick="openEvent(1,0)">
+        <div class="evt-date"><span class="evt-day">24</span><span class="evt-mon">MAY</span></div>
+        <div class="evt-details">
+          <div class="evt-card-title">Pintado de losa deportiva</div>
+          <div class="evt-card-loc">📍 Pamplona Alta · Surco</div>
+          <div class="evt-card-time">⏰ 8:00 AM - 2:00 PM</div>
+          <div class="evt-card-stats">👥 40 voluntarios · 💪 Inscrito</div>
+          <div style="color:var(--teal);font-size:11px;margin-top:4px;font-weight:700">Ver detalles →</div>
+        </div>
+      </div>
+      <div class="evt-item-card" style="cursor:pointer" onclick="openEvent(4,0)">
+        <div class="evt-date"><span class="evt-day">31</span><span class="evt-mon">MAY</span></div>
+        <div class="evt-details">
+          <div class="evt-card-title">Limpieza parque Los Olivos</div>
+          <div class="evt-card-loc">📍 Parque Los Olivos · Surco</div>
+          <div class="evt-card-time">⏰ 7:00 AM - 1:00 PM</div>
+          <div class="evt-card-stats">👥 35 voluntarios · 🌿 Pendiente</div>
+          <div style="color:var(--teal);font-size:11px;margin-top:4px;font-weight:700">Ver detalles →</div>
+        </div>
+      </div>
+      <div class="evt-item-card" style="cursor:pointer" onclick="openEvent(5,0)">
+        <div class="evt-date"><span class="evt-day">5</span><span class="evt-mon">JUN</span></div>
+        <div class="evt-details">
+          <div class="evt-card-title">Feria de talentos juvenil</div>
+          <div class="evt-card-loc">📍 Plaza SJM</div>
+          <div class="evt-card-time">⏰ 10:00 AM - 4:00 PM</div>
+          <div class="evt-card-stats">👥 150 asistentes · 📘 Próximo</div>
+          <div style="color:var(--teal);font-size:11px;margin-top:4px;font-weight:700">Ver detalles →</div>
+        </div>
       </div>
     </div>
-    <div class="evt-item-card" style="user-select:all">
-      <div class="evt-date"><span class="evt-day">31</span><span class="evt-mon">MAY</span></div>
-      <div class="evt-details">
-        <div class="evt-card-title">Limpieza del Parque Los Olivos</div>
-        <div class="evt-card-loc">📍 Parque Los Olivos · Surco</div>
-        <div class="evt-card-time">⏰ 7:00 AM - 1:00 PM</div>
-        <div class="evt-card-stats">👥 35 voluntarios · 🌿 Ambiente</div>
+    <div id="perf-evt-past" style="display:none">
+      <div class="evt-item-card" style="cursor:pointer;border-left:3px solid var(--gold)" onclick="openPastEvent(0)">
+        <div class="evt-date"><span class="evt-day">10</span><span class="evt-mon">MAY</span></div>
+        <div class="evt-details">
+          <div class="evt-card-title">Mural Comunitario SJM</div>
+          <div class="evt-card-loc">📍 Parque Central · SJM</div>
+          <div class="evt-card-time">✅ Completado · 8 fotos</div>
+          <div class="evt-card-stats">👥 60 participantes · 🎨 Arte</div>
+          <div style="color:var(--gold);font-size:11px;margin-top:4px;font-weight:700">📸 Ver galería →</div>
+        </div>
       </div>
-    </div>
-    <div class="evt-item-card" style="user-select:all">
-      <div class="evt-date"><span class="evt-day">28</span><span class="evt-mon">MAY</span></div>
-      <div class="evt-details">
-        <div class="evt-card-title">Taller de Emprendimiento Juvenil</div>
-        <div class="evt-card-loc">📍 Centro Comunitario SJM</div>
-        <div class="evt-card-time">⏰ 3:00 PM - 6:00 PM</div>
-        <div class="evt-card-stats">👥 50 jóvenes · 📚 Educación</div>
+      <div class="evt-item-card" style="cursor:pointer;border-left:3px solid var(--teal)" onclick="openPastEvent(1)">
+        <div class="evt-date"><span class="evt-day">28</span><span class="evt-mon">ABR</span></div>
+        <div class="evt-details">
+          <div class="evt-card-title">Jornada de Reciclaje Pachacámac</div>
+          <div class="evt-card-loc">📍 Parque EcoVerde · Pachacámac</div>
+          <div class="evt-card-time">✅ Completado · 6 fotos</div>
+          <div class="evt-card-stats">👥 45 voluntarios · ♻️ Ambiente</div>
+          <div style="color:var(--teal);font-size:11px;margin-top:4px;font-weight:700">📸 Ver galería →</div>
+        </div>
+      </div>
+      <div class="evt-item-card" style="cursor:pointer;border-left:3px solid var(--purple)" onclick="openPastEvent(2)">
+        <div class="evt-date"><span class="evt-day">15</span><span class="evt-mon">ABR</span></div>
+        <div class="evt-details">
+          <div class="evt-card-title">Taller de Emprendimiento Juvenil</div>
+          <div class="evt-card-loc">📍 Centro Comunitario SJM</div>
+          <div class="evt-card-time">✅ Completado · 5 fotos</div>
+          <div class="evt-card-stats">👥 50 jóvenes · 📚 Educación</div>
+          <div style="color:var(--purple);font-size:11px;margin-top:4px;font-weight:700">📸 Ver galería →</div>
+        </div>
+      </div>
+      <div class="evt-item-card" style="cursor:pointer;border-left:3px solid var(--pink)" onclick="openPastEvent(3)">
+        <div class="evt-date"><span class="evt-day">2</span><span class="evt-mon">ABR</span></div>
+        <div class="evt-details">
+          <div class="evt-card-title">Olla Común Solidaria VES</div>
+          <div class="evt-card-loc">📍 Mercado VES</div>
+          <div class="evt-card-time">✅ Completado · 7 fotos</div>
+          <div class="evt-card-stats">👥 80 familias · 🍲 Alimentación</div>
+          <div style="color:var(--pink);font-size:11px;margin-top:4px;font-weight:700">📸 Ver galería →</div>
+        </div>
       </div>
     </div>
   </div>
   
   <!-- Panel de Reportes -->
-  <div id="perf-rep-panel" style="display:none;padding:0 20px 24px">
-    <div class="rep-item-card" style="user-select:all">
+  <div id="perf-rep-panel" style="display:none;padding:16px 20px 24px">
+    <div class="rep-item-card" style="cursor:pointer" onclick="openReportDetail(0)">
       <div class="rep-status" style="background:#FF6B7F">Abierto</div>
       <div class="rep-title">Acumulación de residuos en Av. Central</div>
       <div class="rep-desc">Reportado hace 3 días · Sin recolección</div>
       <div class="rep-votes">🗳️ 22 votos de la comunidad</div>
+      <div style="color:var(--red);font-size:11px;margin-top:6px;font-weight:700">Ver detalles →</div>
     </div>
-    <div class="rep-item-card" style="user-select:all">
+    <div class="rep-item-card" style="cursor:pointer" onclick="openReportDetail(1)">
       <div class="rep-status" style="background:#00D4A0">Resuelto</div>
       <div class="rep-title">Reparación de luminarias en Jr. Los Pinos</div>
       <div class="rep-desc">Reportado hace 15 días · Municipalidad atendió</div>
       <div class="rep-votes">🗳️ 34 votos de la comunidad</div>
+      <div style="color:var(--teal);font-size:11px;margin-top:6px;font-weight:700">Ver detalles →</div>
     </div>
-    <div class="rep-item-card" style="user-select:all">
+    <div class="rep-item-card" style="cursor:pointer" onclick="openReportDetail(2)">
       <div class="rep-status" style="background:#5BB8FF">En proceso</div>
       <div class="rep-title">Drenaje obstruido en Pasaje 5</div>
       <div class="rep-desc">Reportado hace 8 días · La municipalidad está en proceso</div>
       <div class="rep-votes">🗳️ 18 votos de la comunidad</div>
+      <div style="color:var(--blue);font-size:11px;margin-top:6px;font-weight:700">Ver detalles →</div>
     </div>
   </div>
 
@@ -977,6 +1058,22 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
   </div>
 </div>
 
+<!-- Modal galería evento pasado -->
+<div class="overlay" id="past-evt-modal" onclick="closeBg(event,'past-evt-modal')">
+  <div class="sheet tall">
+    <div class="sh-handle"></div>
+    <div class="sh-body" id="pastEvtBody"></div>
+  </div>
+</div>
+
+<!-- Modal detalle reporte -->
+<div class="overlay" id="report-detail-modal" onclick="closeBg(event,'report-detail-modal')">
+  <div class="sheet tall">
+    <div class="sh-handle"></div>
+    <div class="sh-body" id="reportDetailBody"></div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 </div><!-- /phone -->
@@ -1034,42 +1131,42 @@ let activeCmtId=null;
 /* ════ DATA ════ */
 const COMMS=[
   {id:1,name:"Voluntaria de Construcción",dist:"Pamplona Alta, Surco",type:"today",act:"Construcción Comunitaria",em:"🏗️",col:"#FFB030",
-   img:"https://picsum.photos/400/300?random=1",
+   img:"",
    lat:-12.135,lng:-76.985,fol:342,vids:3,
    evts:[{d:24,m:"MAY",t:"Pintado de losa deportiva",ds:"Pamplona Alta · 8am"}],
    desc:"Restauración de espacios deportivos con voluntarios comprometidos.",tags:["#construcción","#voluntariado","#surco"]},
   {id:2,name:"Agentes de Salud Comunitaria",dist:"San Juan de Miraflores",type:"today",act:"Salud Pública",em:"🏥",col:"#5BB8FF",
-   img:"https://picsum.photos/400/300?random=2",
+   img:"",
    lat:-12.159,lng:-76.975,fol:267,vids:3,
    evts:[{d:28,m:"MAY",t:"Campaña de salud preventiva",ds:"Centro de Salud SJM · 2pm"}],
    desc:"Agentes capacitados en promoción de salud e higiene comunitaria.",tags:["#salud","#agentes","#sjm"]},
   {id:3,name:"Alimento Para Todos",dist:"Villa El Salvador",type:"today",act:"Seguridad Alimentaria",em:"🍽️",col:"#FFD60A",
-   img:"https://picsum.photos/400/300?random=3",
+   img:"",
    lat:-12.195,lng:-76.952,fol:456,vids:3,
    evts:[{d:23,m:"MAY",t:"Distribución de alimentos",ds:"Plaza Central VES · 10am"}],
    desc:"Iniciativa de seguridad alimentaria para familias en vulnerabilidad.",tags:["#alimentación","#ves","#solidaridad"]},
   {id:4,name:"Unidos por Surco",dist:"Surco",type:"upcoming",act:"Voluntariado Integral",em:"💚",col:"#00D4A0",
-   img:"https://picsum.photos/400/300?random=4",
+   img:"",
    lat:-12.140,lng:-76.990,fol:234,vids:8,
    evts:[{d:31,m:"MAY",t:"Limpieza parque",ds:"Parque Los Olivos · 7am"}],
    desc:"Comunidad integral de voluntarios activos en Surco.",tags:["#voluntariado","#surco","#activo"]},
   {id:5,name:"Juventud SJM",dist:"San Juan de Miraflores",type:"upcoming",act:"Taller de Emprendimiento",em:"📘",col:"#B08AFF",
-   img:"https://picsum.photos/400/300?random=5",
+   img:"",
    lat:-12.162,lng:-76.970,fol:156,vids:5,
    evts:[{d:5,m:"JUN",t:"Feria de talentos",ds:"Plaza SJM · 10am"}],
    desc:"Empoderamiento juvenil a través del emprendimiento.",tags:["#jovenes","#sjm","#taller"]},
   {id:6,name:"Mujeres VES",dist:"Villa El Salvador",type:"today",act:"Olla Común",em:"🍲",col:"#FF6B9D",
-   img:"https://picsum.photos/400/300?random=6",
+   img:"",
    lat:-12.198,lng:-76.955,fol:312,vids:12,
    evts:[{d:30,m:"MAY",t:"Donación de alimentos",ds:"Mercado VES · 9am"}],
    desc:"Olla común solidaria todos los jueves para el barrio.",tags:["#ollacomun","#ves","#solidaridad"]},
   {id:7,name:"EcoVerde Pachacámac",dist:"Pachacámac",type:"funded",act:"Medio Ambiente",em:"🌿",col:"#00D4A0",
-   img:"https://picsum.photos/400/300?random=7",
+   img:"",
    lat:-12.228,lng:-76.942,fol:189,vids:6,
    evts:[{d:1,m:"JUN",t:"Festival de reciclaje",ds:"Parque EcoVerde · 9am"}],
    desc:"Iniciativa ambiental financiada por Fundación Romero.",tags:["#ecologia","#reciclaje","#financiado"]},
   {id:8,name:"Arte Comunitario SJM",dist:"San Juan de Miraflores",type:"today",act:"Evento Cultural",em:"🎨",col:"#B08AFF",
-   img:"https://picsum.photos/400/300?random=8",
+   img:"",
    lat:-12.166,lng:-76.963,fol:423,vids:15,
    evts:[{d:7,m:"JUN",t:"Exposición vecinal",ds:"Casa cultura SJM · 4pm"}],
    desc:"Mural colectivo: arte y cultura vecinal en acción.",tags:["#arte","#cultura","#sjm"]}
@@ -1097,8 +1194,7 @@ function buildFeed(){
   COMMS.forEach((c,i)=>{
     const fp=document.createElement('div'); fp.className='fp'; fp.style.background=BGS[i];
     fp.innerHTML=`
-      <div class="fp-bg" style="background-image:url('${c.img}');background-color:${c.col}33" onerror="this.style.backgroundImage='none'"></div>
-      <div class="fp-fallback" style="background:linear-gradient(135deg,${c.col}44,${c.col}22);opacity:0;position:absolute;inset:0;z-index:-1"></div>
+      <div class="fp-bg" style="background:linear-gradient(135deg,${c.col}33,${c.col}11)"></div>
       <video class="fp-vid" id="vid${i}" src="video0${(i%3)+1}.mp4" loop muted playsinline preload="none"
         onerror="this.parentNode.style.backgroundImage='linear-gradient(135deg,${c.col},${c.col}44)';this.style.display='none'" onloadeddata="this.style.display='block'"></video>
       <div class="fp-mute" id="muteBtn${i}" onclick="toggleMute(${i})">
@@ -1115,7 +1211,7 @@ function buildFeed(){
       </div>
       <div class="fp-ac">
         <div class="fp-cav" onclick="openCM(${c.id})">
-          <div class="fp-av"><img src="${c.img}" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover"></div>
+          <div class="fp-av" style="background:linear-gradient(135deg,${c.col}44,${c.col}11);display:flex;align-items:center;justify-content:center;font-size:20px">${c.em}</div>
           <div class="fp-plus" id="fpl${i}" onclick="event.stopPropagation();feedFlw(${i},${c.id})">+</div>
         </div>
         <div class="fpa" id="flk${i}" onclick="feedLike(this,${i})">
@@ -1141,12 +1237,6 @@ function buildFeed(){
         <div class="fp-mus"><div class="fp-mus-ico">🎵</div><div class="fp-mus-txt">${SONGS[i]}</div></div>
       </div>`;
     w.appendChild(fp);
-    // Agregar listener para detectar si la imagen carga
-    const bgEl = fp.querySelector('.fp-bg');
-    const fallbackEl = fp.querySelector('.fp-fallback');
-    const img = new Image();
-    img.onerror = () => { if(fallbackEl) fallbackEl.style.opacity = '1'; };
-    img.src = c.img;
     // try video
     document.getElementById('vid'+i).load();
   });
@@ -1209,8 +1299,8 @@ function buildStories(){
   row.innerHTML=COMMS.map(c=>`
     <div class="story" onclick="openCM(${c.id})">
       <div class="story-ring ${flSt[c.id]?'live':''}">
-        <div class="story-inner">
-          <img src="${c.img}" alt="${c.name}" onerror="this.style.display='none'">
+        <div class="story-inner" style="background:linear-gradient(135deg,${c.col}44,${c.col}11);display:flex;align-items:center;justify-content:center;font-size:22px">
+          ${c.em}
         </div>
       </div>
       <span class="story-nm">${c.name.split(' ')[0]}</span>
@@ -1243,8 +1333,8 @@ function renderMC(){
     const fw=flSt[c.id];
     const nxt=c.evts[0];
     return `<div class="cc" onclick="openCM(${c.id})">
-      <div class="cc-img" style="background:${c.col}22;display:flex;align-items:center;justify-content:center">
-        <img src="${c.img}" alt="${c.name}" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover">
+      <div class="cc-img" style="background:linear-gradient(135deg,${c.col}33,${c.col}11);display:flex;align-items:center;justify-content:center">
+        <span style="font-size:52px;filter:drop-shadow(0 4px 12px ${c.col}88)">${c.em}</span>
         <div class="cc-img-grad"></div>
         <div class="cc-em">${c.em}</div>
         <div class="cc-type-badge" style="background:${TCOL[c.type]}">${TLBL[c.type]}</div>
@@ -1294,7 +1384,7 @@ function initLeafMap(){
       ? c.evts.map((e,i)=>`<div style="padding:8px;background:rgba(255,255,255,.05);border-radius:6px;margin:4px 0;cursor:pointer;border-left:3px solid ${col};transition:all .2s" onclick="openEvent(${c.id},${i});document.querySelector('.leaflet-popup-close-button')?.click()" onmouseover="this.style.background='rgba(255,255,255,.1)'" onmouseout="this.style.background='rgba(255,255,255,.05)'"><div style="font-size:12px;font-weight:600;color:${col}">${e.t}</div><div style="font-size:11px;color:#aaa">${e.d} ${e.m} · ${e.ds}</div></div>`).join('')
       : '<div style="font-size:12px;color:#888;padding:8px">Sin eventos próximos</div>';
     m.bindPopup(`<div style="max-width:220px;font-size:12px"><div class="pop-type" style="color:${col};font-weight:600;margin-bottom:6px">${c.act}</div><div class="pop-nm" style="font-size:13px;font-weight:600;margin-bottom:4px;color:white">${c.name}</div><div class="pop-ds" style="font-size:11px;color:#aaa;margin-bottom:10px">${c.desc}</div><div style="font-size:11px;font-weight:600;color:${col};margin-bottom:6px">📅 Eventos:</div>${evtsList}</div>`);
-    m._type=c.type; mapMarkers.push(m);
+    m._type=c.type; m._commId=c.id; mapMarkers.push(m);
   });
 }
 
@@ -1304,6 +1394,26 @@ function filterMap(f,el){
   mapMarkers.forEach(m=>{
     if(f==='all'||m._type===f){if(!leafMap.hasLayer(m))leafMap.addLayer(m)}
     else{if(leafMap.hasLayer(m))leafMap.removeLayer(m)}
+  });
+}
+
+function filterMapByComm(commId,el){
+  // clear active state from both top (hidden) and bottom controls
+  document.querySelectorAll('#mapChips .chip, .map-leg .chip').forEach(c=>{c.className='chip'});
+  // set active style
+  if(commId==='all' || commId=== 'all') {
+    document.querySelectorAll('#mapChips .chip, .map-leg .chip').forEach(c=>{ if(c.textContent.trim()==='Todos') c.classList.add('a-g') });
+  } else {
+    // highlight the clicked button
+    el.classList.add('a-b');
+  }
+  // show/hide markers by comm id
+  mapMarkers.forEach(m=>{
+    if(commId==='all' || commId=== 'all' || m._commId===commId){
+      if(!leafMap.hasLayer(m)) leafMap.addLayer(m);
+    } else {
+      if(leafMap.hasLayer(m)) leafMap.removeLayer(m);
+    }
   });
 }
 
@@ -1409,13 +1519,13 @@ function openCM(id){
 
   document.getElementById('comDetailTitle').textContent=c.name;
   document.getElementById('comDetailBody').innerHTML=`
-    <div class="cm-cover" style="background:${c.col}22;display:flex;align-items:center;justify-content:center">
-      <img src="${c.img}" alt="${c.name}" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover">
+    <div class="cm-cover" style="background:linear-gradient(135deg,${c.col}44,${c.col}11);display:flex;align-items:center;justify-content:center">
+      <span style="font-size:56px;filter:drop-shadow(0 4px 16px ${c.col}88)">${c.em}</span>
       <div class="cm-cov-grad"></div>
       <div class="cm-cov-em">${c.em}</div>
     </div>
     <div class="cm-hd" style="padding:16px 20px">
-      <div class="cm-av" style="background:${c.col}22;display:flex;align-items:center;justify-content:center"><img src="${c.img}" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover"></div>
+      <div class="cm-av" style="background:linear-gradient(135deg,${c.col}44,${c.col}11);display:flex;align-items:center;justify-content:center;font-size:24px">${c.em}</div>
       <div><div class="cm-nm">${c.name}</div><div class="cm-dist">📍 ${c.dist} · ${c.act}</div></div>
     </div>
     <div class="cm-stats" style="padding:0 20px">
@@ -1635,6 +1745,8 @@ getGeo();
 updateMCBadge();
 // pre-load video thumbnails en perfil
 document.querySelectorAll('.pv-cell video').forEach(v=>{v.load();v.play().catch(()=>{})});
+// Splash screen
+setTimeout(()=>{const s=document.getElementById('splashScreen');s.classList.add('hide');setTimeout(()=>s.remove(),900)},2500);
 </script>
 </body>
 </html>
