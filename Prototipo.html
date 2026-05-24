@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover">
+<title>BarrioActivo</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+/* ════════════ TOKENS ════════════ */
+:root{
+  --bg:#0A0E27;--s1:#131A40;--s2:#1B2541;--s3:#2A3560;
+  --b0:rgba(255,255,255,.06);--b1:rgba(255,255,255,.10);--b2:rgba(255,255,255,.16);
+  --w:#fff;--w8:rgba(255,255,255,.8);--w5:rgba(255,255,255,.5);--w3:rgba(255,255,255,.3);--w1:rgba(255,255,255,.1);
+  --teal:#00D4A0;--teal2:#00FFB8;--tg:rgba(0,212,160,.18);--ts:0 0 20px rgba(0,212,160,.5);
+  --blue:#5BB8FF;--red:#FF6B7F;--gold:#FFD60A;--purple:#B08AFF;--pink:#FF6B9D;
+  --nav:60px;--sb:48px;
+}
+/* ════════════ RESET ════════════ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{height:100%;height:-webkit-fill-available}
+body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;background:#000;font-family:'DM Sans',sans-serif;color:var(--w)}
+
+/* ════════════ FRAME (desktop wrapper) ════════════ */
+.frame{
+  display:flex;align-items:center;justify-content:center;
+  width:100vw;height:100vh;
+  background:radial-gradient(ellipse at 25% 20%,#0a1628 0%,#000 65%)
+}
+.phone{
+  width:min(393px,100vw);
+  height:min(852px,100vh);height:min(852px,100dvh);
+  background:var(--bg);position:relative;overflow:hidden;
+  border-radius:min(46px,0px);
+  box-shadow:0 0 0 1px var(--b1),0 40px 120px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.05)
+}
+@media(max-width:430px){
+  .frame{background:#000;align-items:stretch;justify-content:stretch}
+  .phone{width:100vw;height:100vh;height:100dvh;border-radius:0;box-shadow:none}
+}
+
+/* ════════════ STATUS BAR ════════════ */
+.sb{
+  height:var(--sb);display:flex;align-items:center;justify-content:space-between;
+  padding:0 22px;padding-top:env(safe-area-inset-top,0);
+  font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;
+  position:relative;z-index:300;background:var(--bg);border-bottom:1px solid var(--b0)
+}
+.sb-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:118px;height:34px;background:#000;border-radius:0 0 20px 20px;z-index:301}
+
+/* ════════════ SCREENS ════════════ */
+.screens{position:absolute;top:var(--sb);left:0;right:0;bottom:var(--nav);overflow:hidden}
+.screen{display:none;position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;background:var(--bg);-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
+.screen.on{display:block}
+#s-mapa.on{display:flex;flex-direction:column}
+#s-feed{overflow:hidden}
+
+/* ════════════ NAV ════════════ */
+.nav{
+  position:absolute;bottom:0;left:0;right:0;
+  height:var(--nav);
+  padding-bottom:env(safe-area-inset-bottom,0);
+  background:rgba(7,7,15,.88);
+  backdrop-filter:blur(28px) saturate(160%);
+  -webkit-backdrop-filter:blur(28px) saturate(160%);
+  border-top:1px solid var(--b1);
+  display:flex;align-items:center;
+  z-index:400
+}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 0;min-width:0;-webkit-user-select:none;user-select:none}
+.ni:active{opacity:.6}
+.ni-ic{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:11px;transition:all .22s cubic-bezier(.4,0,.2,1)}
+.ni.on .ni-ic{background:var(--tg);box-shadow:var(--ts)}
+.ni svg{fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:all .22s}
+.ni.on svg{stroke:var(--teal);filter:drop-shadow(0 0 5px rgba(0,212,160,.7))}
+.ni:not(.on) svg{stroke:var(--w3)}
+.ni-lb{font-size:9px;font-weight:600;color:var(--w3);transition:color .22s;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap}
+.ni.on .ni-lb{color:var(--teal);font-weight:800}
+/* Crear center */
+.nc{width:60px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;-webkit-user-select:none;user-select:none}
+.nc-btn{width:50px;height:50px;background:linear-gradient(135deg,var(--teal),var(--teal2));border-radius:17px;display:flex;align-items:center;justify-content:center;margin-top:-14px;box-shadow:0 0 0 5px rgba(0,212,160,.1),0 8px 28px rgba(0,212,160,.55);transition:transform .18s cubic-bezier(.4,0,.2,1)}
+.nc-btn:active{transform:scale(.88)}
+.nc-btn svg{stroke:#000;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.nc-lb{font-size:9px;font-weight:800;color:var(--teal);letter-spacing:.3px;text-transform:uppercase}
+
+/* ════════════ 1 — FEED ════════════ */
+.fw{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.fw::-webkit-scrollbar{display:none}
+.fp{height:100%;scroll-snap-align:start;position:relative;overflow:hidden;flex-shrink:0}
+.fp-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(22px) brightness(.35) saturate(1.6);transform:scale(1.08);will-change:transform}
+.fp-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
+.fp-grad-t{position:absolute;top:0;inset-inline:0;height:200px;background:linear-gradient(to bottom,rgba(0,0,0,.75),transparent);z-index:2;pointer-events:none}
+.fp-grad-b{position:absolute;bottom:0;inset-inline:0;height:60%;background:linear-gradient(to top,rgba(0,0,0,.96) 0%,rgba(0,0,0,.55) 40%,transparent 100%);z-index:2;pointer-events:none}
+/* Feed header */
+.fhd{position:absolute;top:0;inset-inline:0;z-index:10;padding:14px 18px 0;display:flex;align-items:center;justify-content:space-between}
+.ftabs{display:flex;gap:22px}
+.ftab{font-family:'Outfit',sans-serif;font-size:15px;font-weight:500;color:rgba(255,255,255,.45);cursor:pointer;padding-bottom:5px;border-bottom:2.5px solid transparent;transition:all .2s}
+.ftab.on{color:var(--w);font-weight:800;border-bottom-color:var(--teal);text-shadow:0 0 16px rgba(0,212,160,.5)}
+.fsrch{width:36px;height:36px;background:rgba(255,255,255,.12);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid var(--b2);cursor:pointer}
+.fsrch svg{stroke:var(--w);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* Mute btn */
+.fp-mute{position:absolute;top:70px;right:14px;z-index:20;width:38px;height:38px;background:rgba(0,0,0,.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1.5px solid rgba(255,255,255,.18);transition:all .18s}
+.fp-mute svg{stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* Actions right */
+.fp-ac{position:absolute;right:12px;bottom:90px;display:flex;flex-direction:column;align-items:center;gap:18px;z-index:10}
+.fpa{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer}
+.fpa-ic{width:46px;height:46px;background:rgba(255,255,255,.11);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:14px;display:flex;align-items:center;justify-content:center;border:1px solid var(--b2);transition:all .18s}
+.fpa-ic svg{stroke:var(--w);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:all .18s}
+.fpa.lk .fpa-ic{background:rgba(255,75,85,.22);border-color:rgba(255,75,85,.4)}
+.fpa.lk .fpa-ic svg{stroke:var(--red);filter:drop-shadow(0 0 6px rgba(255,75,85,.6))}
+.fpa-n{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,.85)}
+/* Community avatar */
+.fp-cav{position:relative;margin-bottom:6px;cursor:pointer}
+.fp-av{width:48px;height:48px;border-radius:14px;overflow:hidden;border:2.5px solid var(--teal);box-shadow:0 0 14px rgba(0,212,160,.5)}
+.fp-av img{width:100%;height:100%;object-fit:cover}
+.fp-plus{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:20px;height:20px;background:var(--teal);border-radius:50%;border:2.5px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:12px;color:#000;font-weight:900;box-shadow:0 0 8px rgba(0,212,160,.5);transition:background .2s}
+/* Bottom info */
+.fp-inf{position:absolute;left:14px;right:70px;bottom:14px;z-index:10}
+.fp-chip{display:inline-flex;align-items:center;gap:7px;background:rgba(0,212,160,.13);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(0,212,160,.32);border-radius:999px;padding:5px 12px;margin-bottom:10px;cursor:pointer}
+.fp-cdot{width:7px;height:7px;background:var(--teal);border-radius:50%;animation:pulse 2s infinite;box-shadow:0 0 5px var(--teal)}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
+.fp-chip span{font-family:'Outfit',sans-serif;font-size:12px;font-weight:800;color:var(--teal);letter-spacing:.2px}
+.fp-ttl{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;color:var(--w);line-height:1.38;margin-bottom:6px;text-shadow:0 2px 8px rgba(0,0,0,.7)}
+.fp-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.fp-tag{font-size:12px;font-weight:500;color:rgba(255,255,255,.5)}
+.fp-mus{display:flex;align-items:center;gap:8px}
+.fp-mus-ico{width:26px;height:26px;background:rgba(255,255,255,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;animation:spin 4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.fp-mus-txt{font-size:11px;color:rgba(255,255,255,.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+
+/* ════════════ 2 — MIS COMUNIDADES ════════════ */
+#s-comus{background:var(--bg)}
+.mc-hd{padding:20px 20px 0;background:var(--bg);flex-shrink:0}
+.mc-hd-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.mc-ttl{font-family:'Outfit',sans-serif;font-size:26px;font-weight:900;color:var(--w);letter-spacing:-.5px}
+.mc-badge{background:var(--tg);border:1px solid rgba(0,212,160,.25);border-radius:999px;padding:4px 12px;font-family:'Outfit',sans-serif;font-size:11px;font-weight:800;color:var(--teal)}
+.mc-sub{font-size:13px;color:var(--w5);margin-bottom:16px}
+/* Stories */
+.stories-row{display:flex;gap:12px;overflow-x:auto;padding:0 20px 16px;margin:0 -20px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.stories-row::-webkit-scrollbar{display:none}
+.story{display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;cursor:pointer}
+.story-ring{width:60px;height:60px;padding:2.5px;border-radius:19px;background:var(--s3);transition:all .2s}
+.story-ring.live{background:linear-gradient(135deg,var(--teal),var(--teal2))}
+.story-inner{width:100%;height:100%;border-radius:17px;overflow:hidden;border:2px solid var(--bg);background:var(--s2)}
+.story-inner img{width:100%;height:100%;object-fit:cover}
+.story-nm{font-size:10px;font-weight:600;color:var(--w5);white-space:nowrap;max-width:64px;overflow:hidden;text-overflow:ellipsis;text-align:center}
+/* Tabs */
+.mc-tabs{display:flex;border-bottom:1px solid var(--b0);margin:0 -20px;padding:0 20px}
+.mc-tab{padding:11px 20px;font-size:13px;font-weight:500;color:var(--w3);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .2s;letter-spacing:.2px}
+.mc-tab.on{color:var(--teal);border-bottom-color:var(--teal);font-weight:800}
+/* Cards */
+.mc-list{padding:16px 16px 24px;display:flex;flex-direction:column;gap:14px}
+.cc{border-radius:20px;overflow:hidden;background:var(--s1);border:1px solid var(--b0);cursor:pointer;transition:transform .22s,box-shadow .22s;box-shadow:0 4px 24px rgba(0,0,0,.5)}
+.cc:active{transform:scale(.975);box-shadow:0 2px 10px rgba(0,0,0,.7)}
+.cc-img{height:155px;position:relative;overflow:hidden}
+.cc-img img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
+.cc:active .cc-img img{transform:scale(1.04)}
+.cc-img-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.05) 55%,transparent 100%)}
+.cc-em{position:absolute;bottom:12px;left:14px;font-size:28px;filter:drop-shadow(0 2px 5px rgba(0,0,0,.7))}
+.cc-type-badge{position:absolute;top:11px;right:11px;padding:4px 10px;border-radius:999px;font-size:10px;font-weight:800;color:#000;letter-spacing:.3px;text-transform:uppercase}
+.cc-body{padding:14px}
+.cc-nm{font-family:'Outfit',sans-serif;font-size:17px;font-weight:900;color:var(--w);letter-spacing:-.2px;margin-bottom:3px}
+.cc-dist{font-size:12px;color:var(--w5);margin-bottom:12px}
+.cc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:13px}
+.cc-st{background:var(--s2);border-radius:11px;padding:10px 6px;text-align:center;border:1px solid var(--b0)}
+.cc-sv{font-family:'Outfit',sans-serif;font-size:17px;font-weight:800;color:var(--w)}
+.cc-sl{font-size:10px;color:var(--w3);margin-top:2px;text-transform:uppercase;letter-spacing:.3px}
+.cc-footer{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.cc-next{font-size:12px;color:var(--w5);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cc-next strong{font-weight:600;color:var(--w8)}
+.cc-btn{padding:9px 18px;border-radius:11px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:800;cursor:pointer;border:none;flex-shrink:0;transition:all .18s;letter-spacing:.2px}
+.cc-btn.fw{background:var(--s3);border:1.5px solid var(--b2);color:var(--w5)}
+.cc-btn.nfw{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000;box-shadow:0 4px 16px rgba(0,212,160,.4)}
+/* Empty */
+.emp{text-align:center;padding:52px 24px}
+.emp-ico{font-size:54px;margin-bottom:14px}
+.emp-ttl{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;color:var(--w);margin-bottom:8px}
+.emp-sub{font-size:13px;color:var(--w5);line-height:1.65;margin-bottom:22px}
+.emp-btn{padding:13px 28px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000;border:none;border-radius:13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 20px rgba(0,212,160,.45)}
+
+/* ════════════ 3 — MAPA ════════════ */
+.map-hd{background:linear-gradient(135deg,var(--s2),var(--s1));padding:18px 20px 14px;border-bottom:1px solid var(--b0);flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.map-ttl{font-family:'Outfit',sans-serif;font-size:24px;font-weight:900;color:var(--w);display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;letter-spacing:-.4px}
+.map-filt{width:38px;height:38px;background:var(--s3);border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid var(--b1);cursor:pointer;transition:all .2s}
+.map-filt:active{background:var(--teal);transform:scale(.9)}
+.map-filt svg{stroke:var(--w5);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+.map-filt:active svg{stroke:#000}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--b1);background:var(--s2);color:var(--w5);transition:all .2s}
+.chip.a-g{background:rgba(0,212,160,.12);color:var(--teal);border-color:rgba(0,212,160,.4);font-weight:800}
+.chip.a-b{background:rgba(91,184,255,.12);color:var(--blue);border-color:rgba(91,184,255,.4);font-weight:800}
+.chip.a-r{background:rgba(255,107,127,.12);color:#FF6B7F;border-color:rgba(255,107,127,.4);font-weight:800}
+.chip.a-y{background:rgba(255,214,10,.12);color:var(--gold);border-color:rgba(255,214,10,.4);font-weight:800}
+#leafmap{flex:1;width:100%;background:linear-gradient(135deg,#0d1a35,#05091a)}
+.leaflet-popup-content-wrapper{background:var(--s2)!important;border-radius:16px!important;box-shadow:0 8px 40px rgba(0,0,0,.7)!important;border:1px solid var(--b1)!important;padding:0!important;overflow:hidden!important}
+.leaflet-popup-content{margin:0!important;padding:16px!important}
+.leaflet-popup-tip-container{display:none!important}
+.pop-type{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
+.pop-nm{font-family:'Outfit',sans-serif;font-size:16px;font-weight:900;color:var(--w);margin-bottom:5px}
+.pop-ds{font-size:12px;color:var(--w5);margin-bottom:14px;line-height:1.5}
+.pop-btn{width:100%;padding:11px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s}
+.pop-btn:active{transform:scale(.97)}
+.map-leg{position:absolute;bottom:14px;left:12px;background:rgba(10,14,39,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:13px;padding:10px 14px;border:1px solid var(--b1);z-index:500;display:flex;flex-direction:column;gap:7px;box-shadow:0 4px 16px rgba(0,0,0,.5)}
+.leg-i{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:500;color:var(--w5)}
+.leg-d{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+
+/* ════════════ 4 — CREAR ════════════ */
+#s-crear{background:var(--bg)}
+.cr-wrap{padding:22px 20px 32px}
+.cr-ttl{font-family:'Outfit',sans-serif;font-size:28px;font-weight:900;color:var(--w);letter-spacing:-.5px;margin-bottom:4px}
+.cr-sub{font-size:13px;color:var(--w5);margin-bottom:22px}
+.cr-toggle{display:grid;grid-template-columns:1fr 1fr;background:var(--s2);border-radius:14px;padding:4px;margin-bottom:24px;border:1px solid var(--b0)}
+.cr-tbtn{padding:12px;border-radius:11px;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;color:var(--w5);border:none;background:none;cursor:pointer;transition:all .2s}
+.cr-tbtn.cv{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000;font-weight:800;box-shadow:0 2px 14px rgba(0,212,160,.4)}
+.cr-tbtn.rv{background:linear-gradient(135deg,var(--red),#ff8080);color:#fff;font-weight:800}
+.cr-fg{margin-bottom:16px}
+.cr-lbl{display:block;font-size:11px;font-weight:700;color:var(--w3);margin-bottom:7px;text-transform:uppercase;letter-spacing:.6px}
+.cr-in{width:100%;padding:13px 16px;background:var(--s1);border:1px solid var(--b1);border-radius:13px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--w);outline:none;transition:all .2s;-webkit-appearance:none;appearance:none}
+.cr-in:focus{border-color:var(--teal);background:var(--s2);box-shadow:0 0 0 3px var(--tg)}
+.cr-in::placeholder{color:var(--w3)}
+textarea.cr-in{resize:none;line-height:1.55}
+.cr-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cr-fi{position:relative}
+.cr-fi-ic{position:absolute;left:13px;top:50%;transform:translateY(-50%);stroke:var(--w3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;width:14px;height:14px}
+.cr-fi .cr-in{padding-left:38px}
+select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='rgba(255,255,255,.3)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.yape-card{background:linear-gradient(135deg,rgba(0,212,160,.07),rgba(0,212,160,.02));border:1px solid rgba(0,212,160,.18);border-radius:16px;padding:16px;margin-bottom:20px}
+.yape-top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.yape-ico{width:38px;height:38px;background:linear-gradient(135deg,var(--teal),var(--teal2));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.yape-ttl{font-family:'Outfit',sans-serif;font-size:15px;font-weight:800;color:var(--w)}
+.yape-desc{font-size:12px;color:var(--w5);margin-bottom:12px;line-height:1.55}
+.yape-btn{width:100%;padding:11px;background:var(--s2);border:1.5px dashed rgba(0,212,160,.4);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--teal);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s}
+.yape-btn:active{background:var(--tg)}
+.cr-pub{width:100%;padding:16px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000;border:none;border-radius:15px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 6px 28px rgba(0,212,160,.45);transition:all .18s;margin-top:6px;letter-spacing:.2px}
+.cr-pub:active{transform:scale(.97)}
+.cr-pub.danger{background:linear-gradient(135deg,var(--red),#ff8080);box-shadow:0 6px 28px rgba(255,75,85,.4)}
+.rep-zone{background:var(--s1);border:2px dashed var(--b2);border-radius:16px;padding:40px 20px;text-align:center;cursor:pointer;margin-bottom:16px;transition:all .2s}
+.rep-zone.has-img{border-style:solid;border-color:var(--teal);padding:8px;background:var(--tg)}
+.rz-ico{width:60px;height:60px;background:linear-gradient(135deg,var(--red),#ff8080);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px;box-shadow:0 4px 16px rgba(255,75,85,.4)}
+.rz-ttl{font-family:'Outfit',sans-serif;font-size:15px;font-weight:800;color:var(--w);margin-bottom:4px}
+.rz-sub{font-size:12px;color:var(--w3)}
+.geo-row{background:var(--s1);border:1px solid var(--b1);border-radius:13px;padding:13px;display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.geo-ico{width:38px;height:38px;background:rgba(79,158,255,.14);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;border:1px solid rgba(79,158,255,.18)}
+.geo-lbl{font-size:10px;color:var(--w3);margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.geo-val{font-size:13px;font-weight:600;color:var(--w8)}
+.geo-btn{font-size:13px;font-weight:700;color:var(--blue);cursor:pointer;flex-shrink:0}
+.rep-warn{background:rgba(255,75,85,.06);border:1px solid rgba(255,75,85,.18);border-radius:11px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--w5);line-height:1.55}
+.rep-warn strong{color:var(--red)}
+.sp{height:24px}
+
+/* ════════════ 5 — PERFIL ════════════ */
+#s-perfil{background:var(--bg)}
+.perf-hero{height:200px;position:relative;overflow:hidden;flex-shrink:0;border-bottom:1px solid var(--b0)}
+.ph-bg{position:absolute;inset:0;background:linear-gradient(135deg,#1a3a5c 0%,#0d1a35 50%,#05091a 100%);box-shadow:inset 0 0 80px rgba(0,212,160,.05)}
+.ph-c1{position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,160,.25),transparent 70%);top:-80px;right:-60px;animation:drift 12s ease-in-out infinite alternate;filter:blur(40px)}
+.ph-c2{position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(91,184,255,.15),transparent 70%);bottom:-60px;left:20px;animation:drift 14s ease-in-out infinite alternate-reverse;filter:blur(40px)}
+@keyframes drift{from{transform:translate(0,0)}to{transform:translate(15px,20px)}}
+.ph-grad{position:absolute;bottom:0;inset-inline:0;height:100px;background:linear-gradient(to top,var(--bg),transparent);z-index:2}
+.perf-acts{position:absolute;top:14px;inset-inline:16px;display:flex;justify-content:space-between;z-index:5}
+.p-act{width:40px;height:40px;background:rgba(10,14,39,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.15);cursor:pointer;transition:all .2s}
+.p-act:active{background:var(--teal);transform:scale(.9)}
+.p-act svg{stroke:var(--w8);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+.p-act:active svg{stroke:#000}
+.perf-av-wrap{position:absolute;bottom:-50px;left:20px;z-index:5}
+.perf-av{width:100px;height:100px;border-radius:28px;border:4px solid var(--teal);background:var(--s2);overflow:hidden;cursor:pointer;position:relative;box-shadow:0 0 0 8px rgba(0,212,160,.12),0 12px 40px rgba(0,0,0,.7);transition:transform .2s}
+.perf-av:active{transform:scale(.95)}
+.perf-av img{width:100%;height:100%;object-fit:cover}
+.perf-av-ed{position:absolute;bottom:0;right:0;width:28px;height:28px;background:var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;border:3px solid var(--bg);box-shadow:0 2px 8px rgba(0,212,160,.4)}
+.perf-info{padding:60px 20px 20px;border-bottom:1px solid var(--b0)}
+.perf-nm{font-family:'Outfit',sans-serif;font-size:28px;font-weight:900;color:var(--w);letter-spacing:-.5px;margin-bottom:6px;user-select:all;cursor:text}
+.perf-meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--w5);margin-bottom:18px;flex-wrap:wrap;user-select:all;cursor:text}
+.perf-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;user-select:all}
+.pst{background:linear-gradient(135deg,var(--s2),var(--s1));border-radius:14px;padding:14px;text-align:center;border:1px solid var(--b1);transition:all .2s;cursor:pointer}
+.pst:active{background:var(--s3)}
+.pst.xp{background:linear-gradient(135deg,rgba(0,212,160,.12),rgba(0,212,160,.05));border-color:rgba(0,212,160,.3)}
+.pst-v{font-family:'Outfit',sans-serif;font-size:24px;font-weight:900;color:var(--w);user-select:all}
+.pst.xp .pst-v{color:var(--teal);text-shadow:0 0 16px rgba(0,212,160,.5)}
+.pst-l{font-size:10px;color:var(--w3);margin-top:4px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+
+/* Medallas */
+.medals{padding:0 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px;user-select:all}
+.medal{background:linear-gradient(135deg,var(--s2),var(--s1));border:1px solid var(--b1);border-radius:14px;padding:12px 8px;text-align:center;transition:all .2s}
+.medal:active{background:var(--s3);transform:scale(.98)}
+.medal.locked{opacity:.3;filter:grayscale(.8);cursor:not-allowed}
+.medal-ico{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:24px;background:rgba(0,212,160,.08)}
+.medal-nm{font-size:10px;font-weight:700;color:var(--w8);line-height:1.35;text-transform:uppercase;letter-spacing:.2px}
+
+/* Historial */
+.hist-list{padding:0 20px 28px;display:flex;flex-direction:column;gap:8px;user-select:all}
+.hist-item{display:flex;align-items:center;gap:13px;padding:13px 14px;background:linear-gradient(135deg,var(--s2),var(--s1));border-radius:13px;cursor:pointer;transition:all .18s;border:1px solid var(--b0)}
+.hist-item:active{transform:translateX(5px);background:var(--s3)}
+.h-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;box-shadow:0 0 8px currentColor}
+.h-txt{flex:1}
+.h-ttl{font-size:13px;font-weight:600;color:var(--w8)}
+.h-time{font-size:11px;color:var(--w3);margin-top:3px}
+
+/* ════════════ MODALS ════════════ */
+.overlay{position:absolute;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:800;display:none;align-items:flex-end;-webkit-user-select:none;user-select:none}
+.overlay.open{display:flex}
+.sheet{width:100%;max-height:92%;background:var(--s1);border-radius:28px 28px 0 0;overflow:hidden;display:flex;flex-direction:column;border-top:1px solid var(--b1);animation:slideUp .32s cubic-bezier(.4,0,.2,1)}
+.sheet.tall{max-height:97%}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sh-handle{width:40px;height:4px;background:var(--b2);border-radius:2px;margin:14px auto 0;flex-shrink:0}
+.sh-body{overflow-y:auto;flex:1;padding:16px 20px 32px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sh-body::-webkit-scrollbar{display:none}
+/* CM modal */
+.cm-cover{height:145px;border-radius:16px;overflow:hidden;margin-bottom:18px;position:relative}
+.cm-cover img{width:100%;height:100%;object-fit:cover}
+.cm-cov-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75),transparent 55%)}
+.cm-cov-em{position:absolute;bottom:14px;left:14px;font-size:32px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.7))}
+.cm-hd{display:flex;gap:14px;align-items:center;margin-bottom:16px}
+.cm-av{width:56px;height:56px;border-radius:16px;overflow:hidden;flex-shrink:0;border:1px solid var(--b2)}
+.cm-av img{width:100%;height:100%;object-fit:cover}
+.cm-nm{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;color:var(--w);letter-spacing:-.3px}
+.cm-dist{font-size:13px;color:var(--w5)}
+.cm-stats{display:flex;gap:24px;margin-bottom:16px}
+.cm-sv{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;color:var(--w)}
+.cm-sl{font-size:10px;color:var(--w3);text-transform:uppercase;letter-spacing:.4px}
+.cm-flw{width:100%;padding:14px;border-radius:14px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;border:none;cursor:pointer;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000;margin-bottom:18px;letter-spacing:.2px;box-shadow:0 4px 22px rgba(0,212,160,.5);transition:all .2s}
+.cm-flw.fw{background:var(--s3);border:1.5px solid var(--b2);color:var(--w5);box-shadow:none}
+.cm-tabs{display:flex;border-bottom:1px solid var(--b0);margin-bottom:18px}
+.cm-tab{padding:10px 16px;font-size:13px;font-weight:500;color:var(--w3);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .2s}
+.cm-tab.on{color:var(--teal);border-bottom-color:var(--teal);font-weight:800}
+.cm-vgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cm-vi{aspect-ratio:9/16;background:var(--s2);border-radius:13px;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;border:1px solid var(--b0);position:relative}
+.cm-vi video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
+.evt-item{display:flex;gap:14px;padding:13px;background:var(--s2);border-radius:13px;margin-bottom:8px;border:1px solid var(--b0)}
+.evt-day-n{font-family:'Outfit',sans-serif;font-size:24px;font-weight:900;color:var(--teal);line-height:1}
+.evt-mon{font-size:10px;font-weight:800;color:var(--w3);text-transform:uppercase;letter-spacing:.4px}
+.evt-d{width:46px;text-align:center;flex-shrink:0}
+.evt-ttl{font-size:14px;font-weight:700;color:var(--w8)}
+.evt-ds{font-size:12px;color:var(--w5);margin-top:3px}
+/* CV modal */
+.cv-hd{text-align:center;padding:8px 0 18px}
+.cv-av{width:84px;height:84px;border-radius:22px;background:var(--s2);margin:0 auto 14px;overflow:hidden;border:3px solid rgba(0,212,160,.35);box-shadow:0 0 0 6px rgba(0,212,160,.08)}
+.cv-av img{width:100%;height:100%;object-fit:cover}
+.cv-nm{font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:var(--w);margin-bottom:4px}
+.cv-inst{font-size:13px;color:var(--w5);margin-bottom:12px}
+.cv-badge{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,rgba(0,212,160,.12),rgba(79,158,255,.08));border:1px solid rgba(0,212,160,.28);border-radius:999px;padding:7px 16px;font-size:12px;font-weight:800;color:var(--teal);margin-bottom:18px}
+.cv-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.cv-st{background:var(--s2);border-radius:12px;padding:11px;text-align:center;border:1px solid var(--b0)}
+.cv-sv{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;color:var(--teal)}
+.cv-sl{font-size:10px;color:var(--w3);margin-top:3px;text-transform:uppercase;letter-spacing:.4px}
+.cv-sec{font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;color:var(--w);margin:18px 0 12px;letter-spacing:-.2px}
+.cv-exp{display:flex;gap:12px;margin-bottom:12px}
+.cv-dot{width:9px;height:9px;background:var(--teal);border-radius:50%;margin-top:5px;flex-shrink:0;box-shadow:0 0 6px rgba(0,212,160,.6)}
+.cv-et{font-size:14px;font-weight:700;color:var(--w8)}
+.cv-eo{font-size:12px;color:var(--w5)}
+.cv-ed{font-size:11px;color:var(--w3)}
+.cv-skills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+.cv-skill{padding:7px 14px;background:var(--tg);border:1px solid rgba(0,212,160,.2);border-radius:999px;font-size:12px;font-weight:700;color:var(--teal)}
+.cv-pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:18px}
+.cv-ph{aspect-ratio:1;background:var(--s2);border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid var(--b0)}
+.cv-ph img{width:100%;height:100%;object-fit:cover}
+.cv-print{width:100%;padding:15px;background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;border:none;border-radius:13px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
+/* Toast */
+.toast{position:absolute;top:60px;left:50%;transform:translateX(-50%) translateY(-8px);background:rgba(255,255,255,.1);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--b2);color:var(--w);padding:11px 20px;border-radius:999px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;white-space:nowrap;opacity:0;transition:all .28s cubic-bezier(.4,0,.2,1);z-index:2000;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ════════════ PERFIL — VIDEO GRID ════════════ */
+.perf-tabs{display:flex;border-bottom:1px solid var(--b0);margin:0 0 0 0;background:var(--s1)}
+.perf-tab{flex:1;padding:12px 0;text-align:center;font-size:13px;font-weight:600;color:var(--w3);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .2s;user-select:none}
+.perf-tab.on{color:var(--teal);border-bottom-color:var(--teal);font-weight:800;text-shadow:0 0 10px rgba(0,212,160,.3)}
+
+/* TikTok-style video feed */
+.perf-vid-feed{display:flex;flex-direction:column;gap:12px;padding:16px 20px 24px;overflow-y:auto}
+.pv-story-card{position:relative;border-radius:16px;overflow:hidden;background:var(--s1);border:1px solid var(--b1);height:420px;cursor:pointer;transition:transform .2s;box-shadow:0 4px 24px rgba(0,0,0,.4)}
+.pv-story-card:active{transform:scale(.98)}
+.pv-story-card video{width:100%;height:100%;object-fit:cover;display:block}
+.pv-story-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.0),rgba(0,0,0,.5) 60%,rgba(0,0,0,.95));display:flex;flex-direction:column;justify-content:flex-end;padding:20px;color:#fff;opacity:0;transition:opacity .3s}
+.pv-story-card:hover .pv-story-overlay,
+.pv-story-card:active .pv-story-overlay{opacity:1}
+.pv-register-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000;padding:8px 14px;border-radius:999px;font-size:12px;font-weight:800;margin-bottom:12px;width:fit-content;box-shadow:0 4px 16px rgba(0,212,160,.4)}
+.pv-story-title{font-family:'Outfit',sans-serif;font-size:18px;font-weight:900;margin-bottom:4px;letter-spacing:-.3px}
+.pv-story-desc{font-size:12px;color:rgba(255,255,255,.8);margin-bottom:8px}
+.pv-story-stats{font-size:11px;color:rgba(255,255,255,.6);display:flex;gap:12px}
+
+/* Eventos */
+.evt-item-card{display:flex;gap:14px;padding:14px;background:linear-gradient(135deg,var(--s2),var(--s1));border-radius:14px;border:1px solid var(--b1);margin-bottom:12px;transition:all .2s}
+.evt-item-card:active{background:var(--s3);transform:translateX(3px)}
+.evt-date{display:flex;flex-direction:column;align-items:center;min-width:50px;text-align:center}
+.evt-day{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;color:var(--teal);display:block}
+.evt-mon{font-size:10px;font-weight:700;color:var(--w3);text-transform:uppercase;margin-top:2px}
+.evt-details{flex:1}
+.evt-card-title{font-size:14px;font-weight:700;color:var(--w8);margin-bottom:3px}
+.evt-card-loc{font-size:12px;color:var(--w5);margin-bottom:3px}
+.evt-card-time{font-size:12px;color:var(--teal);margin-bottom:5px;font-weight:600}
+.evt-card-stats{font-size:11px;color:var(--w3)}
+
+/* Reportes */
+.rep-item-card{padding:14px;background:var(--s2);border-radius:14px;border:1px solid var(--b1);margin-bottom:12px;transition:all .2s;user-select:all}
+.rep-item-card:active{background:var(--s3);transform:translateX(3px)}
+.rep-status{display:inline-block;font-size:10px;font-weight:800;padding:4px 10px;border-radius:6px;color:#fff;margin-bottom:8px;text-transform:uppercase;letter-spacing:.3px}
+.rep-title{font-size:14px;font-weight:700;color:var(--w8);margin-bottom:4px}
+.rep-desc{font-size:12px;color:var(--w5);margin-bottom:6px}
+.rep-votes{font-size:11px;color:var(--teal);font-weight:600}
+
+/* Config modal */
+.perf-config-modal .sh-body{padding:0!important}
+.config-section{border-bottom:1px solid var(--b1);padding:16px 20px}
+.config-section:last-child{border-bottom:none}
+.config-title{font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;color:var(--w3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:12px}
+.config-items{display:flex;flex-direction:column;gap:10px}
+.config-item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--s2);border-radius:12px;cursor:pointer;transition:all .2s}
+.config-item:active{background:var(--s3);transform:translateX(4px)}
+.config-item-ico{font-size:20px;min-width:28px}
+.config-item-txt{flex:1;font-size:13px;font-weight:600;color:var(--w8)}
+.config-item-sub{font-size:11px;color:var(--w3);margin-top:2px}
+.pvid-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.pv-cell{aspect-ratio:9/16;background:var(--s2);position:relative;overflow:hidden;cursor:pointer}
+.pv-cell video{width:100%;height:100%;object-fit:cover;display:block}
+.pv-overlay{position:absolute;inset:0;background:rgba(0,0,0,.18);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:6px;pointer-events:none}
+.pv-plays{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;color:#fff;display:flex;align-items:center;gap:3px;text-shadow:0 1px 4px rgba(0,0,0,.8)}
+.pv-play-ic{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:32px;height:32px;background:rgba(0,0,0,.45);border-radius:50%;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.pv-play-ic svg{stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ════════════ VIDEO FULL MODAL ════════════ */
+.vid-overlay{position:absolute;inset:0;background:#000;z-index:900;display:none;flex-direction:column}
+.vid-overlay.open{display:flex}
+.vid-full{flex:1;width:100%;object-fit:cover}
+.vid-close{position:absolute;top:14px;left:14px;width:38px;height:38px;background:rgba(0,0,0,.5);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,.2);z-index:10}
+.vid-close svg{stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* ════════════ COMMENTS MODAL ════════════ */
+.cmt-sheet{width:100%;height:88%;background:var(--s1);border-radius:28px 28px 0 0;overflow:hidden;display:flex;flex-direction:column;border-top:1px solid var(--b1);animation:slideUp .3s cubic-bezier(.4,0,.2,1)}
+.cmt-head{padding:14px 18px 12px;border-bottom:1px solid var(--b0);flex-shrink:0;display:flex;align-items:center;justify-content:space-between}
+.cmt-ttl{font-family:'Outfit',sans-serif;font-size:16px;font-weight:900;color:var(--w)}
+.cmt-close{width:32px;height:32px;background:var(--b1);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.cmt-close svg{stroke:var(--w5);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.cmt-list{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.cmt-list::-webkit-scrollbar{display:none}
+.cmt-item{display:flex;gap:10px;align-items:flex-start}
+.cmt-av{width:36px;height:36px;border-radius:11px;overflow:hidden;flex-shrink:0;background:var(--s3)}
+.cmt-av img{width:100%;height:100%;object-fit:cover}
+.cmt-bubble{flex:1}
+.cmt-nm{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--w);margin-bottom:3px}
+.cmt-txt{font-size:13px;color:var(--w8);line-height:1.5;margin-bottom:5px}
+.cmt-meta{display:flex;align-items:center;gap:12px}
+.cmt-time{font-size:11px;color:var(--w3)}
+.cmt-lk{font-size:11px;color:var(--w3);display:flex;align-items:center;gap:3px;cursor:pointer}
+.cmt-lk.on{color:var(--red)}
+.cmt-bar{flex-shrink:0;padding:10px 14px 12px;border-top:1px solid var(--b0);display:flex;align-items:center;gap:10px;background:var(--s1)}
+.cmt-inp-av{width:34px;height:34px;border-radius:10px;overflow:hidden;flex-shrink:0;background:var(--s2)}
+.cmt-inp-av img{width:100%;height:100%;object-fit:cover}
+.cmt-inp{flex:1;background:var(--s2);border:1px solid var(--b1);border-radius:20px;padding:9px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--w);outline:none;-webkit-appearance:none}
+.cmt-inp::placeholder{color:var(--w3)}
+.cmt-inp:focus{border-color:var(--teal)}
+.cmt-send{width:36px;height:36px;background:linear-gradient(135deg,var(--teal),var(--teal2));border-radius:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;border:none}
+.cmt-send svg{stroke:#000;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</head>
+<body>
+<div class="frame">
+<div class="phone">
+
+<!-- ── STATUS BAR ── -->
+<div class="sb">
+  <span style="position:relative;z-index:302">9:41</span>
+  <div class="sb-notch"></div>
+  <div style="position:relative;z-index:302;display:flex;gap:6px;align-items:center">
+    <svg width="15" height="11" viewBox="0 0 15 11" fill="none"><rect x="0" y="4" width="3" height="7" rx="1" fill="white" fill-opacity=".35"/><rect x="4" y="2.5" width="3" height="8.5" rx="1" fill="white" fill-opacity=".6"/><rect x="8" y="0" width="3" height="11" rx="1" fill="white" fill-opacity=".85"/><rect x="12" y="0" width="3" height="11" rx="1" fill="white"/></svg>
+    <svg width="24" height="12" viewBox="0 0 24 12" fill="none"><rect x=".5" y=".5" width="21" height="11" rx="3.5" stroke="white" stroke-opacity=".35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="white"/><path d="M23 4v4a2 2 0 0 0 0-4z" fill="white" fill-opacity=".4"/></svg>
+  </div>
+</div>
+
+<div class="screens">
+
+<!-- ═══════ DESCUBRIR ═══════ -->
+<div class="screen on" id="s-feed">
+  <div class="fhd">
+    <div class="ftabs">
+      <span class="ftab" onclick="feedTab(this)">Explorar</span>
+      <span class="ftab" onclick="feedTab(this)">Siguiendo</span>
+      <span class="ftab on" onclick="feedTab(this)">Para ti</span>
+    </div>
+    <div class="fsrch"><svg width="17" height="17" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+  </div>
+  <div class="fw" id="feedWrap"></div>
+</div>
+
+<!-- ═══════ MIS COMUNIDADES ═══════ -->
+<div class="screen" id="s-comus">
+  <div class="mc-hd">
+    <div class="mc-hd-row">
+      <div class="mc-ttl">Comunidades</div>
+      <div class="mc-badge" id="mcBadge">0 siguiendo</div>
+    </div>
+    <div class="mc-sub" id="mcSub">Encuentra y sigue comunidades activas</div>
+    <div class="stories-row" id="storiesRow"></div>
+    <div class="mc-tabs">
+      <span class="mc-tab on" id="mt-sig" onclick="mcTab('sig')">Siguiendo</span>
+      <span class="mc-tab" id="mt-all" onclick="mcTab('all')">Explorar todas</span>
+    </div>
+  </div>
+  <div class="mc-list" id="mcList"></div>
+</div>
+
+<!-- ═══════ MAPA ═══════ -->
+<div class="screen" id="s-mapa">
+  <div class="map-hd">
+    <div class="map-ttl">
+      Mapa de Impacto
+      <div class="map-filt"><svg width="16" height="16" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></div>
+    </div>
+    <div class="chips" id="mapChips">
+      <span class="chip a-g" onclick="filterMap('all',this)">Todos</span>
+      <span class="chip" onclick="filterMap('today',this)">🟢 Activos</span>
+      <span class="chip" onclick="filterMap('upcoming',this)">🔵 Próximos</span>
+      <span class="chip" onclick="filterMap('report',this)">🔴 Reportes</span>
+      <span class="chip" onclick="filterMap('funded',this)">🟡 Financiados</span>
+    </div>
+  </div>
+  <div id="leafmap"></div>
+  <div class="map-leg">
+    <div class="leg-i"><div class="leg-d" style="background:#00D4A0;box-shadow:0 0 5px #00D4A0"></div>Activo hoy</div>
+    <div class="leg-i"><div class="leg-d" style="background:#4F9EFF;box-shadow:0 0 5px #4F9EFF"></div>Próximo</div>
+    <div class="leg-i"><div class="leg-d" style="background:#FF4B55;box-shadow:0 0 5px #FF4B55"></div>Reporte</div>
+    <div class="leg-i"><div class="leg-d" style="background:#FFB930;box-shadow:0 0 5px #FFB930"></div>Financiado</div>
+  </div>
+</div>
+
+<!-- ═══════ CREAR ═══════ -->
+<div class="screen" id="s-crear">
+<div class="cr-wrap">
+  <div class="cr-ttl">Crear iniciativa</div>
+  <div class="cr-sub">Activa tu barrio en minutos</div>
+  <div class="cr-toggle">
+    <button class="cr-tbtn cv" id="cBtn" onclick="switchCrear('c')">📢 Convocatoria</button>
+    <button class="cr-tbtn" id="rBtn" onclick="switchCrear('r')">🚨 Reportar Zona</button>
+  </div>
+  <!-- CONVOCATORIA -->
+  <div id="formC">
+    <div class="cr-fg"><label class="cr-lbl">Título</label><input class="cr-in" placeholder="Ej: Pintado de losa Pamplona Alta"></div>
+    <div class="cr-fg"><label class="cr-lbl">Descripción</label><textarea class="cr-in" rows="3" placeholder="Cuenta qué planean hacer y cómo participar..."></textarea></div>
+    <div class="cr-row">
+      <div class="cr-fg"><label class="cr-lbl">Distrito</label>
+        <div class="cr-fi">
+          <svg class="cr-fi-ic" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <select class="cr-in"><option>Surco</option><option>SJM</option><option>VES</option><option>Pachacámac</option><option>Chorrillos</option><option>Barranco</option></select>
+        </div>
+      </div>
+      <div class="cr-fg"><label class="cr-lbl">Fecha</label>
+        <div class="cr-fi">
+          <svg class="cr-fi-ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <input type="date" class="cr-in">
+        </div>
+      </div>
+    </div>
+    <div class="cr-fg"><label class="cr-lbl">Tipo de actividad</label>
+      <select class="cr-in"><option>Voluntariado</option><option>Olla Común</option><option>Taller Comunitario</option><option>Evento Cultural</option><option>Limpieza de espacios</option><option>Campaña de salud</option><option>Deporte comunitario</option></select>
+    </div>
+    <div class="cr-fg"><label class="cr-lbl">Presupuesto (S/.)</label>
+      <div class="cr-fi">
+        <svg class="cr-fi-ic" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <input type="number" class="cr-in" placeholder="1200">
+      </div>
+    </div>
+    <div class="yape-card">
+      <div class="yape-top"><div class="yape-ico">🔗</div><div class="yape-ttl">Cofinanciación Yape / Plin</div></div>
+      <div class="yape-desc">Sube tu QR para recibir microdonaciones. Si llegas a la meta, una empresa aliada duplica el monto.</div>
+      <button class="yape-btn" onclick="document.getElementById('yInp').click()">🖼️ Subir QR de Yape / Plin</button>
+      <input type="file" id="yInp" accept="image/*" style="display:none" onchange="toast('✅ QR cargado')">
+    </div>
+    <button class="cr-pub" onclick="pubC()">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Publicar en la Comunidad
+    </button>
+  </div>
+  <!-- REPORTAR -->
+  <div id="formR" style="display:none">
+    <div class="rep-zone" id="repZone" onclick="document.getElementById('repPic').click()">
+      <div class="rz-ico">📷</div>
+      <div class="rz-ttl">Tomar foto del problema</div>
+      <div class="rz-sub">Toca para abrir cámara o galería</div>
+    </div>
+    <input type="file" id="repPic" accept="image/*" capture="environment" style="display:none" onchange="repPicUp(this)">
+    <div class="geo-row">
+      <div class="geo-ico">📍</div>
+      <div style="flex:1"><div class="geo-lbl">Ubicación GPS</div><div class="geo-val" id="geoVal">Obteniendo ubicación...</div></div>
+      <div class="geo-btn" onclick="getGeo()">Ajustar</div>
+    </div>
+    <div class="cr-fg"><label class="cr-lbl">¿Qué está pasando?</label><textarea class="cr-in" rows="3" placeholder="Acumulación de basura en Jr. Los Andes desde hace 3 días..."></textarea></div>
+    <div class="cr-fg"><label class="cr-lbl">Propuesta de solución</label><textarea class="cr-in" rows="3" placeholder="Solicitar camión de recolección y jornada vecinal de limpieza..."></textarea></div>
+    <div class="rep-warn">⚠️ Tu reporte recibirá <strong>votos de la comunidad</strong> y será elevado automáticamente a la Municipalidad cuando alcance 25 votos.</div>
+    <button class="cr-pub danger" onclick="pubR()">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Enviar Reporte a la Muni
+    </button>
+  </div>
+  <div class="sp"></div>
+</div>
+</div>
+
+<!-- ═══════ PERFIL ═══════ -->
+<div class="screen" id="s-perfil">
+  <div class="perf-hero">
+    <div class="ph-bg" style="background:linear-gradient(135deg,#1a3a5c,#0d1a35,#05091a)"></div>
+    <div class="ph-c1"></div><div class="ph-c2"></div>
+    <div class="ph-grad"></div>
+    <div class="perf-acts">
+      <div class="p-act" onclick="shareProfile()"><svg width="16" height="16" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+      <div class="p-act" onclick="openModal('perf-config')"><svg width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></div>
+    </div>
+    <div class="perf-av-wrap">
+      <div class="perf-av" onclick="document.getElementById('avInp').click()">
+        <img id="avImg" src="perfil.png" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2784%27 height=%2784%27%3E%3Crect width=%2784%27 height=%2784%27 fill=%27%23005ccc%27/%3E%3Ccircle cx=%2742%27 cy=%2730%27 r=%2717%27 fill=%27%2300D4A0%27/%3E%3Cellipse cx=%2742%27 cy=%2768%27 rx=%2727%27 ry=%2718%27 fill=%27%2300D4A0%27/%3E%3C/svg%3E'">
+        <div class="perf-av-ed">✏️</div>
+      </div>
+    </div>
+  </div>
+  <input type="file" id="avInp" accept="image/*" style="display:none" onchange="avUp(this)">
+  <div class="perf-info">
+    <div style="user-select:all">
+      <div class="perf-nm">Camila Quispe</div>
+      <div class="perf-meta" style="user-select:all"><span>@camilaquispe</span><span>•</span><span>🎓 ESAN</span><span>📍 Surco, Lima</span></div>
+    </div>
+    <div class="perf-stats" style="user-select:all">
+      <div class="pst"><div class="pst-v">24</div><div class="pst-l">Horas</div></div>
+      <div class="pst"><div class="pst-v">342</div><div class="pst-l">Seguidores</div></div>
+      <div class="pst xp"><div class="pst-v">450</div><div class="pst-l">XP</div></div>
+    </div>
+    <div style="display:flex;gap:10px;padding:0 20px;margin-bottom:16px">
+      <button style="flex:1;padding:10px;background:var(--teal);color:#000;border:none;border-radius:10px;font-weight:700;cursor:pointer" onclick="toast('👍 Seguido')">Seguir</button>
+      <button style="flex:1;padding:10px;background:var(--s2);color:var(--w);border:1px solid var(--b1);border-radius:10px;font-weight:700;cursor:pointer" onclick="toast('📨 Mensaje enviado')">Mensaje</button>
+    </div>
+  </div>
+  <!-- Tabs para videos/eventos/reportes -->
+  <div class="perf-tabs">
+    <div class="perf-tab on" id="pt-vid" onclick="perfTab('vid')">📹 Videos</div>
+    <div class="perf-tab" id="pt-evt" onclick="perfTab('evt')">📅 Eventos</div>
+    <div class="perf-tab" id="pt-rep" onclick="perfTab('rep')">🚨 Reportes</div>
+  </div>
+  
+  <!-- Feed de Videos estilo TikTok -->
+  <div id="perf-vid-feed" class="perf-vid-feed">
+    <div class="pv-story-card" onclick="openVidModal('video01.mp4')">
+      <video src="video01.mp4" muted loop playsinline preload="metadata" onloadeddata="this.play().catch(()=>{})"></video>
+      <div class="pv-story-overlay">
+        <div class="pv-register-btn" title="Registrarse para participar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 19v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="12" y1="14" x2="12" y2="20"/></svg> Registrarse</div>
+        <div class="pv-story-info">
+          <div class="pv-story-title">Voluntaria de Construcción</div>
+          <div class="pv-story-desc">Únete al equipo de voluntarios · 242 inscritos</div>
+          <div class="pv-story-stats">▶ 1.2k · ❤️ 345</div>
+        </div>
+      </div>
+    </div>
+    <div class="pv-story-card" onclick="openVidModal('video02.mp4')">
+      <video src="video02.mp4" muted loop playsinline preload="metadata" onloadeddata="this.play().catch(()=>{})"></video>
+      <div class="pv-story-overlay">
+        <div class="pv-register-btn" title="Registrarse para participar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 19v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="12" y1="14" x2="12" y2="20"/></svg> Registrarse</div>
+        <div class="pv-story-info">
+          <div class="pv-story-title">Agentes de Salud Comunitaria</div>
+          <div class="pv-story-desc">Cuidemos nuestra salud juntos · 156 inscritos</div>
+          <div class="pv-story-stats">▶ 874 · ❤️ 421</div>
+        </div>
+      </div>
+    </div>
+    <div class="pv-story-card" onclick="openVidModal('video03.mp4')">
+      <video src="video03.mp4" muted loop playsinline preload="metadata" onloadeddata="this.play().catch(()=>{})"></video>
+      <div class="pv-story-overlay">
+        <div class="pv-register-btn" title="Registrarse para participar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 19v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="12" y1="14" x2="12" y2="20"/></svg> Registrarse</div>
+        <div class="pv-story-info">
+          <div class="pv-story-title">Alimento Para Todos</div>
+          <div class="pv-story-desc">Iniciativa de seguridad alimentaria · 89 inscritos</div>
+          <div class="pv-story-stats">▶ 2.1k · ❤️ 678</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Panel de Eventos -->
+  <div id="perf-evt-panel" style="display:none;padding:0 20px 24px">
+    <div class="evt-item-card" style="user-select:all">
+      <div class="evt-date"><span class="evt-day">24</span><span class="evt-mon">MAY</span></div>
+      <div class="evt-details">
+        <div class="evt-card-title">Pintado de losa deportiva</div>
+        <div class="evt-card-loc">📍 Pamplona Alta · Surco</div>
+        <div class="evt-card-time">⏰ 8:00 AM - 2:00 PM</div>
+        <div class="evt-card-stats">👥 40 voluntarios · 💪 Muy activo</div>
+      </div>
+    </div>
+    <div class="evt-item-card" style="user-select:all">
+      <div class="evt-date"><span class="evt-day">31</span><span class="evt-mon">MAY</span></div>
+      <div class="evt-details">
+        <div class="evt-card-title">Limpieza del Parque Los Olivos</div>
+        <div class="evt-card-loc">📍 Parque Los Olivos · Surco</div>
+        <div class="evt-card-time">⏰ 7:00 AM - 1:00 PM</div>
+        <div class="evt-card-stats">👥 35 voluntarios · 🌿 Ambiente</div>
+      </div>
+    </div>
+    <div class="evt-item-card" style="user-select:all">
+      <div class="evt-date"><span class="evt-day">28</span><span class="evt-mon">MAY</span></div>
+      <div class="evt-details">
+        <div class="evt-card-title">Taller de Emprendimiento Juvenil</div>
+        <div class="evt-card-loc">📍 Centro Comunitario SJM</div>
+        <div class="evt-card-time">⏰ 3:00 PM - 6:00 PM</div>
+        <div class="evt-card-stats">👥 50 jóvenes · 📚 Educación</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Panel de Reportes -->
+  <div id="perf-rep-panel" style="display:none;padding:0 20px 24px">
+    <div class="rep-item-card" style="user-select:all">
+      <div class="rep-status" style="background:#FF6B7F">Abierto</div>
+      <div class="rep-title">Acumulación de residuos en Av. Central</div>
+      <div class="rep-desc">Reportado hace 3 días · Sin recolección</div>
+      <div class="rep-votes">🗳️ 22 votos de la comunidad</div>
+    </div>
+    <div class="rep-item-card" style="user-select:all">
+      <div class="rep-status" style="background:#00D4A0">Resuelto</div>
+      <div class="rep-title">Reparación de luminarias en Jr. Los Pinos</div>
+      <div class="rep-desc">Reportado hace 15 días · Municipalidad atendió</div>
+      <div class="rep-votes">🗳️ 34 votos de la comunidad</div>
+    </div>
+    <div class="rep-item-card" style="user-select:all">
+      <div class="rep-status" style="background:#5BB8FF">En proceso</div>
+      <div class="rep-title">Drenaje obstruido en Pasaje 5</div>
+      <div class="rep-desc">Reportado hace 8 días · La municipalidad está en proceso</div>
+      <div class="rep-votes">🗳️ 18 votos de la comunidad</div>
+    </div>
+  </div>
+
+  <div class="sp"></div>
+</div>
+
+</div><!-- /screens -->
+
+<!-- ══ BOTTOM NAV — Descubrir | Comunidades | [+] | Mapa | Perfil ══ -->
+<nav class="nav">
+  <div class="ni on" id="n-feed" onclick="goTo('feed')">
+    <div class="ni-ic"><svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div>
+    <span class="ni-lb">Descubrir</span>
+  </div>
+  <div class="ni" id="n-comus" onclick="goTo('comus')">
+    <div class="ni-ic"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+    <span class="ni-lb">Comunidades</span>
+  </div>
+  <div class="nc" onclick="goTo('crear')">
+    <div class="nc-btn"><svg width="24" height="24" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+    <span class="nc-lb">Crear</span>
+  </div>
+  <div class="ni" id="n-mapa" onclick="goTo('mapa')">
+    <div class="ni-ic"><svg width="22" height="22" viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></div>
+    <span class="ni-lb">Mapa</span>
+  </div>
+  <div class="ni" id="n-perfil" onclick="goTo('perfil')">
+    <div class="ni-ic"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+    <span class="ni-lb">Perfil</span>
+  </div>
+</nav>
+
+<!-- MODALES (dentro del .phone) -->
+<div class="overlay" id="cm-modal" onclick="closeBg(event,'cm-modal')">
+  <div class="sheet"><div class="sh-handle"></div><div class="sh-body" id="cmBody"></div></div>
+</div>
+<div class="overlay" id="cv-modal" onclick="closeBg(event,'cv-modal')">
+  <div class="sheet tall"><div class="sh-handle"></div>
+  <div class="sh-body">
+    <div class="cv-hd">
+      <div class="cv-av"><img id="cvAvImg" src="perfil.png" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2784%27 height=%2784%27%3E%3Crect width=%2784%27 height=%2784%27 fill=%27%23001f18%27/%3E%3Ccircle cx=%2742%27 cy=%2730%27 r=%2717%27 fill=%27%2300D4A0%27/%3E%3Cellipse cx=%2742%27 cy=%2768%27 rx=%2727%27 ry=%2718%27 fill=%27%2300D4A0%27/%3E%3C/svg%3E'"></div>
+      <div class="cv-nm">Camila Quispe</div>
+      <div class="cv-inst">🎓 ESAN · 📍 Surco, Lima</div>
+      <div class="cv-badge">✅ Verificado por Municipalidad de Lima</div>
+    </div>
+    <div class="cv-stats">
+      <div class="cv-st"><div class="cv-sv">24h</div><div class="cv-sl">Vol.</div></div>
+      <div class="cv-st"><div class="cv-sv">5</div><div class="cv-sl">Proyectos</div></div>
+      <div class="cv-st"><div class="cv-sv">450</div><div class="cv-sl">XP</div></div>
+    </div>
+    <div class="cv-sec">Experiencia Comunitaria</div>
+    <div class="cv-exp"><div class="cv-dot"></div><div><div class="cv-et">Coordinadora de Voluntariado</div><div class="cv-eo">Unidos por Surco · Surco</div><div class="cv-ed">Ene 2025 – Presente</div></div></div>
+    <div class="cv-exp"><div class="cv-dot"></div><div><div class="cv-et">Fiscalizadora Vecinal</div><div class="cv-eo">Municipalidad de Surco</div><div class="cv-ed">Mar 2024 – Dic 2024</div></div></div>
+    <div class="cv-exp"><div class="cv-dot"></div><div><div class="cv-et">Promotora de Olla Común</div><div class="cv-eo">Mujeres VES · VES</div><div class="cv-ed">Jun 2023 – Feb 2024</div></div></div>
+    <div class="cv-sec">Habilidades</div>
+    <div class="cv-skills"><span class="cv-skill">Liderazgo vecinal</span><span class="cv-skill">Gestión de proyectos</span><span class="cv-skill">Comunicación</span><span class="cv-skill">Auditoría social</span><span class="cv-skill">Recaudación</span></div>
+    <div class="cv-sec">Fotos participativas</div>
+    <div class="cv-pgrid" id="cvPgrid"><div class="cv-ph">📸</div><div class="cv-ph">🌱</div><div class="cv-ph">🏘️</div></div>
+    <button class="cv-print" onclick="window.print()">🖨️ Descargar / Imprimir CV</button>
+  </div></div>
+</div>
+
+<!-- Modal video full screen -->
+<div class="vid-overlay" id="vid-modal">
+  <div class="vid-close" onclick="closeVidModal()">
+    <svg width="16" height="16" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </div>
+  <video class="vid-full" id="vidFull" loop playsinline controls></video>
+</div>
+
+<!-- Modal configuración perfil (3 puntitos) -->
+<div class="overlay" id="perf-config" onclick="closeBg(event,'perf-config')">
+  <div class="sheet perf-config-modal">
+    <div class="sh-handle"></div>
+    <div class="sh-body">
+      <div class="config-section">
+        <div class="config-title">📊 Mis logros</div>
+        <div class="config-items">
+          <div class="config-item" onclick="openModal('medals-modal');closeModal('perf-config')">
+            <div class="config-item-ico">🏆</div>
+            <div>
+              <div class="config-item-txt">Medallas y Reconocimientos</div>
+              <div class="config-item-sub">6 medallas desbloqueadas · Ver todas</div>
+            </div>
+          </div>
+          <div class="config-item" onclick="openModal('history-modal');closeModal('perf-config')">
+            <div class="config-item-ico">📜</div>
+            <div>
+              <div class="config-item-txt">Historial de Actividad</div>
+              <div class="config-item-sub">Ver todos tus movimientos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="config-section">
+        <div class="config-title">⚙️ Configuración</div>
+        <div class="config-items">
+          <div class="config-item" onclick="toast('⚙️ Abriendo configuración de privacidad')">
+            <div class="config-item-ico">🔒</div>
+            <div>
+              <div class="config-item-txt">Privacidad y Seguridad</div>
+              <div class="config-item-sub">Controla quién ve tu perfil</div>
+            </div>
+          </div>
+          <div class="config-item" onclick="toast('📢 Abriendo configuración de notificaciones')">
+            <div class="config-item-ico">🔔</div>
+            <div>
+              <div class="config-item-txt">Notificaciones</div>
+              <div class="config-item-sub">Personaliza tus alertas</div>
+            </div>
+          </div>
+          <div class="config-item" onclick="toast('🎨 Abriendo temas')">
+            <div class="config-item-ico">🎨</div>
+            <div>
+              <div class="config-item-txt">Tema de Interfaz</div>
+              <div class="config-item-sub">Claro, oscuro o automático</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="config-section">
+        <div class="config-title">💼 Mi Cuenta</div>
+        <div class="config-items">
+          <div class="config-item" onclick="openModal('cv-modal');closeModal('perf-config')">
+            <div class="config-item-ico">📋</div>
+            <div>
+              <div class="config-item-txt">CV Participativo</div>
+              <div class="config-item-sub">Verificado · Descargar o imprimir</div>
+            </div>
+          </div>
+          <div class="config-item" onclick="toast('👤 Abriendo editar perfil')">
+            <div class="config-item-ico">✏️</div>
+            <div>
+              <div class="config-item-txt">Editar Perfil</div>
+              <div class="config-item-sub">Cambia tu nombre, bio, ubicación</div>
+            </div>
+          </div>
+          <div class="config-item" onclick="toast('🚪 Sesión cerrada')">
+            <div class="config-item-ico">🚪</div>
+            <div>
+              <div class="config-item-txt">Cerrar Sesión</div>
+              <div class="config-item-sub">Salir de tu cuenta</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Medallas -->
+<div class="overlay" id="medals-modal" onclick="closeBg(event,'medals-modal')">
+  <div class="sheet tall">
+    <div class="sh-handle"></div>
+    <div class="sh-body">
+      <div style="text-align:center;padding:14px 0">
+        <div style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:900;color:var(--w);margin-bottom:4px">Medallas y Logros</div>
+        <div style="font-size:12px;color:var(--w5)">6 de 12 medallas desbloqueadas</div>
+      </div>
+      <div class="medals" style="margin:0;padding:0 20px">
+        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(79,158,255,.15)">🎖️</div><div class="medal-nm">Auditor Comunitario</div><div style="font-size:10px;color:var(--w3);margin-top:4px">Participó en 5 auditorías</div></div>
+        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(0,212,160,.12)">🏆</div><div class="medal-nm">Líder de Barrio</div><div style="font-size:10px;color:var(--w3);margin-top:4px">100+ horas de voluntariado</div></div>
+        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(255,107,127,.12)">🔥</div><div class="medal-nm">Primer Voto</div><div style="font-size:10px;color:var(--w3);margin-top:4px">Tu primer voto a un reporte</div></div>
+        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(0,212,160,.12)">♻️</div><div class="medal-nm">Reciclador</div><div style="font-size:10px;color:var(--w3);margin-top:4px">Participó en evento de reciclaje</div></div>
+        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(176,138,255,.12)">📢</div><div class="medal-nm">Voz Activa</div><div style="font-size:10px;color:var(--w3);margin-top:4px">50+ comentarios constructivos</div></div>
+        <div class="medal" style="user-select:all"><div class="medal-ico" style="background:rgba(93,184,255,.12)">👥</div><div class="medal-nm">Conectador</div><div style="font-size:10px;color:var(--w3);margin-top:4px">20+ personas en comunidades</div></div>
+        <div class="medal locked"><div class="medal-ico" style="background:var(--s2)">⭐</div><div class="medal-nm">Próxima...</div><div style="font-size:10px;color:var(--w3);margin-top:4px">Desbloquealo pronto</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Historial -->
+<div class="overlay" id="history-modal" onclick="closeBg(event,'history-modal')">
+  <div class="sheet tall">
+    <div class="sh-handle"></div>
+    <div class="sh-body">
+      <div style="text-align:center;padding:14px 0">
+        <div style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:900;color:var(--w);margin-bottom:4px">Historial de Actividad</div>
+        <div style="font-size:12px;color:var(--w5)">Todos tus movimientos en un lugar</div>
+      </div>
+      <div class="hist-list" style="user-select:all">
+        <div class="hist-item"><div class="h-dot" style="background:#00D4A0;box-shadow:0 0 6px #00D4A0"></div><div class="h-txt"><div class="h-ttl">Postulado a Pintado de Losa SJM</div><div class="h-time">Hoy · 10:24</div></div></div>
+        <div class="hist-item"><div class="h-dot" style="background:#5BB8FF;box-shadow:0 0 6px #5BB8FF"></div><div class="h-txt"><div class="h-ttl">Dona S/. 10 vía Yape a Olla Común VES</div><div class="h-time">Ayer · 15:30</div></div></div>
+        <div class="hist-item"><div class="h-dot" style="background:#FFD60A;box-shadow:0 0 6px #FFD60A"></div><div class="h-txt"><div class="h-ttl">Tu voto elevó reporte a la Municipalidad</div><div class="h-time">Lun 19 · 09:15</div></div></div>
+        <div class="hist-item"><div class="h-dot" style="background:#B08AFF;box-shadow:0 0 6px #B08AFF"></div><div class="h-txt"><div class="h-ttl">Completaste taller de emprendimiento</div><div class="h-time">Dom 18 · 18:45</div></div></div>
+        <div class="hist-item"><div class="h-dot" style="background:#FF6B9D;box-shadow:0 0 6px #FF6B9D"></div><div class="h-txt"><div class="h-ttl">Desbloqueaste medalla: Voz Activa</div><div class="h-time">Sáb 17 · 12:30</div></div></div>
+        <div class="hist-item"><div class="h-dot" style="background:#00D4A0;box-shadow:0 0 6px #00D4A0"></div><div class="h-txt"><div class="h-ttl">Te uniste a la comunidad: Arte Comunitario SJM</div><div class="h-time">Vie 16 · 08:20</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal comentarios -->
+<div class="overlay" id="cmt-modal" onclick="closeBg(event,'cmt-modal')">
+  <div class="cmt-sheet">
+    <div class="sh-handle"></div>
+    <div class="cmt-head">
+      <div class="cmt-ttl" id="cmtTitle">Comentarios</div>
+      <div class="cmt-close" onclick="closeModal('cmt-modal')">
+        <svg width="14" height="14" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+    </div>
+    <div class="cmt-list" id="cmtList"></div>
+    <div class="cmt-bar">
+      <div class="cmt-inp-av"><img src="perfil.png" onerror="this.style.background='var(--teal)'"></div>
+      <input class="cmt-inp" id="cmtInput" placeholder="Añade un comentario..." onkeydown="if(event.key==='Enter')sendCmt()">
+      <div class="cmt-send" onclick="sendCmt()">
+        <svg width="16" height="16" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+</div><!-- /phone -->
+</div><!-- /frame -->
+
+<script>
+/* ════ COMMENTS DATA ════ */
+const CMTS={
+  1:[
+    {nm:"Rosa Mamani",av:"https://i.pravatar.cc/80?img=47",txt:"Qué bonita iniciativa! Yo también quiero participar, vivo en Pamplona Alta 🙏",t:"2h",lk:18,liked:false},
+    {nm:"Diego Cárdenas",av:"https://i.pravatar.cc/80?img=11",txt:"Llevo 3 fines de semana yendo y la verdad es un gusto ver cómo cambió el parque 💪",t:"3h",lk:34,liked:false},
+    {nm:"Milagros Torres",av:"https://i.pravatar.cc/80?img=54",txt:"¿A qué hora es? quiero llevar a mis hijos también",t:"4h",lk:7,liked:false},
+    {nm:"Johan Quispe",av:"https://i.pravatar.cc/80?img=15",txt:"Le pasé el video a mi mamá y ya quiere unirse jajaja ❤️",t:"5h",lk:12,liked:false},
+    {nm:"Lucía Flores",av:"https://i.pravatar.cc/80?img=44",txt:"Eso es lo que necesita el barrio, más gente comprometida así 👏👏",t:"6h",lk:29,liked:false},
+    {nm:"Erick Salas",av:"https://i.pravatar.cc/80?img=8",txt:"Oye me sumo, paso la voz con los del jirón también",t:"8h",lk:5,liked:false},
+  ],
+  2:[
+    {nm:"Valeria Ríos",av:"https://i.pravatar.cc/80?img=38",txt:"El taller de emprendimiento estuvo increíble, aprendí un montón sobre costos 🔥",t:"1h",lk:22,liked:false},
+    {nm:"César Huanca",av:"https://i.pravatar.cc/80?img=13",txt:"¿Habrá más fechas? me perdí la de la semana pasada 😔",t:"2h",lk:9,liked:false},
+    {nm:"Fátima Condori",av:"https://i.pravatar.cc/80?img=60",txt:"Sigan así jóvenes, el futuro de SJM está en sus manos 💙",t:"3h",lk:41,liked:false},
+    {nm:"Andrés Núñez",av:"https://i.pravatar.cc/80?img=17",txt:"Me inscribí en la feria de talentos, ya era hora que hubiera algo así por aquí",t:"5h",lk:16,liked:false},
+    {nm:"Pamela Vera",av:"https://i.pravatar.cc/80?img=49",txt:"El municipio debería apoyar más proyectos como este, no hay excusa",t:"7h",lk:33,liked:false},
+  ],
+  3:[
+    {nm:"Nilda Apaza",av:"https://i.pravatar.cc/80?img=56",txt:"Todos los jueves ahí estamos, la olla de hoy estaba riquísima 🍲❤️",t:"30m",lk:47,liked:false},
+    {nm:"Brenda Ccopa",av:"https://i.pravatar.cc/80?img=41",txt:"Gracias a ustedes mi familia come caliente. Dios las bendiga 🙏",t:"1h",lk:88,liked:false},
+    {nm:"Mario Callañaupa",av:"https://i.pravatar.cc/80?img=6",txt:"¿Puedo llevar arroz y frejoles para aportar al siguiente jueves?",t:"2h",lk:14,liked:false},
+    {nm:"Sonia Huayta",av:"https://i.pravatar.cc/80?img=52",txt:"Organizadísimas siempre, ejemplo para todas las ollas comunes de Lima 💪",t:"3h",lk:26,liked:false},
+    {nm:"Kevin Llerena",av:"https://i.pravatar.cc/80?img=20",txt:"Compartí esto y ya tenemos 3 nuevos voluntarios para el sábado 😄",t:"5h",lk:19,liked:false},
+    {nm:"Isabel Chura",av:"https://i.pravatar.cc/80?img=43",txt:"Qué orgullo ver a las mujeres de VES así de organizadas 🫶",t:"6h",lk:52,liked:false},
+  ],
+  4:[
+    {nm:"Ernesto Mamani",av:"https://i.pravatar.cc/80?img=3",txt:"Llevo una semana mandando reportes a la Muni y nada, espero que esto ayude",t:"20m",lk:31,liked:false},
+    {nm:"Gloria Quispe",av:"https://i.pravatar.cc/80?img=58",txt:"Fui a votar, ya van 19 votos!! entre todos llegamos a 25 🚨",t:"1h",lk:44,liked:false},
+    {nm:"Paul Ttito",av:"https://i.pravatar.cc/80?img=22",txt:"Señores de la municipalidad si leen esto: por favor manden el camión de basura",t:"2h",lk:67,liked:false},
+    {nm:"Carmen Anco",av:"https://i.pravatar.cc/80?img=46",txt:"Ya voté, pasaré el link a los vecinos del pasaje también",t:"3h",lk:12,liked:false},
+  ],
+  5:[
+    {nm:"Rodrigo Puma",av:"https://i.pravatar.cc/80?img=12",txt:"El festival de reciclaje del año pasado fue épico, este va a ser mejor 🌿",t:"1h",lk:21,liked:false},
+    {nm:"Daniela Sucapuca",av:"https://i.pravatar.cc/80?img=37",txt:"Le cuento a la Fundación Romero que sí están llegando los fondos correctamente ✅",t:"2h",lk:38,liked:false},
+    {nm:"Tomás Huillca",av:"https://i.pravatar.cc/80?img=9",txt:"¿Aceptan composteras caseras para donar? tengo dos extras",t:"4h",lk:8,liked:false},
+    {nm:"Angie Ccallo",av:"https://i.pravatar.cc/80?img=39",txt:"Mis hijos participaron en el taller de reciclaje y llegaron a casa a clasificar toda la basura jaja 😂",t:"6h",lk:55,liked:false},
+  ],
+  6:[
+    {nm:"Luis Ticona",av:"https://i.pravatar.cc/80?img=4",txt:"El mural quedó espectacular, gracias a todos los que vinieron 🎨✨",t:"45m",lk:63,liked:false},
+    {nm:"Marcia Yupanqui",av:"https://i.pravatar.cc/80?img=50",txt:"Pasé por el parque hoy y la gente se para a sacarle fotos, misión cumplida 😍",t:"2h",lk:77,liked:false},
+    {nm:"Héctor Calderón",av:"https://i.pravatar.cc/80?img=16",txt:"Arte y comunidad van de la mano, excelente trabajo equipo 💜",t:"3h",lk:29,liked:false},
+    {nm:"Sofía Bermejo",av:"https://i.pravatar.cc/80?img=36",txt:"¿Van a hacer otro mural? quiero participar en el siguiente 🙋",t:"4h",lk:18,liked:false},
+    {nm:"Javier Apaza",av:"https://i.pravatar.cc/80?img=19",txt:"Mi abuela me mandó fotos del mural desde el parque, ya se corrió la voz por el barrio",t:"5h",lk:41,liked:false},
+    {nm:"Nataly Condori",av:"https://i.pravatar.cc/80?img=33",txt:"Arte como resistencia vecinal 🖼️🏘️ que viva SJM!",t:"7h",lk:34,liked:false},
+  ]
+};
+let activeCmtId=null;
+
+/* ════ DATA ════ */
+const COMMS=[
+  {id:1,name:"Voluntaria de Construcción",dist:"Pamplona Alta, Surco",type:"today",act:"Construcción Comunitaria",em:"🏗️",col:"#FFB030",
+   img:"https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&h=340&fit=crop&auto=format",
+   lat:-12.135,lng:-76.985,fol:342,vids:3,
+   evts:[{d:24,m:"MAY",t:"Pintado de losa deportiva",ds:"Pamplona Alta · 8am"}],
+   desc:"Restauración de espacios deportivos con voluntarios comprometidos.",tags:["#construcción","#voluntariado","#surco"]},
+  {id:2,name:"Agentes de Salud Comunitaria",dist:"San Juan de Miraflores",type:"today",act:"Salud Pública",em:"🏥",col:"#5BB8FF",
+   img:"https://images.unsplash.com/photo-1576091160550-112173f31c74?w=600&h=340&fit=crop&auto=format",
+   lat:-12.159,lng:-76.975,fol:267,vids:3,
+   evts:[{d:28,m:"MAY",t:"Campaña de salud preventiva",ds:"Centro de Salud SJM · 2pm"}],
+   desc:"Agentes capacitados en promoción de salud e higiene comunitaria.",tags:["#salud","#agentes","#sjm"]},
+  {id:3,name:"Alimento Para Todos",dist:"Villa El Salvador",type:"today",act:"Seguridad Alimentaria",em:"🍽️",col:"#FFD60A",
+   img:"https://images.unsplash.com/photo-1504674900153-640481dd0b9e?w=600&h=340&fit=crop&auto=format",
+   lat:-12.195,lng:-76.952,fol:456,vids:3,
+   evts:[{d:23,m:"MAY",t:"Distribución de alimentos",ds:"Plaza Central VES · 10am"}],
+   desc:"Iniciativa de seguridad alimentaria para familias en vulnerabilidad.",tags:["#alimentación","#ves","#solidaridad"]},
+  {id:4,name:"Unidos por Surco",dist:"Surco",type:"upcoming",act:"Voluntariado Integral",em:"💚",col:"#00D4A0",
+   img:"https://images.unsplash.com/photo-1593113598332-cd288d649433?w=600&h=340&fit=crop&auto=format",
+   lat:-12.140,lng:-76.990,fol:234,vids:8,
+   evts:[{d:31,m:"MAY",t:"Limpieza parque",ds:"Parque Los Olivos · 7am"}],
+   desc:"Comunidad integral de voluntarios activos en Surco.",tags:["#voluntariado","#surco","#activo"]},
+  {id:5,name:"Juventud SJM",dist:"San Juan de Miraflores",type:"upcoming",act:"Taller de Emprendimiento",em:"📘",col:"#B08AFF",
+   img:"https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=340&fit=crop&auto=format",
+   lat:-12.162,lng:-76.970,fol:156,vids:5,
+   evts:[{d:5,m:"JUN",t:"Feria de talentos",ds:"Plaza SJM · 10am"}],
+   desc:"Empoderamiento juvenil a través del emprendimiento.",tags:["#jovenes","#sjm","#taller"]},
+  {id:6,name:"Mujeres VES",dist:"Villa El Salvador",type:"today",act:"Olla Común",em:"🍲",col:"#FF6B9D",
+   img:"https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&h=340&fit=crop&auto=format",
+   lat:-12.198,lng:-76.955,fol:312,vids:12,
+   evts:[{d:30,m:"MAY",t:"Donación de alimentos",ds:"Mercado VES · 9am"}],
+   desc:"Olla común solidaria todos los jueves para el barrio.",tags:["#ollacomun","#ves","#solidaridad"]},
+  {id:7,name:"EcoVerde Pachacámac",dist:"Pachacámac",type:"funded",act:"Medio Ambiente",em:"🌿",col:"#00D4A0",
+   img:"https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=600&h=340&fit=crop&auto=format",
+   lat:-12.228,lng:-76.942,fol:189,vids:6,
+   evts:[{d:1,m:"JUN",t:"Festival de reciclaje",ds:"Parque EcoVerde · 9am"}],
+   desc:"Iniciativa ambiental financiada por Fundación Romero.",tags:["#ecologia","#reciclaje","#financiado"]},
+  {id:8,name:"Arte Comunitario SJM",dist:"San Juan de Miraflores",type:"today",act:"Evento Cultural",em:"🎨",col:"#B08AFF",
+   img:"https://images.unsplash.com/photo-1499781350541-7783f6c6a0c8?w=600&h=340&fit=crop&auto=format",
+   lat:-12.166,lng:-76.963,fol:423,vids:15,
+   evts:[{d:7,m:"JUN",t:"Exposición vecinal",ds:"Casa cultura SJM · 4pm"}],
+   desc:"Mural colectivo: arte y cultura vecinal en acción.",tags:["#arte","#cultura","#sjm"]}
+];
+const TCOL={today:"#00D4A0",upcoming:"#5BB8FF",report:"#FF6B7F",funded:"#FFD60A"};
+const TLBL={today:"Activo hoy",upcoming:"Próximo",report:"Reporte",funded:"Financiado"};
+const BGS=[
+  "radial-gradient(ellipse at 35% 45%,#1a4d3a,#0a1f18 60%,#000)",
+  "radial-gradient(ellipse at 65% 30%,#0f2850,#050610 60%,#000)",
+  "radial-gradient(ellipse at 40% 55%,#3d2a10,#1a1005 60%,#000)",
+  "radial-gradient(ellipse at 55% 35%,#3d0a15,#15050b 60%,#000)",
+  "radial-gradient(ellipse at 30% 50%,#0a2a1f,#051010 60%,#000)",
+  "radial-gradient(ellipse at 50% 40%,#2a1540,#0f080a 60%,#000)"
+];
+const SONGS=["🎵 Himno del barrio","🎶 Cumbia comunitaria","🎵 Salsa vecinal","🎶 Hip hop local","🎵 Marinera moderna","🎶 Festejo popular"];
+
+/* ════ STATE ════ */
+const lkSt={};  // liked posts
+const flSt={};  // followed communities
+const photos=[];
+
+/* ════ FEED ════ */
+function buildFeed(){
+  const w=document.getElementById('feedWrap'); w.innerHTML='';
+  COMMS.forEach((c,i)=>{
+    const fp=document.createElement('div'); fp.className='fp'; fp.style.background=BGS[i];
+    fp.innerHTML=`
+      <div class="fp-bg" style="background-image:url('${c.img}')"></div>
+      <video class="fp-vid" id="vid${i}" src="video0${(i%3)+1}.mp4" loop muted playsinline preload="none"
+        onerror="this.style.display='none'" onloadeddata="this.style.display='block'"></video>
+      <div class="fp-mute" id="muteBtn${i}" onclick="toggleMute(${i})">
+        <svg id="muteIc${i}" width="18" height="18" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+      </div>
+      <div class="fp-grad-t"></div><div class="fp-grad-b"></div>
+      <div class="fhd" style="background:none">
+        <div class="ftabs">
+          <span class="ftab">Explorar</span>
+          <span class="ftab">Siguiendo</span>
+          <span class="ftab on">Para ti</span>
+        </div>
+        <div class="fsrch"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      </div>
+      <div class="fp-ac">
+        <div class="fp-cav" onclick="openCM(${c.id})">
+          <div class="fp-av"><img src="${c.img}" onerror="this.style.background='${c.col}33';this.style.display='none'"></div>
+          <div class="fp-plus" id="fpl${i}" onclick="event.stopPropagation();feedFlw(${i},${c.id})">+</div>
+        </div>
+        <div class="fpa" id="flk${i}" onclick="feedLike(this,${i})">
+          <div class="fpa-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div class="fpa-n" id="lkn${i}">${(Math.random()*400+50|0)}</div>
+        </div>
+        <div class="fpa" onclick="openComments(${c.id})">
+          <div class="fpa-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="fpa-n" id="cmtn${c.id}">${CMTS[c.id]?CMTS[c.id].length:0}</div>
+        </div>
+        <div class="fpa">
+          <div class="fpa-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg></div>
+          <div class="fpa-n">${(Math.random()*200+30|0)}</div>
+        </div>
+      </div>
+      <div class="fp-inf">
+        <div class="fp-chip" onclick="openCM(${c.id})">
+          <div class="fp-cdot"></div>
+          <span>${c.name} · ${c.act}</span>
+        </div>
+        <div class="fp-ttl">${c.desc}</div>
+        <div class="fp-tags">${c.tags.map(t=>`<span class="fp-tag">${t}</span>`).join('')}</div>
+        <div class="fp-mus"><div class="fp-mus-ico">🎵</div><div class="fp-mus-txt">${SONGS[i]}</div></div>
+      </div>`;
+    w.appendChild(fp);
+    // try video
+    document.getElementById('vid'+i).load();
+  });
+  // Intersection observer for autoplay
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      e.target.querySelectorAll('video').forEach(v=>{
+        if(e.isIntersecting){v.play().catch(()=>{})}else{v.pause()}
+      });
+    });
+  },{threshold:.65});
+  document.querySelectorAll('.fp').forEach(p=>io.observe(p));
+}
+
+/* ════ MUTE TOGGLE ════ */
+let globalMuted=true;
+function toggleMute(i){
+  globalMuted=!globalMuted;
+  document.querySelectorAll('.fp-vid').forEach(v=>{v.muted=globalMuted});
+  // update all mute icons
+  document.querySelectorAll('[id^="muteIc"]').forEach(ic=>{
+    ic.innerHTML=globalMuted
+      ? '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>'
+      : '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>';
+  });
+}
+
+function feedLike(btn,i){
+  lkSt[i]=!lkSt[i];
+  btn.classList.toggle('lk',!!lkSt[i]);
+  const el=document.getElementById('lkn'+i);
+  el.textContent=parseInt(el.textContent)+(lkSt[i]?1:-1);
+}
+function feedFlw(i,id){
+  flSt[id]=!flSt[id];
+  syncFeedBtn(i,id);
+  toast(flSt[id]?'✅ Siguiendo '+COMMS.find(c=>c.id===id)?.name:'Dejaste de seguir');
+  updateMCBadge();
+}
+function syncFeedBtn(i,id){
+  const b=document.getElementById('fpl'+i);
+  if(b){b.textContent=flSt[id]?'✓':'+';b.style.background=flSt[id]?'rgba(255,255,255,.25)':'var(--teal)'}
+}
+function feedTab(el){document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('on'));el.classList.add('on')}
+
+/* ════ MIS COMUNIDADES ════ */
+let mcMode='sig';
+
+function updateMCBadge(){
+  const n=Object.values(flSt).filter(Boolean).length;
+  const el=document.getElementById('mcBadge');
+  if(el) el.textContent=n+' siguiendo';
+  const sub=document.getElementById('mcSub');
+  if(sub) sub.textContent=n>0?`Conectado a ${n} comunidad${n===1?'':'es'}`:'Encuentra y sigue comunidades activas';
+}
+
+function buildStories(){
+  const row=document.getElementById('storiesRow');
+  if(!row) return;
+  row.innerHTML=COMMS.map(c=>`
+    <div class="story" onclick="openCM(${c.id})">
+      <div class="story-ring ${flSt[c.id]?'live':''}">
+        <div class="story-inner">
+          <img src="${c.img}" alt="${c.name}" onerror="this.style.display='none'">
+        </div>
+      </div>
+      <span class="story-nm">${c.name.split(' ')[0]}</span>
+    </div>`).join('');
+}
+
+function mcTab(t){
+  mcMode=t;
+  document.getElementById('mt-sig').classList.toggle('on',t==='sig');
+  document.getElementById('mt-all').classList.toggle('on',t==='all');
+  renderMC();
+}
+
+function renderMC(){
+  updateMCBadge();
+  buildStories();
+  const list=mcMode==='sig'?COMMS.filter(c=>flSt[c.id]):COMMS;
+  const body=document.getElementById('mcList');
+  if(!body) return;
+  if(list.length===0){
+    body.innerHTML=`<div class="emp">
+      <div class="emp-ico">🏘️</div>
+      <div class="emp-ttl">Aún no sigues ninguna</div>
+      <div class="emp-sub">Explora el feed o el mapa y sigue las comunidades que te inspiren a actuar en tu barrio</div>
+      <button class="emp-btn" onclick="goTo('feed')">Ir al Feed</button>
+    </div>`;
+    return;
+  }
+  body.innerHTML=list.map(c=>{
+    const fw=flSt[c.id];
+    const nxt=c.evts[0];
+    return `<div class="cc" onclick="openCM(${c.id})">
+      <div class="cc-img">
+        <img src="${c.img}" alt="${c.name}" loading="lazy" onerror="this.parentNode.style.background='${c.col}22';this.remove()">
+        <div class="cc-img-grad"></div>
+        <div class="cc-em">${c.em}</div>
+        <div class="cc-type-badge" style="background:${TCOL[c.type]}">${TLBL[c.type]}</div>
+      </div>
+      <div class="cc-body">
+        <div class="cc-nm">${c.name}</div>
+        <div class="cc-dist">📍 ${c.dist} · ${c.act}</div>
+        <div class="cc-stats">
+          <div class="cc-st"><div class="cc-sv">${c.fol}</div><div class="cc-sl">Seguidores</div></div>
+          <div class="cc-st"><div class="cc-sv">${c.vids}</div><div class="cc-sl">Videos</div></div>
+          <div class="cc-st"><div class="cc-sv">${c.evts.length}</div><div class="cc-sl">Eventos</div></div>
+        </div>
+        <div class="cc-footer">
+          <div class="cc-next">${nxt?`📅 <strong>${nxt.t}</strong>`:'Sin eventos próximos'}</div>
+          <button class="cc-btn ${fw?'fw':'nfw'}" id="ccb${c.id}"
+            onclick="event.stopPropagation();ccFlw(${c.id})">${fw?'✓ Siguiendo':'+ Seguir'}</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function ccFlw(id){
+  flSt[id]=!flSt[id];
+  toast(flSt[id]?'✅ Siguiendo '+COMMS.find(c=>c.id===id)?.name:'Dejaste de seguir');
+  updateMCBadge(); renderMC();
+  // sync feed buttons
+  COMMS.forEach((c,i)=>{if(c.id===id) syncFeedBtn(i,id)});
+}
+
+/* ════ MAP ════ */
+let leafMap=null, mapInited=false, mapMarkers=[];
+
+function initLeafMap(){
+  if(mapInited){leafMap.invalidateSize();return}
+  mapInited=true;
+  leafMap=L.map('leafmap',{zoomControl:false,attributionControl:false}).setView([-12.165,-76.955],11);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19}).addTo(leafMap);
+  L.control.zoom({position:'topright'}).addTo(leafMap);
+  COMMS.forEach(c=>{
+    const col=TCOL[c.type]||'#00D4A0';
+    const ico=L.divIcon({className:'',
+      html:`<div style="width:50px;height:50px;background:${col};border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #111120;box-shadow:0 4px 20px ${col}99,0 0 0 2px ${col}33;display:flex;align-items:center;justify-content:center"><span style="transform:rotate(45deg);font-size:20px">${c.em}</span></div>`,
+      iconSize:[50,50],iconAnchor:[25,50]});
+    const m=L.marker([c.lat,c.lng],{icon:ico}).addTo(leafMap);
+    m.bindPopup(`<div><div class="pop-type" style="color:${col}">${c.act}</div><div class="pop-nm">${c.name}</div><div class="pop-ds">${c.desc}</div><button class="pop-btn" onclick="openCM(${c.id});document.querySelector('.leaflet-popup-close-button')?.click()">Ver comunidad →</button></div>`);
+    m._type=c.type; mapMarkers.push(m);
+  });
+}
+
+function filterMap(f,el){
+  document.querySelectorAll('.chip').forEach(c=>{c.className='chip'});
+  el.classList.add({all:'a-g',today:'a-g',upcoming:'a-b',report:'a-r',funded:'a-y'}[f]||'a-g');
+  mapMarkers.forEach(m=>{
+    if(f==='all'||m._type===f){if(!leafMap.hasLayer(m))leafMap.addLayer(m)}
+    else{if(leafMap.hasLayer(m))leafMap.removeLayer(m)}
+  });
+}
+
+/* ════ NAVIGATION ════ */
+function goTo(screen){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  const s=document.getElementById('s-'+screen);
+  const n=document.getElementById('n-'+screen);
+  if(s) s.classList.add('on');
+  if(n) n.classList.add('on');
+  if(screen==='mapa') setTimeout(initLeafMap,80);
+  if(screen==='comus') renderMC();
+}
+
+/* ════ CREAR ════ */
+function switchCrear(t){
+  document.getElementById('formC').style.display=t==='c'?'block':'none';
+  document.getElementById('formR').style.display=t==='r'?'block':'none';
+  document.getElementById('cBtn').className='cr-tbtn'+(t==='c'?' cv':'');
+  document.getElementById('rBtn').className='cr-tbtn'+(t==='r'?' rv':'');
+  if(t==='r') getGeo();
+}
+function getGeo(){
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      p=>{document.getElementById('geoVal').textContent=`${p.coords.latitude.toFixed(5)}, ${p.coords.longitude.toFixed(5)}`},
+      ()=>{document.getElementById('geoVal').textContent='Av. Central 234, VES'}
+    );
+  } else {document.getElementById('geoVal').textContent='Av. Central 234, VES'}
+}
+function repPicUp(inp){
+  if(!inp.files[0]) return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const z=document.getElementById('repZone');
+    z.innerHTML=`<img src="${e.target.result}" style="width:100%;height:175px;object-fit:cover;border-radius:12px">`;
+    z.classList.add('has-img');
+  };
+  r.readAsDataURL(inp.files[0]);
+}
+function pubC(){toast('✅ Convocatoria publicada');setTimeout(()=>goTo('feed'),900)}
+function pubR(){toast('✅ Reporte enviado a la Municipalidad');setTimeout(()=>goTo('feed'),900)}
+
+/* ════ PERFIL ════ */
+function avUp(inp){
+  if(!inp.files[0]) return;
+  const r=new FileReader();
+  r.onload=e=>{
+    document.getElementById('avImg').src=e.target.result;
+    document.getElementById('cvAvImg').src=e.target.result;
+  };
+  r.readAsDataURL(inp.files[0]);
+}
+function phUp(inp){
+  Array.from(inp.files).forEach(f=>{
+    const r=new FileReader();
+    r.onload=e=>{photos.push(e.target.result); renderPhotos()};
+    r.readAsDataURL(f);
+  });
+}
+function renderPhotos(){
+  const g=document.getElementById('photosGrid');
+  const cv=document.getElementById('cvPgrid');
+  // Photos grid
+  g.innerHTML='';
+  photos.forEach(src=>{
+    const d=document.createElement('div'); d.className='ph-cell';
+    d.innerHTML=`<img src="${src}">`;
+    g.appendChild(d);
+  });
+  const add=document.createElement('div'); add.className='ph-cell ph-add-cell';
+  add.innerHTML='<div class="ph-add-ico">📸</div><div class="ph-add-txt">Subir</div>';
+  add.onclick=()=>document.getElementById('phInp').click();
+  g.appendChild(add);
+  // CV grid
+  cv.innerHTML='';
+  const shown=photos.slice(0,6);
+  shown.forEach(src=>{const d=document.createElement('div');d.className='cv-ph';d.innerHTML=`<img src="${src}">`;cv.appendChild(d)});
+  ['📸','🌱','🏘️'].slice(Math.min(shown.length,3)).forEach(e=>{const d=document.createElement('div');d.className='cv-ph';d.textContent=e;cv.appendChild(d)});
+  if(cv.children.length===0) cv.innerHTML='<div class="cv-ph">📸</div><div class="cv-ph">🌱</div><div class="cv-ph">🏘️</div>';
+}
+
+/* ════ COMMUNITY MODAL ════ */
+function openCM(id){
+  const c=COMMS.find(x=>x.id===id); if(!c) return;
+  const fw=flSt[id];
+  const evHTML=c.evts.length
+    ? c.evts.map(e=>`<div class="evt-item">
+        <div class="evt-d"><div class="evt-day-n">${e.d}</div><div class="evt-mon">${e.m}</div></div>
+        <div><div class="evt-ttl">${e.t}</div><div class="evt-ds">${e.ds}</div></div>
+      </div>`).join('')
+    : '<p style="color:var(--w3);font-size:13px;text-align:center;padding:24px 0">Sin eventos próximos</p>';
+  const rpHTML=c.type==='report'
+    ? `<div class="evt-item" style="border-left:3px solid ${TCOL.report}">
+        <div style="flex:1"><div class="evt-ttl" style="color:${TCOL.report}">🚨 ${c.desc}</div>
+        <div class="evt-ds">Reportado hoy · 14 votos de la comunidad</div></div></div>`
+    : '<p style="color:var(--w3);font-size:13px;text-align:center;padding:24px 0">Sin reportes activos</p>';
+
+  document.getElementById('cmBody').innerHTML=`
+    <div class="cm-cover">
+      <img src="${c.img}" alt="${c.name}" onerror="this.style.display='none'">
+      <div class="cm-cov-grad"></div>
+      <div class="cm-cov-em">${c.em}</div>
+    </div>
+    <div class="cm-hd">
+      <div class="cm-av"><img src="${c.img}" onerror="this.style.display='none'"></div>
+      <div><div class="cm-nm">${c.name}</div><div class="cm-dist">📍 ${c.dist} · ${c.act}</div></div>
+    </div>
+    <div class="cm-stats">
+      <div><div class="cm-sv">${c.fol}</div><div class="cm-sl">Seguidores</div></div>
+      <div><div class="cm-sv">${c.vids}</div><div class="cm-sl">Videos</div></div>
+      <div><div class="cm-sv">${c.evts.length}</div><div class="cm-sl">Eventos</div></div>
+    </div>
+    <button class="cm-flw ${fw?'fw':''}" id="cmflw${id}" onclick="cmFlw(${id})">${fw?'✓ Siguiendo':'+ Seguir comunidad'}</button>
+    <div class="cm-tabs">
+      <span class="cm-tab on" id="cmt-v${id}" onclick="cmTab('v',${id})">Videos</span>
+      <span class="cm-tab" id="cmt-e${id}" onclick="cmTab('e',${id})">Eventos</span>
+      <span class="cm-tab" id="cmt-r${id}" onclick="cmTab('r',${id})">Reportes</span>
+    </div>
+    <div id="cmp-v${id}">
+      <div class="cm-vgrid">${[1,2,3,4].map(n=>`
+        <div class="cm-vi">
+          <video src="video0${((n-1)%3)+1}.mp4" muted loop playsinline preload="none"
+            onerror="this.style.display='none'"
+            onloadeddata="this.style.display='block';this.play().catch(()=>{})"></video>
+          <span style="font-size:28px">${c.em}</span>
+          <span style="font-size:11px;color:var(--w3)">Video ${n}</span>
+        </div>`).join('')}</div>
+    </div>
+    <div id="cmp-e${id}" style="display:none">${evHTML}</div>
+    <div id="cmp-r${id}" style="display:none">${rpHTML}</div>`;
+  openModal('cm-modal');
+}
+function cmTab(t,id){
+  ['v','e','r'].forEach(x=>{
+    document.getElementById(`cmt-${x}${id}`)?.classList.toggle('on',x===t);
+    const p=document.getElementById(`cmp-${x}${id}`);
+    if(p) p.style.display=x===t?'block':'none';
+  });
+}
+function cmFlw(id){
+  flSt[id]=!flSt[id];
+  const b=document.getElementById('cmflw'+id);
+  if(b){b.textContent=flSt[id]?'✓ Siguiendo':'+ Seguir comunidad';b.className='cm-flw'+(flSt[id]?' fw':'')}
+  toast(flSt[id]?'✅ Siguiendo '+COMMS.find(c=>c.id===id)?.name:'Dejaste de seguir');
+  updateMCBadge();
+  COMMS.forEach((c,i)=>{if(c.id===id) syncFeedBtn(i,id)});
+}
+
+/* ════ MODALS ════ */
+function openModal(id){document.getElementById(id).classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+function closeBg(e,id){if(e.target===document.getElementById(id)) closeModal(id)}
+
+/* ════ TOAST ════ */
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2600);
+}
+
+/* ════ COMMENTS ════ */
+function openComments(id){
+  activeCmtId=id;
+  const cmts=CMTS[id]||[];
+  const comm=COMMS.find(c=>c.id===id);
+  document.getElementById('cmtTitle').textContent=`${cmts.length} comentarios`;
+  document.getElementById('cmtList').innerHTML=cmts.map((c,i)=>`
+    <div class="cmt-item">
+      <div class="cmt-av"><img src="${c.av}" onerror="this.style.background='var(--s3)'"></div>
+      <div class="cmt-bubble">
+        <div class="cmt-nm">${c.nm}</div>
+        <div class="cmt-txt">${c.txt}</div>
+        <div class="cmt-meta">
+          <span class="cmt-time">${c.t}</span>
+          <span class="cmt-lk${c.liked?' on':''}" id="cml${id}_${i}" onclick="likeCmt(${id},${i})">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="${c.liked?'#FF4B55':'none'}" stroke="${c.liked?'#FF4B55':'currentColor'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span id="cmln${id}_${i}">${c.lk}</span>
+          </span>
+        </div>
+      </div>
+    </div>`).join('');
+  document.getElementById('cmtInput').value='';
+  openModal('cmt-modal');
+  // scroll al final para ver últimos
+  setTimeout(()=>{const l=document.getElementById('cmtList');l.scrollTop=l.scrollHeight},100);
+}
+
+function likeCmt(id,i){
+  const c=CMTS[id][i];
+  c.liked=!c.liked;
+  c.lk+=c.liked?1:-1;
+  const el=document.getElementById(`cml${id}_${i}`);
+  const nm=document.getElementById(`cmln${id}_${i}`);
+  if(el){
+    el.classList.toggle('on',c.liked);
+    el.querySelector('svg').setAttribute('fill',c.liked?'#FF4B55':'none');
+    el.querySelector('svg').setAttribute('stroke',c.liked?'#FF4B55':'currentColor');
+  }
+  if(nm) nm.textContent=c.lk;
+}
+
+function sendCmt(){
+  const inp=document.getElementById('cmtInput');
+  const txt=inp.value.trim();
+  if(!txt||!activeCmtId) return;
+  const newC={nm:'Camila Quispe',av:'perfil.png',txt,t:'Ahora',lk:0,liked:false};
+  CMTS[activeCmtId].push(newC);
+  inp.value='';
+  openComments(activeCmtId);
+  // update counter in feed
+  const el=document.getElementById('cmtn'+activeCmtId);
+  if(el) el.textContent=CMTS[activeCmtId].length;
+}
+
+/* ════ VIDEO MODAL ════ */
+function openVidModal(src){
+  const v=document.getElementById('vidFull');
+  v.src=src; v.load(); v.play().catch(()=>{});
+  document.getElementById('vid-modal').classList.add('open');
+}
+function closeVidModal(){
+  const v=document.getElementById('vidFull');
+  v.pause(); v.src='';
+  document.getElementById('vid-modal').classList.remove('open');
+}
+
+/* ════ PERFIL TABS ════ */
+function perfTab(t){
+  document.getElementById('pt-vid').classList.toggle('on',t==='vid');
+  document.getElementById('pt-evt').classList.toggle('on',t==='evt');
+  document.getElementById('pt-rep').classList.toggle('on',t==='rep');
+  document.getElementById('perf-vid-feed').style.display=t==='vid'?'flex':'none';
+  document.getElementById('perf-evt-panel').style.display=t==='evt'?'block':'none';
+  document.getElementById('perf-rep-panel').style.display=t==='rep'?'block':'none';
+}
+
+function shareProfile(){
+  toast('🔗 Perfil compartido a portapapeles');
+}
+
+/* ════ INIT ════ */
+buildFeed();
+getGeo();
+updateMCBadge();
+// pre-load video thumbnails en perfil
+document.querySelectorAll('.pv-cell video').forEach(v=>{v.load();v.play().catch(()=>{})});
+</script>
+</body>
+</html>
