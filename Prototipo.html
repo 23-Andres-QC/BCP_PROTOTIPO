@@ -950,6 +950,27 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
   </div>
 </div>
 
+<!-- Modal detalle de evento -->
+<div class="overlay" id="evt-detail-modal" onclick="closeBg(event,'evt-detail-modal')">
+  <div class="sheet" style="max-height:90vh;overflow-y:auto">
+    <div class="sh-handle"></div>
+    <div style="padding:20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+        <div onclick="closeModal('evt-detail-modal')" style="cursor:pointer;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.1);border-radius:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:18px;font-weight:600;color:white">Detalles del Evento</div>
+        </div>
+      </div>
+      
+      <div id="evtDetailBody" style="color:white">
+        <!-- Contenido dinámico -->
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 </div><!-- /phone -->
@@ -1359,14 +1380,16 @@ function renderPhotos(){
 
 /* ════ COMMUNITY DETAIL (full-screen) ════ */
 let currentCommId=null;
+let currentEvent=null;
 function openCM(id){
   const c=COMMS.find(x=>x.id===id); if(!c) return;
   currentCommId=id;
   const fw=flSt[id];
   const evHTML=c.evts.length
-    ? c.evts.map(e=>`<div class="evt-item">
+    ? c.evts.map((e,i)=>`<div class="evt-item" style="cursor:pointer;border-radius:10px;padding:12px;background:rgba(255,255,255,.05);transition:all .2s" onclick="openEvent(${id},${i})" onmouseover="this.style.background='rgba(255,255,255,.1)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
         <div class="evt-d"><div class="evt-day-n">${e.d}</div><div class="evt-mon">${e.m}</div></div>
         <div><div class="evt-ttl">${e.t}</div><div class="evt-ds">${e.ds}</div></div>
+        <div style="color:var(--teal);font-size:12px;margin-top:6px">Ver detalles →</div>
       </div>`).join('')
     : '<p style="color:var(--w3);font-size:13px;text-align:center;padding:24px 0">Sin eventos próximos</p>';
   const rpHTML=c.type==='report'
@@ -1412,6 +1435,78 @@ function openCM(id){
   goTo('com-detail');
 }
 
+function openEvent(commId,eventIdx){
+  const c=COMMS.find(x=>x.id===commId); if(!c || !c.evts[eventIdx]) return;
+  const e=c.evts[eventIdx];
+  currentEvent={comm:c,event:e,idx:eventIdx};
+  
+  document.getElementById('evtDetailBody').innerHTML=`
+    <div style="background:rgba(${c.col.includes('#')?'0,0,0':parseInt(c.col.slice(1,3),16)+','+parseInt(c.col.slice(3,5),16)+','+parseInt(c.col.slice(5,7),16)},0.2);padding:16px;border-radius:12px;margin-bottom:20px">
+      <div style="font-size:28px;text-align:center;margin-bottom:10px">${e.em||'📅'}</div>
+      <div style="font-size:24px;font-weight:600;text-align:center;margin-bottom:8px">${e.t}</div>
+      <div style="text-align:center;color:var(--w8);font-size:13px">${e.d} de ${e.m} · ${e.loc||c.dist}</div>
+    </div>
+    
+    <div style="margin-bottom:24px">
+      <div style="font-size:13px;font-weight:600;color:var(--w5);text-transform:uppercase;margin-bottom:12px">Descripción</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--w8)">${e.desc||'Descripción del evento'}</div>
+    </div>
+    
+    <div style="margin-bottom:24px">
+      <div style="font-size:13px;font-weight:600;color:var(--w5);text-transform:uppercase;margin-bottom:12px">Detalles</div>
+      <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:8px;font-size:13px;color:var(--w8);line-height:1.8">
+        <div style="display:flex;gap:10px;margin-bottom:8px">
+          <span style="width:20px">📅</span>
+          <span><strong>Fecha:</strong> ${e.d} de ${e.m}</span>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:8px">
+          <span style="width:20px">⏰</span>
+          <span><strong>Hora:</strong> ${e.hora||'9:00 AM - 2:00 PM'}</span>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:8px">
+          <span style="width:20px">📍</span>
+          <span><strong>Lugar:</strong> ${e.loc||c.dist}</span>
+        </div>
+        <div style="display:flex;gap:10px">
+          <span style="width:20px">👥</span>
+          <span><strong>Capacidad:</strong> ${e.cap||'Sin límite'}</span>
+        </div>
+      </div>
+    </div>
+    
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+      <button class="cm-flw" style="background:linear-gradient(135deg,var(--teal),#00B89F);border:none;cursor:pointer" onclick="enrollEvent(${commId},${eventIdx})">
+        <span style="font-size:14px;font-weight:600">✓ Inscribirse</span>
+      </button>
+      <button class="cm-flw" style="background:linear-gradient(135deg,var(--blue),#4A9EFF);border:none;cursor:pointer" onclick="joinEvent(${commId},${eventIdx})">
+        <span style="font-size:14px;font-weight:600">➕ Unirse</span>
+      </button>
+    </div>
+    
+    <div style="background:rgba(255,255,255,.05);padding:12px;border-radius:8px;font-size:12px;color:var(--w5);line-height:1.6">
+      <div style="color:var(--teal);font-weight:600;margin-bottom:8px">💡 Tip</div>
+      <div>Al unirte, recibirás notificaciones sobre cambios en la fecha, hora y actualizaciones del evento.</div>
+    </div>
+  `;
+  openModal('evt-detail-modal');
+}
+
+function enrollEvent(commId,eventIdx){
+  const c=COMMS.find(x=>x.id===commId);
+  if(c && c.evts[eventIdx]){
+    toast(`✅ ¡Te inscribiste a ${c.evts[eventIdx].t}!`);
+    closeModal('evt-detail-modal');
+  }
+}
+
+function joinEvent(commId,eventIdx){
+  const c=COMMS.find(x=>x.id===commId);
+  if(c && c.evts[eventIdx]){
+    toast(`✅ ¡Te uniste a ${c.evts[eventIdx].t}!`);
+    closeModal('evt-detail-modal');
+  }
+}
+
 function goBackFromComDetail(){
   goTo('comus');
   currentCommId=null;
@@ -1431,11 +1526,6 @@ function cmFlw(id){
   toast(flSt[id]?'✅ Siguiendo '+COMMS.find(c=>c.id===id)?.name:'Dejaste de seguir');
   updateMCBadge();
   COMMS.forEach((c,i)=>{if(c.id===id) syncFeedBtn(i,id)});
-}
-
-function goBackFromComDetail(){
-  goTo('comus');
-  currentCommId=null;
 }
 
 /* ════ MODALS ════ */
