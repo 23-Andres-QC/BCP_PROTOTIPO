@@ -54,7 +54,7 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 .screen{display:none;position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;background:var(--bg);-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .screen::-webkit-scrollbar{display:none}
 .screen.on{display:block}
-#s-mapa.on{display:flex;flex-direction:column}
+#s-mapa.on{display:flex;flex-direction:column;position:relative}
 #s-feed{overflow:hidden}
 
 /* ════════════ NAV ════════════ */
@@ -181,7 +181,7 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 .emp-btn{padding:13px 28px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000;border:none;border-radius:13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 20px rgba(0,212,160,.45)}
 
 /* ════════════ 3 — MAPA ════════════ */
-.map-hd{background:linear-gradient(135deg,var(--s2),var(--s1));padding:18px 20px 14px;border-bottom:1px solid var(--b0);flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.map-hd{background:linear-gradient(135deg,rgba(19,26,64,.95),rgba(11,13,35,.95));padding:12px 20px 10px;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,.3);position:absolute;top:0;left:0;right:0;z-index:100;border-radius:0 0 12px 12px;backdrop-filter:blur(8px)}
 .map-ttl{font-family:'Outfit',sans-serif;font-size:24px;font-weight:900;color:var(--w);display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;letter-spacing:-.4px}
 .map-filt{width:38px;height:38px;background:var(--s3);border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid var(--b1);cursor:pointer;transition:all .2s}
 .map-filt:active{background:var(--teal);transform:scale(.9)}
@@ -194,7 +194,7 @@ body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;backgrou
 .chip.a-b{background:rgba(91,184,255,.12);color:var(--blue);border-color:rgba(91,184,255,.4);font-weight:800}
 .chip.a-r{background:rgba(255,107,127,.12);color:#FF6B7F;border-color:rgba(255,107,127,.4);font-weight:800}
 .chip.a-y{background:rgba(255,214,10,.12);color:var(--gold);border-color:rgba(255,214,10,.4);font-weight:800}
-#leafmap{flex:1;width:100%;background:linear-gradient(135deg,#0d1a35,#05091a)}
+#leafmap{flex:1;width:100%;background:linear-gradient(135deg,#0d1a35,#05091a);position:relative}
 .leaflet-popup-content-wrapper{background:var(--s2)!important;border-radius:16px!important;box-shadow:0 8px 40px rgba(0,0,0,.7)!important;border:1px solid var(--b1)!important;padding:0!important;overflow:hidden!important}
 .leaflet-popup-content{margin:0!important;padding:16px!important}
 .leaflet-popup-tip-container{display:none!important}
@@ -504,20 +504,21 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 
 <!-- ═══════ MAPA ═══════ -->
 <div class="screen" id="s-mapa">
-  <div class="map-hd">
-    <div class="map-ttl">
-      Mapa de Impacto
-      <div class="map-filt"><svg width="16" height="16" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></div>
-    </div>
-    <div class="chips" id="mapChips">
-      <span class="chip a-g" onclick="filterMap('all',this)">Todos</span>
-      <span class="chip" onclick="filterMap('today',this)">🟢 Activos</span>
-      <span class="chip" onclick="filterMap('upcoming',this)">🔵 Próximos</span>
-      <span class="chip" onclick="filterMap('report',this)">🔴 Reportes</span>
-      <span class="chip" onclick="filterMap('funded',this)">🟡 Financiados</span>
+  <div id="leafmap">
+    <div class="map-hd">
+      <div class="map-ttl">
+        Mapa de Impacto
+        <div class="map-filt"><svg width="16" height="16" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></div>
+      </div>
+      <div class="chips" id="mapChips">
+        <span class="chip a-g" onclick="filterMap('all',this)">Todos</span>
+        <span class="chip" onclick="filterMap('today',this)">🟢 Activos</span>
+        <span class="chip" onclick="filterMap('upcoming',this)">🔵 Próximos</span>
+        <span class="chip" onclick="filterMap('report',this)">🔴 Reportes</span>
+        <span class="chip" onclick="filterMap('funded',this)">🟡 Financiados</span>
+      </div>
     </div>
   </div>
-  <div id="leafmap"></div>
   <div class="map-leg">
     <div class="leg-i"><div class="leg-d" style="background:#00D4A0;box-shadow:0 0 5px #00D4A0"></div>Activo hoy</div>
     <div class="leg-i"><div class="leg-d" style="background:#4F9EFF;box-shadow:0 0 5px #4F9EFF"></div>Próximo</div>
