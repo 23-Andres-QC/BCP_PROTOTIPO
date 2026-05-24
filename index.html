@@ -37,7 +37,7 @@
 @keyframes splashFade{to{opacity:1}}
 @keyframes splashAutoHide{0%{opacity:1;visibility:visible}90%{opacity:1;visibility:visible}100%{opacity:0;transform:scale(1.08);visibility:hidden}}
 /* ════════════ RESET ════════════ */
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffffff' stroke='%23000' stroke-width='1.5' d='M8 1.5a1.5 1.5 0 0 1 1.5 1.5v5.5a1.5 1.5 0 0 1 3 0v-1a1.5 1.5 0 0 1 3 0v1a1.5 1.5 0 0 1 3 0v4c0 3.314-2.686 6-6 6h-1a6 6 0 0 1-6-6V3A1.5 1.5 0 0 1 8 1.5z'/%3E%3C/svg%3E") 4 0, pointer}
 html{height:100%;height:-webkit-fill-available}
 body{min-height:100vh;min-height:-webkit-fill-available;overflow:hidden;background:#000;font-family:'DM Sans',sans-serif;color:var(--w)}
 
@@ -403,7 +403,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .bdg-lock-ic{position:absolute;bottom:34px;right:calc(50% - 28px + 20px);font-size:12px;opacity:.7}
 
 /* ════ BADGE DETAIL OVERLAY ════ */
-.bdg-detail{position:absolute;inset:0;z-index:1100;display:none;align-items:center;justify-content:center;background:rgba(5,8,20,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.bdg-detail{position:absolute;inset:0;z-index:1400;display:none;align-items:center;justify-content:center;background:rgba(5,8,20,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
 .bdg-detail.open{display:flex;animation:bdgDetailIn .3s cubic-bezier(.34,1.56,.64,1)}
 @keyframes bdgDetailIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
 .bdg-detail-card{width:calc(100% - 48px);max-width:320px;border-radius:28px;padding:32px 24px 28px;text-align:center;position:relative;overflow:hidden}
@@ -2275,53 +2275,53 @@ const COMMS=[
   {id:1,name:"Voluntaria de Construcción",dist:"Pamplona Alta, Surco",type:"today",act:"Construcción Comunitaria",em:"🏗️",col:"#FFB030",
   img:"Comunidades/construccion.png",
   video:"construir.mp4",
-   lat:-12.135,lng:-76.985,fol:342,vids:3,
+   lat:-12.092,lng:-76.968,fol:342,vids:3,
    evts:[{d:24,m:"MAY",t:"Pintado de losa deportiva",ds:"Pamplona Alta · 8am"}],
    desc:"Restauración de espacios deportivos con voluntarios comprometidos.",tags:["#construcción","#voluntariado","#surco"]},
   {id:2,name:"Agentes de Salud Comunitaria",dist:"San Juan de Miraflores",type:"today",act:"Salud Pública",em:"🏥",col:"#5BB8FF",
   img:"Comunidades/salud.png",
   video:"salud.mp4",
-   lat:-12.159,lng:-76.975,fol:267,vids:3,
+   lat:-12.094,lng:-76.961,fol:267,vids:3,
    evts:[{d:28,m:"MAY",t:"Campaña de salud preventiva",ds:"Centro de Salud SJM · 2pm"}],
    desc:"Agentes capacitados en promoción de salud e higiene comunitaria.",tags:["#salud","#agentes","#sjm"]},
   {id:3,name:"Alimento Para Todos",dist:"Villa El Salvador",type:"today",act:"Seguridad Alimentaria",em:"🍽️",col:"#FFD60A",
   img:"Comunidades/comedorpopular.png",
   video:"alimnetacion.mp4",
-   lat:-12.195,lng:-76.952,fol:456,vids:3,
+   lat:-12.100,lng:-76.957,fol:456,vids:3,
    evts:[{d:23,m:"MAY",t:"Distribución de alimentos",ds:"Plaza Central VES · 10am"}],
    desc:"Iniciativa de seguridad alimentaria para familias en vulnerabilidad.",tags:["#alimentación","#ves","#solidaridad"]},
   {id:4,name:"Unidos por Surco",dist:"Surco",type:"upcoming",act:"Voluntariado Integral",em:"💚",col:"#00D4A0",
   img:"Comunidades/limpiaza.png",
-   lat:-12.140,lng:-76.990,fol:234,vids:8,
+   lat:-12.091,lng:-76.973,fol:234,vids:8,
    evts:[{d:31,m:"MAY",t:"Limpieza parque",ds:"Parque Los Olivos · 7am"}],
    desc:"Comunidad integral de voluntarios activos en Surco.",tags:["#voluntariado","#surco","#activo"]},
   {id:5,name:"Juventud SJM",dist:"San Juan de Miraflores",type:"upcoming",act:"Taller de Emprendimiento",em:"📘",col:"#B08AFF",
   img:"Comunidades/debate.png",
-   lat:-12.162,lng:-76.970,fol:156,vids:5,
+   lat:-12.099,lng:-76.966,fol:156,vids:5,
    evts:[{d:5,m:"JUN",t:"Feria de talentos",ds:"Plaza SJM · 10am"}],
    desc:"Empoderamiento juvenil a través del emprendimiento.",tags:["#jovenes","#sjm","#taller"]},
   {id:6,name:"Mujeres VES",dist:"Villa El Salvador",type:"today",act:"Olla Común",em:"🍲",col:"#FF6B9D",
   img:"Comunidades/camping.png",
-   lat:-12.198,lng:-76.955,fol:312,vids:12,
+   lat:-12.097,lng:-76.955,fol:312,vids:12,
    evts:[{d:30,m:"MAY",t:"Donación de alimentos",ds:"Mercado VES · 9am"}],
    desc:"Olla común solidaria todos los jueves para el barrio.",tags:["#ollacomun","#ves","#solidaridad"]},
   {id:7,name:"EcoVerde Pachacámac",dist:"Pachacámac",type:"funded",act:"Medio Ambiente",em:"🌿",col:"#00D4A0",
   img:"Comunidades/ambiente.png",
-   lat:-12.228,lng:-76.942,fol:189,vids:6,
+   lat:-12.088,lng:-76.962,fol:189,vids:6,
    evts:[{d:1,m:"JUN",t:"Festival de reciclaje",ds:"Parque EcoVerde · 9am"}],
    desc:"Iniciativa ambiental financiada por Fundación Romero.",tags:["#ecologia","#reciclaje","#financiado"]},
   {id:8,name:"Arte Comunitario SJM",dist:"San Juan de Miraflores",type:"today",act:"Evento Cultural",em:"🎨",col:"#B08AFF",
   img:"Comunidades/datathon.png",
-   lat:-12.166,lng:-76.963,fol:423,vids:15,
+   lat:-12.095,lng:-76.970,fol:423,vids:15,
    evts:[{d:7,m:"JUN",t:"Exposición vecinal",ds:"Casa cultura SJM · 4pm"}],
    desc:"Mural colectivo: arte y cultura vecinal en acción.",tags:["#arte","#cultura","#sjm"]}
 ];
 const TCOL={today:"#00A87E",upcoming:"#2B7FCC",report:"#CC3348",funded:"#B08A00"};
 const TLBL={today:"Activo hoy",upcoming:"Próximo",report:"Reporte",funded:"Financiado"};
 const REPORTS=[
-  {id:0,title:"Acumulación de residuos en Av. Central",status:"Abierto",statusCol:"#CC3348",votos:22,cat:"🗑️ Residuos",urg:"🟡 Media",loc:"Av. Central · Cono Sur",fecha:"21 MAY",desc:"Tres días sin recolección de basura. Los residuos se acumulan en la esquina de Av. Central con Calle 7.",pasos:[{ic:"🗳️",txt:"22 votos ciudadanos",done:true},{ic:"📩",txt:"Enviado a Municipalidad",done:true},{ic:"🏛️",txt:"Municipalidad programará recojo",done:false},{ic:"✅",txt:"Residuos retirados",done:false}],lat:-12.192,lng:-76.958},
-  {id:1,title:"Reparación de luminarias en Jr. Los Pinos",status:"Resuelto",statusCol:"#00A87E",votos:34,cat:"💡 Alumbrado",urg:"🟡 Media",loc:"Jr. Los Pinos · SJM",fecha:"9 MAY",desc:"Las luminarias del jirón llevaban 2 semanas sin funcionar. La municipalidad respondió al tercer día de escalado.",pasos:[{ic:"🗳️",txt:"34 votos ciudadanos",done:true},{ic:"📩",txt:"Enviado a Municipalidad",done:true},{ic:"🏛️",txt:"Cuadrilla municipal atendió",done:true},{ic:"✅",txt:"Luminarias reparadas",done:true}],lat:-12.161,lng:-76.972},
-  {id:2,title:"Drenaje obstruido en Pasaje 5",status:"En proceso",statusCol:"#2B7FCC",votos:18,cat:"💧 Agua y desagüe",urg:"🔴 Alta",loc:"Pasaje 5 · Pamplona Alta",fecha:"16 MAY",desc:"El drenaje del pasaje 5 lleva obstruido 8 días causando charcos e insalubridad. La municipalidad ya registró el caso.",pasos:[{ic:"🗳️",txt:"18 votos ciudadanos",done:true},{ic:"📩",txt:"Enviado a Municipalidad",done:true},{ic:"🏛️",txt:"Técnicos programados para esta semana",done:false},{ic:"✅",txt:"Drenaje despejado",done:false}],lat:-12.147,lng:-76.981},
+  {id:0,title:"Acumulación de residuos en Av. Central",status:"Abierto",statusCol:"#CC3348",votos:22,cat:"🗑️ Residuos",urg:"🟡 Media",loc:"Av. Central · Cono Sur",fecha:"21 MAY",desc:"Tres días sin recolección de basura. Los residuos se acumulan en la esquina de Av. Central con Calle 7.",pasos:[{ic:"🗳️",txt:"22 votos ciudadanos",done:true},{ic:"📩",txt:"Enviado a Municipalidad",done:true},{ic:"🏛️",txt:"Municipalidad programará recojo",done:false},{ic:"✅",txt:"Residuos retirados",done:false}],lat:-12.096,lng:-76.964},
+  {id:1,title:"Reparación de luminarias en Jr. Los Pinos",status:"Resuelto",statusCol:"#00A87E",votos:34,cat:"💡 Alumbrado",urg:"🟡 Media",loc:"Jr. Los Pinos · SJM",fecha:"9 MAY",desc:"Las luminarias del jirón llevaban 2 semanas sin funcionar. La municipalidad respondió al tercer día de escalado.",pasos:[{ic:"🗳️",txt:"34 votos ciudadanos",done:true},{ic:"📩",txt:"Enviado a Municipalidad",done:true},{ic:"🏛️",txt:"Cuadrilla municipal atendió",done:true},{ic:"✅",txt:"Luminarias reparadas",done:true}],lat:-12.093,lng:-76.959},
+  {id:2,title:"Drenaje obstruido en Pasaje 5",status:"En proceso",statusCol:"#2B7FCC",votos:18,cat:"💧 Agua y desagüe",urg:"🔴 Alta",loc:"Pasaje 5 · Pamplona Alta",fecha:"16 MAY",desc:"El drenaje del pasaje 5 lleva obstruido 8 días causando charcos e insalubridad. La municipalidad ya registró el caso.",pasos:[{ic:"🗳️",txt:"18 votos ciudadanos",done:true},{ic:"📩",txt:"Enviado a Municipalidad",done:true},{ic:"🏛️",txt:"Técnicos programados para esta semana",done:false},{ic:"✅",txt:"Drenaje despejado",done:false}],lat:-12.101,lng:-76.971},
 ];
 const BGS=[
   "radial-gradient(ellipse at 35% 45%,#1a4d3a,#0a1f18 60%,#000)",
@@ -2536,7 +2536,7 @@ let userLocMarker=null;
 function initLeafMap(){
   if(mapInited){leafMap.invalidateSize();return}
   mapInited=true;
-  leafMap=L.map('leafmap',{zoomControl:false,attributionControl:false}).setView([-12.165,-76.955],11);
+  leafMap=L.map('leafmap',{zoomControl:false,attributionControl:false}).setView([-12.0965,-76.9635],14);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19}).addTo(leafMap);
   // Pane fuera de leaflet-map-pane para que el popup aparezca sobre la barra de filtros
   leafMap.createPane('topPopup');
