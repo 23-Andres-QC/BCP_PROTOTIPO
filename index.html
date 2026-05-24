@@ -642,7 +642,7 @@ select.cr-in{background-image:url("data:image/svg+xml,%3Csvg width='10' height='
 .pv-play-ic svg{stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* ════════════ CERT VIEWER ════════════ */
-.cert-viewer{position:absolute;inset:0;background:rgba(5,8,20,.97);z-index:950;display:none;flex-direction:column}
+.cert-viewer{position:absolute;inset:0;background:rgba(5,8,20,.97);z-index:1500;display:none;flex-direction:column}
 .cert-viewer.open{display:flex}
 .cert-viewer-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(0,0,0,.5);backdrop-filter:blur(16px);flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.08)}
 .cert-viewer-title{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:var(--w);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -3249,10 +3249,8 @@ function openCertViewer(src, title){
   document.getElementById('certViewerImg').src=src;
   document.getElementById('certViewerTitle').textContent=title||'Certificado';
   document.getElementById('certViewerPaper').style.transform='scale(1)';
-  document.getElementById('certZoomLbl').textContent='100%';
   document.getElementById('certViewerScroll').scrollTop=0;
   document.getElementById('cert-viewer').classList.add('open');
-  // close the all-certs modal so viewer is on top
   closeModal('all-certs-modal');
 }
 
@@ -3260,14 +3258,6 @@ function closeCertViewer(){
   document.getElementById('cert-viewer').classList.remove('open');
 }
 
-function certZoom(dir){
-  const idx=CERT_SCALES.indexOf(_certScale);
-  const next=Math.max(0,Math.min(CERT_SCALES.length-1,idx+dir));
-  _certScale=CERT_SCALES[next];
-  const pct=Math.round(_certScale*100)+'%';
-  document.getElementById('certViewerPaper').style.transform=`scale(${_certScale})`;
-  document.getElementById('certZoomLbl').textContent=pct;
-}
 
 function certDownload(){
   certDirectDownload(_certSrc,'Certificado');
